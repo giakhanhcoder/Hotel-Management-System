@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary Colors - Màu chính của app -->
+    <color name="primary">#1976D2</color>
+    <color name="primary_dark">#0D47A1</color>
+    <color name="primary_light">#BBDEFB</color>
+    <color name="accent">#FF9800</color>
+    
+    <!-- Background Colors - Màu nền -->
+    <color name="background">#F5F5F5</color>
+    <color name="background_dark">#EEEEEE</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="card_background">#FFFFFF</color>
+    
+    <!-- Text Colors - Màu chữ -->
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+    <color name="text_hint">#9E9E9E</color>
+    <color name="text_disabled">#BDBDBD</color>
+    <color name="text_white">#FFFFFF</color>
+    
+    <!-- Status Colors - Màu trạng thái -->
+    <color name="success">#4CAF50</color>
+    <color name="warning">#FF9800</color>
+    <color name="error">#F44336</color>
+    <color name="info">#2196F3</color>
+    
+    <!-- Room Status Colors - Màu trạng thái phòng -->
+    <color name="room_available">#4CAF50</color>
+    <color name="room_occupied">#F44336</color>
+    <color name="room_reserved">#FF9800</color>
+    <color name="room_maintenance">#9E9E9E</color>
+    
+    <!-- Booking Status Colors - Màu trạng thái đặt phòng -->
+    <color name="booking_pending">#FF9800</color>
+    <color name="booking_confirmed">#2196F3</color>
+    <color name="booking_checked_in">#4CAF50</color>
+    <color name="booking_checked_out">#9E9E9E</color>
+    <color name="booking_cancelled">#F44336</color>
+    
+    <!-- Payment Status Colors - Màu trạng thái thanh toán -->
+    <color name="payment_pending">#FF9800</color>
+    <color name="payment_success">#4CAF50</color>
+    <color name="payment_failed">#F44336</color>
+    <color name="payment_refunded">#9E9E9E</color>
+    
+    <!-- Role Colors - Màu theo vai trò -->
+    <color name="role_guest">#2196F3</color>
+    <color name="role_receptionist">#FF9800</color>
+    <color name="role_manager">#9C27B0</color>
+    
+    <!-- Divider & Border -->
+    <color name="divider">#E0E0E0</color>
+    <color name="border">#BDBDBD</color>
+    
+    <!-- Basic Colors -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="transparent">#00000000</color>
+    
+    <!-- Overlay -->
+    <color name="overlay_dark">#80000000</color>
+    <color name="overlay_light">#40000000</color>
+</resources>

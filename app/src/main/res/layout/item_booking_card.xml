@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Layout mẫu cho Booking Card -->
+<com.google.android.material.card.MaterialCardView 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_small"
+    app:cardCornerRadius="@dimen/corner_radius_normal"
+    app:cardElevation="@dimen/elevation_normal"
+    android:foreground="@drawable/bg_ripple"
+    android:clickable="true"
+    android:focusable="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_normal">
+
+        <!-- Booking Code & Status -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tvBookingCode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.Title"
+                tools:text="BK12345" />
+
+            <TextView
+                android:id="@+id/tvBookingStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/padding_small"
+                android:paddingEnd="@dimen/padding_small"
+                android:paddingTop="@dimen/padding_tiny"
+                android:paddingBottom="@dimen/padding_tiny"
+                android:background="@drawable/bg_badge_info"
+                android:textColor="@color/text_white"
+                android:textSize="@dimen/text_size_small"
+                tools:text="Đã xác nhận" />
+        </LinearLayout>
+
+        <View style="@style/Divider"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginBottom="@dimen/margin_small" />
+
+        <!-- Room Info -->
+        <TextView
+            android:id="@+id/tvRoomInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.Body"
+            android:drawablePadding="@dimen/padding_small"
+            tools:text="Phòng 201 - Phòng đôi" />
+
+        <!-- Dates -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvCheckInDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.Caption"
+                tools:text="Nhận: 15/11/2024" />
+
+            <TextView
+                android:id="@+id/tvCheckOutDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.Caption"
+                tools:text="Trả: 17/11/2024" />
+        </LinearLayout>
+
+        <!-- Total Amount -->
+        <TextView
+            android:id="@+id/tvTotalAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:textColor="@color/primary"
+            android:textSize="@dimen/text_size_large"
+            android:textStyle="bold"
+            tools:text="1,600,000 VND" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
+
+

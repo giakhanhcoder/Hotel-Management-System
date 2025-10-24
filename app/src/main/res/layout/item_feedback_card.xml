@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Layout mẫu cho Feedback Card -->
+<com.google.android.material.card.MaterialCardView 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_small"
+    app:cardCornerRadius="@dimen/corner_radius_normal"
+    app:cardElevation="@dimen/elevation_normal"
+    android:foreground="@drawable/bg_ripple"
+    android:clickable="true"
+    android:focusable="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_normal">
+
+        <!-- Header: Guest Name & Date -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!-- Guest Avatar (optional) -->
+            <ImageView
+                android:id="@+id/ivGuestAvatar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:src="@drawable/ic_launcher_foreground"
+                android:contentDescription="@string/profile" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvGuestName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Body"
+                    android:textStyle="bold"
+                    tools:text="John Doe" />
+
+                <TextView
+                    android:id="@+id/tvFeedbackDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Caption"
+                    tools:text="15/11/2024" />
+            </LinearLayout>
+
+            <!-- Rating -->
+            <RatingBar
+                android:id="@+id/rbOverallRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:rating="4.5"
+                android:stepSize="0.5"
+                android:isIndicator="true"
+                style="@style/Widget.AppCompat.RatingBar.Small" />
+        </LinearLayout>
+
+        <!-- Comment -->
+        <TextView
+            android:id="@+id/tvComment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:textAppearance="@style/TextAppearance.Body"
+            android:maxLines="3"
+            android:ellipsize="end"
+            tools:text="Great stay! The room was very clean and the staff was friendly. Would definitely recommend to others." />
+
+        <!-- Booking Code (optional) -->
+        <TextView
+            android:id="@+id/tvBookingCodeFeedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:textAppearance="@style/TextAppearance.Caption"
+            android:textColor="@color/text_secondary"
+            tools:text="Booking: BK12345 • Phòng 201" />
+
+        <!-- Detailed Ratings (optional - expandable) -->
+        <LinearLayout
+            android:id="@+id/llDetailedRatings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/cleanliness"
+                android:textAppearance="@style/TextAppearance.Caption" />
+
+            <RatingBar
+                android:id="@+id/rbCleanliness"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:rating="5"
+                android:stepSize="0.5"
+                android:isIndicator="true"
+                style="@style/Widget.AppCompat.RatingBar.Small" />
+        </LinearLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
+
+

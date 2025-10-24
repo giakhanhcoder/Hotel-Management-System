@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Toolbar chung cho tất cả màn hình -->
+<com.google.android.material.appbar.MaterialToolbar 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/toolbar_height"
+    android:background="@color/primary"
+    android:elevation="@dimen/elevation_normal"
+    app:titleTextColor="@color/text_white"
+    app:navigationIcon="@drawable/ic_launcher_foreground"
+    app:navigationIconTint="@color/text_white" />
+
+

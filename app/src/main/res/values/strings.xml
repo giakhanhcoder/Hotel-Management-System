@@ -1,0 +1,163 @@
+<resources>
+    <string name="app_name">Hotel Manager</string>
+    
+    <!-- Common - Chung -->
+    <string name="ok">OK</string>
+    <string name="cancel">Hủy</string>
+    <string name="save">Lưu</string>
+    <string name="delete">Xóa</string>
+    <string name="edit">Sửa</string>
+    <string name="add">Thêm</string>
+    <string name="search">Tìm kiếm</string>
+    <string name="filter">Lọc</string>
+    <string name="confirm">Xác nhận</string>
+    <string name="close">Đóng</string>
+    <string name="loading">Đang tải...</string>
+    <string name="success">Thành công</string>
+    <string name="error">Lỗi</string>
+    <string name="retry">Thử lại</string>
+    <string name="yes">Có</string>
+    <string name="no">Không</string>
+    
+    <!-- Authentication - Xác thực -->
+    <string name="login">Đăng nhập</string>
+    <string name="logout">Đăng xuất</string>
+    <string name="register">Đăng ký</string>
+    <string name="email">Email</string>
+    <string name="password">Mật khẩu</string>
+    <string name="forgot_password">Quên mật khẩu?</string>
+    <string name="remember_me">Ghi nhớ đăng nhập</string>
+    <string name="login_success">Đăng nhập thành công</string>
+    <string name="login_failed">Đăng nhập thất bại</string>
+    <string name="invalid_credentials">Email hoặc mật khẩu không đúng</string>
+    
+    <!-- User Profile - Hồ sơ người dùng -->
+    <string name="profile">Hồ sơ</string>
+    <string name="full_name">Họ và tên</string>
+    <string name="phone_number">Số điện thoại</string>
+    <string name="address">Địa chỉ</string>
+    <string name="role">Vai trò</string>
+    <string name="update_profile">Cập nhật hồ sơ</string>
+    
+    <!-- Roles - Vai trò -->
+    <string name="role_guest">Khách hàng</string>
+    <string name="role_receptionist">Lễ tân</string>
+    <string name="role_manager">Quản lý</string>
+    
+    <!-- Room - Phòng -->
+    <string name="rooms">Phòng</string>
+    <string name="room_number">Số phòng</string>
+    <string name="room_type">Loại phòng</string>
+    <string name="room_status">Trạng thái</string>
+    <string name="price_per_night">Giá/đêm</string>
+    <string name="max_guests">Số khách tối đa</string>
+    <string name="available_rooms">Phòng trống</string>
+    <string name="search_rooms">Tìm phòng</string>
+    <string name="room_details">Chi tiết phòng</string>
+    
+    <!-- Room Types - Loại phòng -->
+    <string name="room_type_single">Phòng đơn</string>
+    <string name="room_type_double">Phòng đôi</string>
+    <string name="room_type_suite">Phòng suite</string>
+    <string name="room_type_deluxe">Phòng deluxe</string>
+    
+    <!-- Room Status - Trạng thái phòng -->
+    <string name="room_available">Còn trống</string>
+    <string name="room_occupied">Đã thuê</string>
+    <string name="room_reserved">Đã đặt</string>
+    <string name="room_maintenance">Bảo trì</string>
+    
+    <!-- Booking - Đặt phòng -->
+    <string name="bookings">Đặt phòng</string>
+    <string name="my_bookings">Đặt phòng của tôi</string>
+    <string name="booking_code">Mã đặt phòng</string>
+    <string name="check_in_date">Ngày nhận phòng</string>
+    <string name="check_out_date">Ngày trả phòng</string>
+    <string name="number_of_guests">Số khách</string>
+    <string name="total_amount">Tổng tiền</string>
+    <string name="special_requests">Yêu cầu đặc biệt</string>
+    <string name="book_now">Đặt ngay</string>
+    <string name="booking_confirmation">Xác nhận đặt phòng</string>
+    <string name="booking_success">Đặt phòng thành công</string>
+    <string name="cancel_booking">Hủy đặt phòng</string>
+    <string name="update_booking">Cập nhật đặt phòng</string>
+    
+    <!-- Booking Status - Trạng thái đặt phòng -->
+    <string name="booking_pending">Chờ xác nhận</string>
+    <string name="booking_confirmed">Đã xác nhận</string>
+    <string name="booking_checked_in">Đã nhận phòng</string>
+    <string name="booking_checked_out">Đã trả phòng</string>
+    <string name="booking_cancelled">Đã hủy</string>
+    
+    <!-- Check-in/Check-out -->
+    <string name="check_in">Nhận phòng</string>
+    <string name="check_out">Trả phòng</string>
+    <string name="check_in_success">Nhận phòng thành công</string>
+    <string name="check_out_success">Trả phòng thành công</string>
+    
+    <!-- Payment - Thanh toán -->
+    <string name="payment">Thanh toán</string>
+    <string name="payment_method">Phương thức thanh toán</string>
+    <string name="payment_status">Trạng thái thanh toán</string>
+    <string name="transaction_id">Mã giao dịch</string>
+    <string name="payment_success">Thanh toán thành công</string>
+    <string name="payment_failed">Thanh toán thất bại</string>
+    <string name="refund">Hoàn tiền</string>
+    
+    <!-- Payment Methods - Phương thức thanh toán -->
+    <string name="vnpay">VNPAY</string>
+    <string name="cash">Tiền mặt</string>
+    <string name="card">Thẻ</string>
+    
+    <!-- Inventory - Kho -->
+    <string name="inventory">Kho</string>
+    <string name="item_name">Tên vật phẩm</string>
+    <string name="category">Danh mục</string>
+    <string name="current_quantity">Số lượng hiện tại</string>
+    <string name="minimum_quantity">Số lượng tối thiểu</string>
+    <string name="low_stock">Sắp hết hàng</string>
+    <string name="restock">Nhập kho</string>
+    <string name="usage_log">Nhật ký sử dụng</string>
+    
+    <!-- Feedback - Đánh giá -->
+    <string name="feedback">Đánh giá</string>
+    <string name="rating">Đánh giá</string>
+    <string name="comment">Bình luận</string>
+    <string name="submit_feedback">Gửi đánh giá</string>
+    <string name="cleanliness">Độ sạch sẽ</string>
+    <string name="service">Dịch vụ</string>
+    <string name="amenities">Tiện nghi</string>
+    <string name="value_for_money">Giá trị</string>
+    
+    <!-- Dashboard - Bảng điều khiển -->
+    <string name="dashboard">Trang chủ</string>
+    <string name="statistics">Thống kê</string>
+    <string name="reports">Báo cáo</string>
+    <string name="occupancy_rate">Tỷ lệ lấp đầy</string>
+    <string name="revenue">Doanh thu</string>
+    <string name="today">Hôm nay</string>
+    <string name="this_week">Tuần này</string>
+    <string name="this_month">Tháng này</string>
+    
+    <!-- Navigation - Điều hướng -->
+    <string name="home">Trang chủ</string>
+    <string name="notifications">Thông báo</string>
+    <string name="settings">Cài đặt</string>
+    <string name="manage">Quản lý</string>
+    
+    <!-- Validation - Xác thực -->
+    <string name="field_required">Trường này bắt buộc</string>
+    <string name="invalid_email">Email không hợp lệ</string>
+    <string name="invalid_phone">Số điện thoại không hợp lệ</string>
+    <string name="password_too_short">Mật khẩu phải có ít nhất 6 ký tự</string>
+    <string name="invalid_date_range">Ngày không hợp lệ</string>
+    
+    <!-- Currency - Tiền tệ -->
+    <string name="currency_vnd">VND</string>
+    <string name="price_format">%s VND</string>
+    
+    <!-- Date & Time -->
+    <string name="date_format">dd/MM/yyyy</string>
+    <string name="time_format">HH:mm</string>
+    <string name="datetime_format">dd/MM/yyyy HH:mm</string>
+</resources>
