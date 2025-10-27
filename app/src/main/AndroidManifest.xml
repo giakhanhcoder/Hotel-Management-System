@@ -22,17 +22,47 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
+
         <!-- Main Activity -->
         <activity
             android:name=".MainActivity"
             android:exported="false" />
-        
+
+        <!-- Guest Dashboard Activity -->
+        <activity
+            android:name=".GuestDashboardActivity"
+            android:exported="false"
+            android:label="Guest Dashboard" />
+
         <!-- Database Debug Activity -->
         <activity
             android:name=".DatabaseDebugActivity"
             android:exported="false"
             android:label="Database Debug" />
+
+        <!-- Booking Dashboard Activity -->
+        <activity
+            android:name=".BookingDashboardActivity"
+            android:exported="false"
+            android:label="Booking Management" />
+
+        <!-- Add Booking Activity -->
+        <activity
+            android:name=".AddBookingActivity"
+            android:exported="false"
+            android:label="Create Booking" />
+
+        <!-- Booking Detail Activity -->
+        <activity
+            android:name=".BookingDetailActivity"
+            android:exported="false"
+            android:label="Booking Details" />
+
+        <!-- Check In Activity -->
+        <activity
+            android:name=".CheckInActivity"
+            android:exported="false"
+            android:label="Check-In" />
             
     </application>
 

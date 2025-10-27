@@ -69,6 +69,7 @@
     
     <!-- Booking - Đặt phòng -->
     <string name="bookings">Đặt phòng</string>
+    <string name="add_booking">Thêm đặt phòng</string>
     <string name="my_bookings">Đặt phòng của tôi</string>
     <string name="booking_code">Mã đặt phòng</string>
     <string name="check_in_date">Ngày nhận phòng</string>
