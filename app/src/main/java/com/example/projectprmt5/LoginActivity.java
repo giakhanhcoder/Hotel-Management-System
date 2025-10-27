@@ -267,21 +267,24 @@ public class LoginActivity extends AppCompatActivity {
 
         switch (role) {
             case User.Role.MANAGER:
-                // TODO: Create ManagerDashboardActivity (Người 5)
+                // TODO: Create ManagerDashboardActivity
                 Toast.makeText(this, "Welcome Manager!", Toast.LENGTH_SHORT).show();
                 intent = new Intent(this, MainActivity.class);
                 break;
 
             case User.Role.RECEPTIONIST:
-                // TODO: Create ReceptionistDashboardActivity (Người 5)
+                // TODO: Create ReceptionistDashboardActivity
                 Toast.makeText(this, "Welcome Receptionist!", Toast.LENGTH_SHORT).show();
                 intent = new Intent(this, MainActivity.class);
                 break;
 
             case User.Role.GUEST:
-            default:
-                // TODO: Create GuestDashboardActivity (Người 5)
                 Toast.makeText(this, "Welcome Guest!", Toast.LENGTH_SHORT).show();
+                intent = new Intent(this, GuestDashboardActivity.class);
+                break;
+
+            default:
+                Toast.makeText(this, "Unknown role, defaulting to Main.", Toast.LENGTH_SHORT).show();
                 intent = new Intent(this, MainActivity.class);
                 break;
         }
@@ -303,11 +306,4 @@ public class LoginActivity extends AppCompatActivity {
             // progressBar.setVisibility(View.GONE);
         }
     }
-
-//    @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//        // TODO: Navigate to WelcomeActivity if exists
-//    }
 }
-
