@@ -64,6 +64,12 @@
             android:exported="false"
             android:label="Check-In" />
             
+        <!-- Payment Activity -->
+        <activity
+            android:name=".PaymentActivity"
+            android:exported="false"
+            android:label="Payment" />
+            
     </application>
 
 </manifest>
