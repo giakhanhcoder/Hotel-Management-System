@@ -86,10 +86,10 @@
                     android:text="Check-In" />
 
                 <Button
-                    android:id="@+id/btn_check_out"
+                    android:id="@+id/btn_checkout_and_billing"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Check-Out" />
+                    android:text="Check-out and Billing" />
 
                 <Button
                     android:id="@+id/btn_cancel_booking"
