@@ -29,6 +29,9 @@ public interface PaymentDao {
     @Query("UPDATE payments SET status = :status WHERE paymentId = :paymentId")
     int updatePaymentStatus(int paymentId, String status);
 
+    @Query("UPDATE payments SET status = :status WHERE bookingId = :bookingId")
+    int updatePaymentStatusByBookingId(int bookingId, String status);
+
     @Query("UPDATE payments SET status = :status, completedAt = :completionTime, vnpayResponseCode = :responseCode, vnpayTransactionNo = :transactionNo WHERE paymentId = :paymentId")
     int updatePaymentWithVNPAYResponse(int paymentId, String status, long completionTime, String responseCode, String transactionNo);
 

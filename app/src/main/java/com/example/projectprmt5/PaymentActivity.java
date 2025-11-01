@@ -2,6 +2,7 @@ package com.example.projectprmt5;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -17,7 +18,11 @@ import com.example.projectprmt5.database.entities.Payment;
 import com.example.projectprmt5.viewmodel.BookingViewModel;
 import com.example.projectprmt5.viewmodel.PaymentViewModel;
 
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.text.NumberFormat;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 
 public class PaymentActivity extends AppCompatActivity {
@@ -78,17 +83,45 @@ public class PaymentActivity extends AppCompatActivity {
 
         if (selectedId == R.id.radioButtonVnpay) {
             paymentMethod = Payment.PaymentMethod.VNPAY;
+        } else if (selectedId == R.id.radioButtonVietQr) {
+            paymentMethod = Payment.PaymentMethod.VIETQR;
         } else if (selectedId == R.id.radioButtonCash) {
             paymentMethod = Payment.PaymentMethod.CASH;
         }
 
         if (bookingId != -1 && amount > 0) {
             if (paymentMethod.equals(Payment.PaymentMethod.VNPAY)) {
-                // TODO: Implement VNPAY integration
+                // Create a new Payment object with PENDING status
+                Payment vnpayPayment = new Payment(bookingId, amount, Payment.PaymentMethod.VNPAY);
+                vnpayPayment.setStatus(Payment.PaymentStatus.PENDING);
+                paymentViewModel.insert(vnpayPayment);
+
+                // Generate VNPAY URL
+                String orderInfo = "Thanh toan don hang " + bookingId;
+                String ipAddress = getIPAddress(true);
+                String vnpayUrl = VnPayConfig.getPaymentUrl(amount, orderInfo, ipAddress);
+
+                // Start WebView Activity for VNPAY
+                Intent vnpayIntent = new Intent(this, VnPayWebViewActivity.class);
+                vnpayIntent.putExtra("vnpay_url", vnpayUrl);
+                 vnpayIntent.putExtra(EXTRA_BOOKING_ID, bookingId);
+                startActivity(vnpayIntent);
+
                 Toast.makeText(this, "Bắt đầu thanh toán với VNPAY...", Toast.LENGTH_SHORT).show();
-                // 1. Create a new Payment object with PENDING status
-                // 2. Save it to the database via ViewModel
-                // 3. Generate VNPAY URL and open WebView
+
+            } else if (paymentMethod.equals(Payment.PaymentMethod.VIETQR)) {
+                // Create a new Payment object with PENDING status
+                Payment vietQrPayment = new Payment(bookingId, amount, Payment.PaymentMethod.VIETQR);
+                vietQrPayment.setStatus(Payment.PaymentStatus.PENDING);
+                paymentViewModel.insert(vietQrPayment);
+
+                // Start VietQrActivity
+                Intent vietQrIntent = new Intent(this, VietQrActivity.class);
+                vietQrIntent.putExtra(EXTRA_BOOKING_ID, bookingId);
+                vietQrIntent.putExtra(EXTRA_AMOUNT, amount);
+                startActivity(vietQrIntent);
+
+                Toast.makeText(this, "Đang tạo mã VietQR...", Toast.LENGTH_SHORT).show();
 
             } else if (paymentMethod.equals(Payment.PaymentMethod.CASH)) {
                 // Create a new Payment object with SUCCESS status
@@ -105,5 +138,38 @@ public class PaymentActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Dữ liệu không hợp lệ để thanh toán", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    /**
+     * Get IP address from first non-localhost interface
+     * @param useIPv4 true=return ipv4, false=return ipv6
+     * @return  address or empty string
+     */
+    public static String getIPAddress(boolean useIPv4) {
+        try {
+            List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
+            for (NetworkInterface intf : interfaces) {
+                List<InetAddress> addrs = Collections.list(intf.getInetAddresses());
+                for (InetAddress addr : addrs) {
+                    if (!addr.isLoopbackAddress()) {
+                        String sAddr = addr.getHostAddress();
+                        boolean isIPv4 = sAddr.indexOf(':')<0;
+
+                        if (useIPv4) {
+                            if (isIPv4) 
+                                return sAddr;
+                        } else {
+                            if (!isIPv4) {
+                                int delim = sAddr.indexOf('%'); // drop ip6 zone suffix
+                                return delim<0 ? sAddr.toUpperCase() : sAddr.substring(0, delim).toUpperCase();
+                            } 
+                        }
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            Log.e("IPAddress", ex.toString());
+        }
+        return "127.0.0.1"; // default to localhost
     }
 }

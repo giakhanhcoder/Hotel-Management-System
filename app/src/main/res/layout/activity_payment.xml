@@ -66,6 +66,12 @@
             android:text="VNPAY" />
 
         <RadioButton
+            android:id="@+id/radioButtonVietQr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="VietQR" />
+
+        <RadioButton
             android:id="@+id/radioButtonCash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

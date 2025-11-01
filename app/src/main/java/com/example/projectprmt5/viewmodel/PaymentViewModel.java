@@ -64,6 +64,10 @@ public class PaymentViewModel extends AndroidViewModel {
         return repository.delete(payment);
     }
 
+    public Future<Integer> updatePaymentStatusByBookingId(int bookingId, String status) {
+        return repository.updatePaymentStatusByBookingId(bookingId, status);
+    }
+
     public Future<Integer> updatePaymentWithVNPAYResponse(int paymentId, String status, String responseCode, String transactionNo) {
         return repository.updatePaymentWithVNPAYResponse(paymentId, status, responseCode, transactionNo);
     }
