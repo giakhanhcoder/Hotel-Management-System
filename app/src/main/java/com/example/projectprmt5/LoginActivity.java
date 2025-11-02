@@ -116,13 +116,13 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(v -> handleLogin());
 
         tvForgotPassword.setOnClickListener(v -> {
-            // TODO: Navigate to ForgotPasswordActivity
-            Toast.makeText(this, "Chức năng đang phát triển", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+            startActivity(intent);
         });
 
         tvRegister.setOnClickListener(v -> {
-            // TODO: Navigate to RegisterActivity
-            Toast.makeText(this, "Chức năng đang phát triển", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
         });
     }
 
