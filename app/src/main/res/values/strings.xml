@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Hotel Manager</string>
-    
+
     <!-- Common - Chung -->
     <string name="ok">OK</string>
     <string name="cancel">Hủy</string>
@@ -18,7 +18,7 @@
     <string name="retry">Thử lại</string>
     <string name="yes">Có</string>
     <string name="no">Không</string>
-    
+
     <!-- Authentication - Xác thực -->
     <string name="login">Đăng nhập</string>
     <string name="logout">Đăng xuất</string>
@@ -30,7 +30,7 @@
     <string name="login_success">Đăng nhập thành công</string>
     <string name="login_failed">Đăng nhập thất bại</string>
     <string name="invalid_credentials">Email hoặc mật khẩu không đúng</string>
-    
+
     <!-- User Profile - Hồ sơ người dùng -->
     <string name="profile">Hồ sơ</string>
     <string name="full_name">Họ và tên</string>
@@ -38,12 +38,12 @@
     <string name="address">Địa chỉ</string>
     <string name="role">Vai trò</string>
     <string name="update_profile">Cập nhật hồ sơ</string>
-    
+
     <!-- Roles - Vai trò -->
     <string name="role_guest">Khách hàng</string>
     <string name="role_receptionist">Lễ tân</string>
     <string name="role_manager">Quản lý</string>
-    
+
     <!-- Room - Phòng -->
     <string name="rooms">Phòng</string>
     <string name="room_number">Số phòng</string>
@@ -54,21 +54,22 @@
     <string name="available_rooms">Phòng trống</string>
     <string name="search_rooms">Tìm phòng</string>
     <string name="room_details">Chi tiết phòng</string>
-    
+
     <!-- Room Types - Loại phòng -->
     <string name="room_type_single">Phòng đơn</string>
     <string name="room_type_double">Phòng đôi</string>
     <string name="room_type_suite">Phòng suite</string>
     <string name="room_type_deluxe">Phòng deluxe</string>
-    
+
     <!-- Room Status - Trạng thái phòng -->
     <string name="room_available">Còn trống</string>
     <string name="room_occupied">Đã thuê</string>
     <string name="room_reserved">Đã đặt</string>
     <string name="room_maintenance">Bảo trì</string>
-    
+
     <!-- Booking - Đặt phòng -->
     <string name="bookings">Đặt phòng</string>
+    <string name="add_booking">Thêm đặt phòng</string>
     <string name="my_bookings">Đặt phòng của tôi</string>
     <string name="booking_code">Mã đặt phòng</string>
     <string name="check_in_date">Ngày nhận phòng</string>
@@ -81,20 +82,20 @@
     <string name="booking_success">Đặt phòng thành công</string>
     <string name="cancel_booking">Hủy đặt phòng</string>
     <string name="update_booking">Cập nhật đặt phòng</string>
-    
+
     <!-- Booking Status - Trạng thái đặt phòng -->
     <string name="booking_pending">Chờ xác nhận</string>
     <string name="booking_confirmed">Đã xác nhận</string>
     <string name="booking_checked_in">Đã nhận phòng</string>
     <string name="booking_checked_out">Đã trả phòng</string>
     <string name="booking_cancelled">Đã hủy</string>
-    
+
     <!-- Check-in/Check-out -->
     <string name="check_in">Nhận phòng</string>
     <string name="check_out">Trả phòng</string>
     <string name="check_in_success">Nhận phòng thành công</string>
     <string name="check_out_success">Trả phòng thành công</string>
-    
+
     <!-- Payment - Thanh toán -->
     <string name="payment">Thanh toán</string>
     <string name="payment_method">Phương thức thanh toán</string>
@@ -103,12 +104,12 @@
     <string name="payment_success">Thanh toán thành công</string>
     <string name="payment_failed">Thanh toán thất bại</string>
     <string name="refund">Hoàn tiền</string>
-    
+
     <!-- Payment Methods - Phương thức thanh toán -->
     <string name="vnpay">VNPAY</string>
     <string name="cash">Tiền mặt</string>
     <string name="card">Thẻ</string>
-    
+
     <!-- Inventory - Kho -->
     <string name="inventory">Kho</string>
     <string name="item_name">Tên vật phẩm</string>
@@ -118,7 +119,7 @@
     <string name="low_stock">Sắp hết hàng</string>
     <string name="restock">Nhập kho</string>
     <string name="usage_log">Nhật ký sử dụng</string>
-    
+
     <!-- Feedback - Đánh giá -->
     <string name="feedback">Đánh giá</string>
     <string name="rating">Đánh giá</string>
@@ -128,7 +129,7 @@
     <string name="service">Dịch vụ</string>
     <string name="amenities">Tiện nghi</string>
     <string name="value_for_money">Giá trị</string>
-    
+
     <!-- Dashboard - Bảng điều khiển -->
     <string name="dashboard">Trang chủ</string>
     <string name="statistics">Thống kê</string>
@@ -138,26 +139,115 @@
     <string name="today">Hôm nay</string>
     <string name="this_week">Tuần này</string>
     <string name="this_month">Tháng này</string>
-    
+
     <!-- Navigation - Điều hướng -->
     <string name="home">Trang chủ</string>
     <string name="notifications">Thông báo</string>
     <string name="settings">Cài đặt</string>
     <string name="manage">Quản lý</string>
-    
+
     <!-- Validation - Xác thực -->
     <string name="field_required">Trường này bắt buộc</string>
     <string name="invalid_email">Email không hợp lệ</string>
     <string name="invalid_phone">Số điện thoại không hợp lệ</string>
     <string name="password_too_short">Mật khẩu phải có ít nhất 6 ký tự</string>
     <string name="invalid_date_range">Ngày không hợp lệ</string>
+    <string name="password_helper_text">Ít nhất 6 ký tự, bao gồm chữ và số</string>
+    <string name="phone_helper_text">Định dạng: 0xxx xxx xxx hoặc +84xxx xxx xxx</string>
+    <string name="confirm_password">Xác nhận mật khẩu</string>
     
+    <!-- Registration - Đăng ký -->
+    <string name="register_subtitle">Tạo tài khoản để bắt đầu đặt phòng</string>
+    <string name="agree_terms">Tôi đồng ý với Điều khoản và Chính sách</string>
+    <string name="already_have_account">Đã có tài khoản?</string>
+    
+    <!-- Password - Mật khẩu -->
+    <string name="change_password">Đổi mật khẩu</string>
+    <string name="old_password">Mật khẩu cũ</string>
+    <string name="new_password">Mật khẩu mới</string>
+    <string name="send_reset_link">Gửi link đặt lại</string>
+    <string name="reset_password">Đặt lại mật khẩu</string>
+    <string name="reset_password_success">Đặt lại mật khẩu thành công!</string>
+    <string name="reset_password_failed">Đặt lại mật khẩu thất bại</string>
+    
+    <!-- OTP - Mã xác nhận -->
+    <string name="otp">Mã OTP</string>
+    <string name="verify_otp">Xác nhận OTP</string>
+    <string name="resend_otp">Gửi lại mã OTP</string>
+    <string name="otp_sent">Mã OTP đã được gửi đến email của bạn</string>
+    <string name="otp_verified">OTP đã được xác nhận thành công!</string>
+    <string name="otp_invalid">Mã OTP không hợp lệ hoặc đã hết hạn</string>
+    <string name="otp_verify_failed">Xác nhận OTP thất bại</string>
+    <string name="otp_expired">Mã OTP đã hết hạn. Vui lòng yêu cầu mã mới</string>
+    
+    <!-- Additional Validation -->
+    <string name="name_too_short">Tên phải có ít nhất 2 ký tự</string>
+    <string name="name_too_long">Tên không được quá 50 ký tự</string>
+    <string name="name_invalid_characters">Tên chỉ được chứa chữ cái và khoảng trắng</string>
+    <string name="phone_invalid_format">Số điện thoại không đúng định dạng</string>
+    <string name="email_too_long">Email không được quá 100 ký tự</string>
+    
+    <!-- Password Validation -->
+    <string name="password_weak">Mật khẩu quá yếu. Cần có chữ cái và số</string>
+    <string name="password_no_spaces">Mật khẩu không được chứa khoảng trắng</string>
+    <string name="password_too_long">Mật khẩu không được quá 50 ký tự</string>
+    <string name="passwords_not_match">Mật khẩu xác nhận không khớp</string>
+    
+    <!-- Registration Messages -->
+    <string name="email_already_exists">Email đã tồn tại trong hệ thống</string>
+    <string name="register_success">Đăng ký thành công!</string>
+    <string name="register_failed">Đăng ký thất bại</string>
+    <string name="must_agree_terms">Bạn phải đồng ý với Điều khoản và Chính sách</string>
+
     <!-- Currency - Tiền tệ -->
     <string name="currency_vnd">VND</string>
     <string name="price_format">%s VND</string>
-    
+
     <!-- Date & Time -->
     <string name="date_format">dd/MM/yyyy</string>
     <string name="time_format">HH:mm</string>
     <string name="datetime_format">dd/MM/yyyy HH:mm</string>
+    <string name="title_activity_change_password">ChangePasswordActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="lorem_ipsum">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
+        volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
+        dui nec risus. Maecenas non sodales nisi, vel dictum dolor. Class aptent taciti sociosqu ad
+        litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse blandit eleifend
+        diam, vel rutrum tellus vulputate quis. Aliquam eget libero aliquet, imperdiet nisl a,
+        ornare ex. Sed rhoncus est ut libero porta lobortis. Fusce in dictum tellus.\n\n
+        Suspendisse interdum ornare ante. Aliquam nec cursus lorem. Morbi id magna felis. Vivamus
+        egestas, est a condimentum egestas, turpis nisl iaculis ipsum, in dictum tellus dolor sed
+        neque. Morbi tellus erat, dapibus ut sem a, iaculis tincidunt dui. Interdum et malesuada
+        fames ac ante ipsum primis in faucibus. Curabitur et eros porttitor, ultricies urna vitae,
+        molestie nibh. Phasellus at commodo eros, non aliquet metus. Sed maximus nisl nec dolor
+        bibendum, vel congue leo egestas.\n\n
+        Sed interdum tortor nibh, in sagittis risus mollis quis. Curabitur mi odio, condimentum sit
+        amet auctor at, mollis non turpis. Nullam pretium libero vestibulum, finibus orci vel,
+        molestie quam. Fusce blandit tincidunt nulla, quis sollicitudin libero facilisis et. Integer
+        interdum nunc ligula, et fermentum metus hendrerit id. Vestibulum lectus felis, dictum at
+        lacinia sit amet, tristique id quam. Cras eu consequat dui. Suspendisse sodales nunc ligula,
+        in lobortis sem porta sed. Integer id ultrices magna, in luctus elit. Sed a pellentesque
+        est.\n\n
+        Aenean nunc velit, lacinia sed dolor sed, ultrices viverra nulla. Etiam a venenatis nibh.
+        Morbi laoreet, tortor sed facilisis varius, nibh orci rhoncus nulla, id elementum leo dui
+        non lorem. Nam mollis ipsum quis auctor varius. Quisque elementum eu libero sed commodo. In
+        eros nisl, imperdiet vel imperdiet et, scelerisque a mauris. Pellentesque varius ex nunc,
+        quis imperdiet eros placerat ac. Duis finibus orci et est auctor tincidunt. Sed non viverra
+        ipsum. Nunc quis augue egestas, cursus lorem at, molestie sem. Morbi a consectetur ipsum, a
+        placerat diam. Etiam vulputate dignissim convallis. Integer faucibus mauris sit amet finibus
+        convallis.\n\n
+        Phasellus in aliquet mi. Pellentesque habitant morbi tristique senectus et netus et
+        malesuada fames ac turpis egestas. In volutpat arcu ut felis sagittis, in finibus massa
+        gravida. Pellentesque id tellus orci. Integer dictum, lorem sed efficitur ullamcorper,
+        libero justo consectetur ipsum, in mollis nisl ex sed nisl. Donec maximus ullamcorper
+        sodales. Praesent bibendum rhoncus tellus nec feugiat. In a ornare nulla. Donec rhoncus
+        libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
+        vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
+    </string>
 </resources>

@@ -1,6 +1,5 @@
 package com.example.projectprmt5.examples;
 
-import android.app.Application;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -10,13 +9,11 @@ import androidx.lifecycle.LiveData;
 import com.example.projectprmt5.database.AppDatabase;
 import com.example.projectprmt5.database.DatabaseHelper;
 import com.example.projectprmt5.database.entities.Booking;
-import com.example.projectprmt5.database.entities.Feedback;
 import com.example.projectprmt5.database.entities.Inventory;
 import com.example.projectprmt5.database.entities.Payment;
 import com.example.projectprmt5.database.entities.Room;
 import com.example.projectprmt5.database.entities.User;
 import com.example.projectprmt5.repository.BookingRepository;
-import com.example.projectprmt5.repository.FeedbackRepository;
 import com.example.projectprmt5.repository.InventoryRepository;
 import com.example.projectprmt5.repository.PaymentRepository;
 import com.example.projectprmt5.repository.RoomRepository;
@@ -39,8 +36,7 @@ public class DatabaseUsageExample extends AppCompatActivity {
     private BookingRepository bookingRepository;
     private PaymentRepository paymentRepository;
     private InventoryRepository inventoryRepository;
-    private FeedbackRepository feedbackRepository;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +58,6 @@ public class DatabaseUsageExample extends AppCompatActivity {
         bookingRepository = new BookingRepository(getApplication());
         paymentRepository = new PaymentRepository(getApplication());
         inventoryRepository = new InventoryRepository(getApplication());
-        feedbackRepository = new FeedbackRepository(getApplication());
     }
     
     // ==================== USER OPERATIONS ====================
@@ -308,30 +303,7 @@ public class DatabaseUsageExample extends AppCompatActivity {
     
     // ==================== FEEDBACK ====================
     
-    private void exampleFeedbackSubmission() {
-        int bookingId = 1;
-        int guestId = 3;
-        
-        // Guest submits feedback after checkout
-        Feedback feedback = new Feedback(
-            bookingId,
-            guestId,
-            4.5f,
-            "Excellent stay! The room was clean and the staff was very helpful."
-        );
-        feedback.setCleanlinessRating(5.0f);
-        feedback.setServiceRating(4.5f);
-        feedback.setAmenitiesRating(4.0f);
-        feedback.setValueForMoneyRating(4.5f);
-        
-        feedbackRepository.insert(feedback);
-        
-        // Manager views average rating
-        LiveData<Float> averageRatingLiveData = feedbackRepository.getAverageRating();
-        averageRatingLiveData.observe(this, rating -> {
-            System.out.println("Hotel average rating: " + rating + " stars");
-        });
-    }
+
     
     // ==================== REPORTS ====================
     
@@ -406,28 +378,9 @@ public class DatabaseUsageExample extends AppCompatActivity {
             }
         });
         
-        // 3. Guest satisfaction report
-        AppDatabase.databaseWriteExecutor.execute(() -> {
-            try {
-                Future<Float> overallRating = feedbackRepository.getAverageRatingSync();
-                Future<Float> cleanlinessRating = feedbackRepository.getAverageCleanlinessRating();
-                Future<Float> serviceRating = feedbackRepository.getAverageServiceRating();
-                Future<Float> amenitiesRating = feedbackRepository.getAverageAmenitiesRating();
-                Future<Float> valueRating = feedbackRepository.getAverageValueForMoneyRating();
-                
-                runOnUiThread(() -> {
-                    System.out.println("Guest Satisfaction Report:");
-                    System.out.println("  Overall: " + overallRating + " stars");
-                    System.out.println("  Cleanliness: " + cleanlinessRating + " stars");
-                    System.out.println("  Service: " + serviceRating + " stars");
-                    System.out.println("  Amenities: " + amenitiesRating + " stars");
-                    System.out.println("  Value for Money: " + valueRating + " stars");
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+
     }
 }
+
 
 
