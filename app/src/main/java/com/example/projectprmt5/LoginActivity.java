@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.projectprmt5.activity.AdminDashboardActivity;
 import com.example.projectprmt5.database.AppDatabase;
 import com.example.projectprmt5.database.entities.User;
 import com.example.projectprmt5.repository.UserRepository;
@@ -267,9 +268,8 @@ public class LoginActivity extends AppCompatActivity {
 
         switch (role) {
             case User.Role.MANAGER:
-                // TODO: Create ManagerDashboardActivity
                 Toast.makeText(this, "Welcome Manager!", Toast.LENGTH_SHORT).show();
-                intent = new Intent(this, MainActivity.class);
+                intent = new Intent(this, AdminDashboardActivity.class);
                 break;
 
             case User.Role.RECEPTIONIST:

@@ -120,6 +120,25 @@
             android:name=".VietQrActivity"
             android:exported="false"
             android:label="Thanh toán VietQR" />
+
+        <!-- Admin Dashboard Activity -->
+        <activity
+            android:name=".activity.AdminDashboardActivity"
+            android:exported="false"
+            android:label="Admin Dashboard" />
+
+        <!-- Room List Activity -->
+        <activity
+            android:name=".activity.RoomListActivity"
+            android:exported="false"
+            android:label="Room List" />
+
+        <!-- Add/Edit Room Activity -->
+        <activity
+            android:name=".activity.AddEditRoomActivity"
+            android:exported="false"
+            android:label="Thêm phòng" />
+
     </application>
 
 </manifest>

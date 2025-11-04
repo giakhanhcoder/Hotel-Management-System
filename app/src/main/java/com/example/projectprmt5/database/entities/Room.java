@@ -1,174 +1,95 @@
 package com.example.projectprmt5.database.entities;
 
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverters;
 
-import com.example.projectprmt5.database.converters.DateConverter;
-import com.example.projectprmt5.database.converters.ListConverter;
+import java.util.Objects;
 
-import java.util.Date;
-import java.util.List;
-
-/**
- * Room entity representing hotel rooms
- */
 @Entity(tableName = "rooms")
-@TypeConverters({DateConverter.class, ListConverter.class})
 public class Room {
-    
+
     @PrimaryKey(autoGenerate = true)
-    private int roomId;
-    
+    private int id;
+
     private String roomNumber;
-    private String roomType; // "SINGLE", "DOUBLE", "SUITE", "DELUXE"
-    private String status; // "AVAILABLE", "OCCUPIED", "MAINTENANCE", "RESERVED"
-    private double pricePerNight;
-    private int maxGuests;
-    private String description;
-    private List<String> amenities; // ["WiFi", "TV", "AC", "MiniBar"]
-    private List<String> imagePaths; // Paths to room images
-    private int floorNumber;
-    private boolean isActive;
-    private Date createdAt;
-    private Date lastUpdatedAt;
-    
-    // Constructors
-    public Room() {
-        this.createdAt = new Date();
-        this.lastUpdatedAt = new Date();
-        this.status = RoomStatus.AVAILABLE;
-        this.isActive = true;
-    }
-    
-    @Ignore
-    public Room(String roomNumber, String roomType, double pricePerNight, int maxGuests) {
-        this();
+
+    private String type; // e.g., SINGLE, DOUBLE
+
+    private double price;
+
+    private String status; // e.g., AVAILABLE, RESERVED, OCCUPIED
+
+    // --- Constructors ---
+    public Room(String roomNumber, String type, double price) {
         this.roomNumber = roomNumber;
-        this.roomType = roomType;
-        this.pricePerNight = pricePerNight;
-        this.maxGuests = maxGuests;
+        this.type = type;
+        this.price = price;
+        this.status = RoomStatus.AVAILABLE; // Default status
     }
-    
-    // Getters and Setters
-    public int getRoomId() {
-        return roomId;
+
+    // --- Getters and Setters ---
+    public int getId() {
+        return id;
     }
-    
-    public void setRoomId(int roomId) {
-        this.roomId = roomId;
+
+    public void setId(int id) {
+        this.id = id;
     }
-    
+
     public String getRoomNumber() {
         return roomNumber;
     }
-    
+
     public void setRoomNumber(String roomNumber) {
         this.roomNumber = roomNumber;
     }
-    
-    public String getRoomType() {
-        return roomType;
+
+    public String getType() {
+        return type;
     }
-    
-    public void setRoomType(String roomType) {
-        this.roomType = roomType;
+
+    public void setType(String type) {
+        this.type = type;
     }
-    
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
     public String getStatus() {
         return status;
     }
-    
+
     public void setStatus(String status) {
         this.status = status;
     }
-    
-    public double getPricePerNight() {
-        return pricePerNight;
+
+    // --- Equals and HashCode for DiffUtil ---
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Room room = (Room) o;
+        return id == room.id &&
+                Double.compare(room.price, price) == 0 &&
+                Objects.equals(roomNumber, room.roomNumber) &&
+                Objects.equals(type, room.type) &&
+                Objects.equals(status, room.status);
     }
-    
-    public void setPricePerNight(double pricePerNight) {
-        this.pricePerNight = pricePerNight;
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, roomNumber, type, price, status);
     }
-    
-    public int getMaxGuests() {
-        return maxGuests;
-    }
-    
-    public void setMaxGuests(int maxGuests) {
-        this.maxGuests = maxGuests;
-    }
-    
-    public String getDescription() {
-        return description;
-    }
-    
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    
-    public List<String> getAmenities() {
-        return amenities;
-    }
-    
-    public void setAmenities(List<String> amenities) {
-        this.amenities = amenities;
-    }
-    
-    public List<String> getImagePaths() {
-        return imagePaths;
-    }
-    
-    public void setImagePaths(List<String> imagePaths) {
-        this.imagePaths = imagePaths;
-    }
-    
-    public int getFloorNumber() {
-        return floorNumber;
-    }
-    
-    public void setFloorNumber(int floorNumber) {
-        this.floorNumber = floorNumber;
-    }
-    
-    public boolean isActive() {
-        return isActive;
-    }
-    
-    public void setActive(boolean active) {
-        isActive = active;
-    }
-    
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-    
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-    
-    public Date getLastUpdatedAt() {
-        return lastUpdatedAt;
-    }
-    
-    public void setLastUpdatedAt(Date lastUpdatedAt) {
-        this.lastUpdatedAt = lastUpdatedAt;
-    }
-    
-    // Constants
-    public static class RoomType {
-        public static final String SINGLE = "SINGLE";
-        public static final String DOUBLE = "DOUBLE";
-        public static final String SUITE = "SUITE";
-        public static final String DELUXE = "DELUXE";
-    }
-    
+
+    // --- Constants for Status ---
     public static class RoomStatus {
         public static final String AVAILABLE = "AVAILABLE";
-        public static final String OCCUPIED = "OCCUPIED";
-        public static final String MAINTENANCE = "MAINTENANCE";
         public static final String RESERVED = "RESERVED";
+        public static final String OCCUPIED = "OCCUPIED";
     }
 }
-

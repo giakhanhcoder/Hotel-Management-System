@@ -43,10 +43,10 @@ public class SplashActivity extends AppCompatActivity {
         tvAvailableRooms = findViewById(R.id.tvAvailableRooms);
 
         // Initialize repository
-        roomRepository = new RoomRepository(getApplication());
+        // roomRepository = new RoomRepository(getApplication());
 
         // Load statistics
-        loadHotelStatistics();
+        // loadHotelStatistics();
 
         // Delay để hiển thị splash screen
         new Handler().postDelayed(() -> {
@@ -58,6 +58,7 @@ public class SplashActivity extends AppCompatActivity {
      * Load hotel statistics để hiển thị trên splash
      */
     private void loadHotelStatistics() {
+        /*
         AppDatabase.databaseWriteExecutor.execute(() -> {
             try {
                 // Get total rooms
@@ -82,6 +83,7 @@ public class SplashActivity extends AppCompatActivity {
                 });
             }
         });
+        */
     }
 
     /**
