@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -10,60 +12,133 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.HotelManager">
-        
-        <!-- Login Activity - Launcher -->
+        android:theme="@style/Theme.HotelManager"
+        android:usesCleartextTraffic="true">
         <activity
-            android:name=".LoginActivity"
+            android:name=".SplashActivity"
             android:exported="true"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.HotelManager">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- Welcome Activity -->
+        <activity
+            android:name=".WelcomeActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
 
-        <!-- Main Activity -->
+        <!-- Login Activity -->
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <!-- Register Activity -->
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <!-- Forgot Password Activity -->
+        <activity
+            android:name=".ForgotPasswordActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <!-- Reset Password Activity -->
+        <activity
+            android:name=".ResetPasswordActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <!-- Verify OTP Activity -->
+        <activity
+            android:name=".VerifyOTPActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <!-- Profile Activity -->
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <!-- Change Password Activity -->
+        <activity
+            android:name=".ChangePasswordActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
-            android:exported="false" />
-
-        <!-- Guest Dashboard Activity -->
+            android:exported="false" /> <!-- Guest Dashboard Activity -->
         <activity
             android:name=".GuestDashboardActivity"
             android:exported="false"
-            android:label="Guest Dashboard" />
-
-        <!-- Database Debug Activity -->
+            android:label="Guest Dashboard" /> <!-- Database Debug Activity -->
         <activity
             android:name=".DatabaseDebugActivity"
             android:exported="false"
-            android:label="Database Debug" />
-
-        <!-- Booking Dashboard Activity -->
+            android:label="Database Debug" /> <!-- Booking Dashboard Activity -->
         <activity
             android:name=".BookingDashboardActivity"
             android:exported="false"
-            android:label="Booking Management" />
-
-        <!-- Add Booking Activity -->
+            android:label="Booking Management" /> <!-- Add Booking Activity -->
         <activity
             android:name=".AddBookingActivity"
             android:exported="false"
-            android:label="Create Booking" />
-
-        <!-- Booking Detail Activity -->
+            android:label="Create Booking" /> <!-- Booking Detail Activity -->
         <activity
             android:name=".BookingDetailActivity"
             android:exported="false"
-            android:label="Booking Details" />
-
-        <!-- Check In Activity -->
+            android:label="Booking Details" /> <!-- Check In Activity -->
         <activity
             android:name=".CheckInActivity"
             android:exported="false"
-            android:label="Check-In" />
-            
+            android:label="Check-In" /> <!-- Payment Activity -->
+        <activity
+            android:name=".PaymentActivity"
+            android:exported="false"
+            android:label="Payment" /> <!-- VNPay WebView Activity -->
+        <activity
+            android:name=".VnPayWebViewActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="vnpay.return"
+                    android:scheme="app" />
+            </intent-filter>
+        </activity> <!-- VietQR Activity -->
+        <activity
+            android:name=".VietQrActivity"
+            android:exported="false"
+            android:label="Thanh toán VietQR" />
+
+        <!-- Admin Dashboard Activity -->
+        <activity
+            android:name=".activity.AdminDashboardActivity"
+            android:exported="false"
+            android:label="Admin Dashboard" />
+
+        <!-- Room List Activity -->
+        <activity
+            android:name=".activity.RoomListActivity"
+            android:exported="false"
+            android:label="Room List" />
+
+        <!-- Add/Edit Room Activity -->
+        <activity
+            android:name=".activity.AddEditRoomActivity"
+            android:exported="false"
+            android:label="Thêm phòng" />
+
     </application>
 
 </manifest>

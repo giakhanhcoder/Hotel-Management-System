@@ -21,7 +21,7 @@ import java.util.Date;
                        childColumns = "guestId",
                        onDelete = ForeignKey.CASCADE),
             @ForeignKey(entity = Room.class,
-                       parentColumns = "roomId",
+                       parentColumns = "id", // FIX: Changed from roomId to id
                        childColumns = "roomId",
                        onDelete = ForeignKey.RESTRICT)
         },
@@ -225,4 +225,3 @@ public class Booking {
         public static final String CANCELLED = "CANCELLED";
     }
 }
-
