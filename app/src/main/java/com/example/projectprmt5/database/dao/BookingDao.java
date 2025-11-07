@@ -86,6 +86,11 @@ public interface BookingDao {
            "AND status NOT IN ('CANCELLED', 'CHECKED_OUT')")
     List<Booking> getBookingsForDate(long date);
     
+    @Query("SELECT * FROM bookings WHERE roomId = :roomId " +
+           "AND ((checkInDate <= :checkOutDate AND checkOutDate >= :checkInDate)) " +
+           "AND status NOT IN ('CANCELLED', 'CHECKED_OUT')")
+    List<Booking> checkRoomAvailability(int roomId, long checkInDate, long checkOutDate);
+    
     @Query("SELECT * FROM bookings WHERE checkInDate >= :startDate AND checkInDate <= :endDate " +
            "ORDER BY checkInDate ASC")
     LiveData<List<Booking>> getBookingsInDateRange(long startDate, long endDate);
@@ -104,3 +109,5 @@ public interface BookingDao {
            "AND bookingDate >= :startDate AND bookingDate <= :endDate")
     Double getTotalRevenueInDateRange(long startDate, long endDate);
 }
+
+

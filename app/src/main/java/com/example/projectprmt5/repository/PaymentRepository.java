@@ -43,12 +43,6 @@ public class PaymentRepository {
             paymentDao.updatePaymentStatus(paymentId, status)
         );
     }
-
-    public Future<Integer> updatePaymentStatusByBookingId(int bookingId, String status) {
-        return AppDatabase.databaseWriteExecutor.submit(() ->
-                paymentDao.updatePaymentStatusByBookingId(bookingId, status)
-        );
-    }
     
     public Future<Integer> updatePaymentWithVNPAYResponse(int paymentId, String status, 
                                                           String responseCode, String transactionNo) {
@@ -159,6 +153,5 @@ public class PaymentRepository {
         return paymentDao.getPaymentsByMethod(method);
     }
 }
-
 
 

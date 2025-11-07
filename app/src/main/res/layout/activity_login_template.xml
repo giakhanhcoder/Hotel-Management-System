@@ -20,7 +20,7 @@
             android:layout_width="@dimen/icon_size_large"
             android:layout_height="@dimen/icon_size_large"
             android:layout_marginTop="@dimen/margin_xlarge"
-            android:src="@drawable/logo"
+            android:src="@drawable/ic_launcher_foreground"
             android:contentDescription="@string/app_name" />
 
         <!-- App Name -->
@@ -58,7 +58,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_medium"
                     android:hint="@string/email"
-                    app:startIconDrawable="@drawable/ic_email">
+                    app:startIconDrawable="@drawable/ic_launcher_foreground">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etEmail"
@@ -73,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:hint="@string/password"
-                    app:startIconDrawable="@drawable/lock_24px"
+                    app:startIconDrawable="@drawable/ic_launcher_foreground"
                     app:endIconMode="password_toggle">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -145,6 +145,5 @@
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 </ScrollView>
-
 
 

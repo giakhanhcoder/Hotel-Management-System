@@ -35,7 +35,7 @@ public class Payment {
     private String transactionId; // From VNPAY
     private double amount;
     private String currency; // "VND"
-    private String paymentMethod; // "VNPAY", "CASH", "CARD", "VIETQR"
+    private String paymentMethod; // "VNPAY", "CASH", "CARD"
     private String status; // "PENDING", "SUCCESS", "FAILED", "REFUNDED"
     private String vnpayUrl; // Payment gateway URL
     private String vnpayResponseCode;
@@ -236,7 +236,6 @@ public class Payment {
     
     public static class PaymentMethod {
         public static final String VNPAY = "VNPAY";
-        public static final String VIETQR = "VIETQR";
         public static final String CASH = "CASH";
         public static final String CARD = "CARD";
     }

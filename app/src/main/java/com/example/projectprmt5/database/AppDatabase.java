@@ -37,7 +37,7 @@ import java.util.concurrent.Executors;
         Inventory.class,
         InventoryUsage.class
     },
-    version = 3, // FIX: Incremented version number from 2 to 3
+    version = 2,
     exportSchema = false
 )
 @TypeConverters({DateConverter.class, ListConverter.class})
@@ -103,6 +103,8 @@ public abstract class AppDatabase extends RoomDatabase {
         userDao.insert(new User("guest@example.com", hashPassword("Guest123!"), "John Doe", User.Role.GUEST));
         
         // Create sample rooms
+        for (int i = 101; i <= 105; i++) roomDao.insert(new Room(String.valueOf(i), Room.RoomType.SINGLE, 500000, 1));
+        for (int i = 201; i <= 205; i++) roomDao.insert(new Room(String.valueOf(i), Room.RoomType.DOUBLE, 800000, 2));
         Log.d(TAG, "Initial data populated.");
     }
     

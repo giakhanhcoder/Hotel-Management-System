@@ -50,4 +50,3 @@ App sẽ tự động tạo database mới với password đúng!
 Xem chi tiết: `FIX_LOGIN_PASSWORD.md`
 
 
-

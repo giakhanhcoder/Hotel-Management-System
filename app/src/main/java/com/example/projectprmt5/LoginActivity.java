@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.projectprmt5.activity.AdminDashboardActivity;
 import com.example.projectprmt5.database.AppDatabase;
 import com.example.projectprmt5.database.entities.User;
 import com.example.projectprmt5.repository.UserRepository;
@@ -117,13 +116,13 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(v -> handleLogin());
 
         tvForgotPassword.setOnClickListener(v -> {
-            Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
-            startActivity(intent);
+            // TODO: Navigate to ForgotPasswordActivity
+            Toast.makeText(this, "Chức năng đang phát triển", Toast.LENGTH_SHORT).show();
         });
 
         tvRegister.setOnClickListener(v -> {
-            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-            startActivity(intent);
+            // TODO: Navigate to RegisterActivity
+            Toast.makeText(this, "Chức năng đang phát triển", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -268,8 +267,9 @@ public class LoginActivity extends AppCompatActivity {
 
         switch (role) {
             case User.Role.MANAGER:
+                // TODO: Create ManagerDashboardActivity
                 Toast.makeText(this, "Welcome Manager!", Toast.LENGTH_SHORT).show();
-                intent = new Intent(this, AdminDashboardActivity.class);
+                intent = new Intent(this, MainActivity.class);
                 break;
 
             case User.Role.RECEPTIONIST:

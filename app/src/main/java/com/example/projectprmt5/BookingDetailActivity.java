@@ -31,7 +31,7 @@ public class BookingDetailActivity extends AppCompatActivity {
 
     private TextView textViewBookingCode, textViewBookingStatus, textViewRoomId, textViewGuestId,
             textViewCheckInDate, textViewCheckOutDate, textViewNumGuests, textViewTotalAmount;
-    private Button btnCheckIn, btnCancel, btnEdit, btnDelete, btnCheckoutAndBilling;
+    private Button btnCheckIn, btnCheckOut, btnCancel, btnEdit, btnDelete;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,7 +87,7 @@ public class BookingDetailActivity extends AppCompatActivity {
         textViewTotalAmount = findViewById(R.id.text_view_total_amount);
 
         btnCheckIn = findViewById(R.id.btn_check_in);
-        btnCheckoutAndBilling = findViewById(R.id.btn_checkout_and_billing);
+        btnCheckOut = findViewById(R.id.btn_check_out);
         btnCancel = findViewById(R.id.btn_cancel_booking);
         btnEdit = findViewById(R.id.btn_edit_booking);
         btnDelete = findViewById(R.id.btn_delete_booking);
@@ -96,6 +96,7 @@ public class BookingDetailActivity extends AppCompatActivity {
     private void updateUI(Booking booking) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
+        // Update the toolbar title with the booking code
         if (getSupportActionBar() != null) {
             getSupportActionBar().setSubtitle("Code: " + booking.getBookingCode());
         }
@@ -108,50 +109,19 @@ public class BookingDetailActivity extends AppCompatActivity {
         textViewNumGuests.setText("Guests: " + booking.getNumberOfGuests());
         textViewTotalAmount.setText("Total: " + String.format(Locale.getDefault(), "%.2f", booking.getTotalAmount()));
 
-        // --- Dynamically show/hide buttons based on booking status ---
-        String status = booking.getStatus();
 
-        // Default to all buttons hidden, then show them based on status
-        btnCheckIn.setVisibility(View.GONE);
-        btnCheckoutAndBilling.setVisibility(View.GONE);
-        btnCancel.setVisibility(View.GONE);
-
-        switch (status) {
-            case Booking.BookingStatus.PENDING:
-                btnCheckIn.setVisibility(View.VISIBLE); // Show Check-In for PENDING status
-                btnCheckoutAndBilling.setVisibility(View.VISIBLE);
-                btnCancel.setVisibility(View.VISIBLE);
-                break;
-            case Booking.BookingStatus.CONFIRMED:
-                btnCheckIn.setVisibility(View.VISIBLE);
-                btnCheckoutAndBilling.setVisibility(View.VISIBLE);
-                btnCancel.setVisibility(View.VISIBLE);
-                break;
-            case Booking.BookingStatus.CHECKED_IN:
-                btnCheckoutAndBilling.setVisibility(View.VISIBLE);
-                break;
-            case Booking.BookingStatus.CHECKED_OUT:
-            case Booking.BookingStatus.CANCELLED:
-                // All major action buttons remain GONE
-                break;
-        }
     }
 
     private void setupButtonClickListeners() {
         btnCheckIn.setOnClickListener(v -> {
-            bookingViewModel.updateBookingStatus(bookingId, Booking.BookingStatus.CHECKED_IN);
-            Toast.makeText(this, "Checked-In Successfully!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, CheckInActivity.class);
+            intent.putExtra(CheckInActivity.EXTRA_BOOKING_ID, bookingId);
+            startActivity(intent);
         });
 
-        btnCheckoutAndBilling.setOnClickListener(v -> {
-            if (currentBooking != null) {
-                Intent intent = new Intent(BookingDetailActivity.this, PaymentActivity.class);
-                intent.putExtra(PaymentActivity.EXTRA_BOOKING_ID, currentBooking.getBookingId());
-                intent.putExtra(PaymentActivity.EXTRA_AMOUNT, currentBooking.getTotalAmount());
-                startActivity(intent);
-            } else {
-                Toast.makeText(this, "Booking details are not loaded yet. Please wait.", Toast.LENGTH_SHORT).show();
-            }
+        btnCheckOut.setOnClickListener(v -> {
+            bookingViewModel.checkOut(bookingId);
+            Toast.makeText(this, "Checked-Out!", Toast.LENGTH_SHORT).show();
         });
 
         btnCancel.setOnClickListener(v -> {
@@ -181,5 +151,6 @@ public class BookingDetailActivity extends AppCompatActivity {
             intent.putExtra(AddBookingActivity.EXTRA_BOOKING_ID, bookingId);
             startActivity(intent); 
         });
+
     }
 }
