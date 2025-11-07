@@ -16,17 +16,24 @@
         android:textStyle="bold"/>
 
     <Button
-        android:id="@+id/btn_manage_bookings"
+        android:id="@+id/btn_available_rooms"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:text="Available Rooms" />
+
+    <Button
+        android:id="@+id/btn_manage_bookings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="Manage My Bookings" />
 
     <Button
         android:id="@+id/btn_logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:text="Logout"
         style="?attr/materialButtonOutlinedStyle" />
 

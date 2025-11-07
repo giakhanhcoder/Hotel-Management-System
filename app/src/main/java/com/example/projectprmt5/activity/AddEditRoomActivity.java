@@ -3,7 +3,9 @@ package com.example.projectprmt5.activity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -14,10 +16,12 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.projectprmt5.R;
 import com.example.projectprmt5.database.AppDatabase;
 import com.example.projectprmt5.database.entities.Room;
+import com.example.projectprmt5.database.entities.RoomType;
 import com.example.projectprmt5.viewmodel.RoomViewModel;
+import com.example.projectprmt5.viewmodel.RoomTypeViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AddEditRoomActivity extends AppCompatActivity {
@@ -25,16 +29,16 @@ public class AddEditRoomActivity extends AppCompatActivity {
     public static final String EXTRA_ID = "com.example.projectprmt5.EXTRA_ID";
 
     private TextInputEditText etRoomNumber;
-    private TextInputEditText etRoomType;
+    private Spinner spinnerRoomType;
     private TextInputEditText etRoomPrice;
     private Button btnDelete;
 
     private RoomViewModel roomViewModel;
+    private RoomTypeViewModel roomTypeViewModel;
     private int currentRoomId = -1;
     private Room currentRoom;
-
-    // Define allowed room types
-    private static final List<String> ALLOWED_ROOM_TYPES = Arrays.asList("SINGLE", "DOUBLE", "SUITE", "PENTHOUSE");
+    private List<String> roomTypeNames = new ArrayList<>();
+    private ArrayAdapter<String> spinnerAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,27 +46,31 @@ public class AddEditRoomActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_edit_room);
 
         etRoomNumber = findViewById(R.id.et_room_number);
-        etRoomType = findViewById(R.id.et_room_type);
+        spinnerRoomType = findViewById(R.id.spinner_room_type);
         etRoomPrice = findViewById(R.id.et_room_price);
         btnDelete = findViewById(R.id.btn_delete_room);
+
+        setupSpinner();
 
         roomViewModel = new ViewModelProvider(this).get(RoomViewModel.class);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null && extras.containsKey(EXTRA_ID)) {
-            setTitle("Sửa phòng");
+            setTitle("Edit Room");
             currentRoomId = extras.getInt(EXTRA_ID);
             roomViewModel.getRoomById(currentRoomId).observe(this, room -> {
                 if (room != null) {
                     currentRoom = room;
                     etRoomNumber.setText(room.getRoomNumber());
-                    etRoomType.setText(room.getType());
                     etRoomPrice.setText(String.valueOf(room.getPrice()));
+                    // Set spinner selection
+                    int position = spinnerAdapter.getPosition(room.getType());
+                    spinnerRoomType.setSelection(position);
                 }
             });
             btnDelete.setVisibility(View.VISIBLE);
         } else {
-            setTitle("Thêm phòng mới");
+            setTitle("Add New Room");
             btnDelete.setVisibility(View.GONE);
         }
 
@@ -72,53 +80,63 @@ public class AddEditRoomActivity extends AppCompatActivity {
         btnDelete.setOnClickListener(view -> showDeleteConfirmationDialog());
     }
 
+    private void setupSpinner() {
+        spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, roomTypeNames);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerRoomType.setAdapter(spinnerAdapter);
+
+        roomTypeViewModel = new ViewModelProvider(this).get(RoomTypeViewModel.class);
+        roomTypeViewModel.getAllRoomTypes().observe(this, roomTypes -> {
+            roomTypeNames.clear();
+            for (RoomType type : roomTypes) {
+                roomTypeNames.add(type.getName());
+            }
+            spinnerAdapter.notifyDataSetChanged();
+
+            // If editing, re-set selection after data is loaded
+            if (currentRoom != null) {
+                int position = spinnerAdapter.getPosition(currentRoom.getType());
+                spinnerRoomType.setSelection(position);
+            }
+        });
+    }
+
     private void saveRoom() {
         String roomNumberStr = etRoomNumber.getText().toString().trim();
-        String roomTypeStr = etRoomType.getText().toString().trim().toUpperCase();
         String roomPriceStr = etRoomPrice.getText().toString().trim();
+        String roomTypeStr = spinnerRoomType.getSelectedItem() != null ? spinnerRoomType.getSelectedItem().toString() : null;
 
-        // --- Start Validation ---
         if (TextUtils.isEmpty(roomNumberStr)) {
-            etRoomNumber.setError("Số phòng là bắt buộc");
+            etRoomNumber.setError("Room number is required");
             return;
         }
 
-        if (TextUtils.isEmpty(roomTypeStr)) {
-            etRoomType.setError("Loại phòng là bắt buộc");
-            return;
-        } else if (!ALLOWED_ROOM_TYPES.contains(roomTypeStr)) {
-            etRoomType.setError("Loại phòng phải là một trong: SINGLE, DOUBLE, SUITE, PENTHOUSE");
+        if (roomTypeStr == null || TextUtils.isEmpty(roomTypeStr)) {
+            Toast.makeText(this, "Please select a room type", Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (TextUtils.isEmpty(roomPriceStr)) {
-            etRoomPrice.setError("Giá phòng là bắt buộc");
+            etRoomPrice.setError("Price is required");
             return;
         }
 
         double price;
         try {
             price = Double.parseDouble(roomPriceStr);
-            if (price < 100000 || price > 1000000) {
-                etRoomPrice.setError("Giá phòng phải từ 100,000 đến 1,000,000");
-                return;
-            }
         } catch (NumberFormatException e) {
-            etRoomPrice.setError("Giá phòng phải là một con số");
+            etRoomPrice.setError("Price must be a number");
             return;
         }
-        // --- End Validation ---
 
-        // Using an executor to run the database check off the main thread
         AppDatabase.databaseWriteExecutor.execute(() -> {
             Room existingRoom = roomViewModel.getRoomByNumberSync(roomNumberStr);
             boolean isDuplicate = existingRoom != null && existingRoom.getId() != currentRoomId;
 
             runOnUiThread(() -> {
                 if (isDuplicate) {
-                    etRoomNumber.setError("Số phòng này đã tồn tại");
+                    etRoomNumber.setError("This room number already exists");
                 } else {
-                    // Proceed with saving
                     if (currentRoomId != -1) {
                         Room updatedRoom = new Room(roomNumberStr, roomTypeStr, price);
                         updatedRoom.setId(currentRoomId);
@@ -126,11 +144,11 @@ public class AddEditRoomActivity extends AppCompatActivity {
                             updatedRoom.setStatus(currentRoom.getStatus());
                         }
                         roomViewModel.update(updatedRoom);
-                        Toast.makeText(this, "Phòng đã được cập nhật", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Room updated", Toast.LENGTH_SHORT).show();
                     } else {
                         Room newRoom = new Room(roomNumberStr, roomTypeStr, price);
                         roomViewModel.insert(newRoom);
-                        Toast.makeText(this, "Phòng đã được lưu", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Room saved", Toast.LENGTH_SHORT).show();
                     }
                     finish();
                 }
@@ -140,8 +158,8 @@ public class AddEditRoomActivity extends AppCompatActivity {
 
     private void showDeleteConfirmationDialog() {
         new AlertDialog.Builder(this)
-                .setTitle("Xác nhận xóa")
-                .setMessage("Bạn có chắc chắn muốn xóa phòng này không?")
+                .setTitle("Confirm Delete")
+                .setMessage("Are you sure you want to delete this room?")
                 .setPositiveButton(android.R.string.yes, (dialog, which) -> deleteRoom())
                 .setNegativeButton(android.R.string.no, null)
                 .show();
@@ -150,7 +168,7 @@ public class AddEditRoomActivity extends AppCompatActivity {
     private void deleteRoom() {
         if (currentRoom != null) {
             roomViewModel.delete(currentRoom);
-            Toast.makeText(this, "Phòng đã được xóa", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Room deleted", Toast.LENGTH_SHORT).show();
             finish();
         }
     }

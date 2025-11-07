@@ -127,17 +127,35 @@
             android:exported="false"
             android:label="Admin Dashboard" />
 
-        <!-- Room List Activity -->
+        <!-- Admin Room Management Activity -->
+        <activity
+            android:name=".activity.AdminRoomManagementActivity"
+            android:exported="false"
+            android:label="Manage Rooms" />
+
+        <!-- Room List Activity (for guests) -->
         <activity
             android:name=".activity.RoomListActivity"
             android:exported="false"
-            android:label="Room List" />
+            android:label="Available Rooms" />
 
         <!-- Add/Edit Room Activity -->
         <activity
             android:name=".activity.AddEditRoomActivity"
             android:exported="false"
-            android:label="Thêm phòng" />
+            android:label="Add/Edit Room" />
+
+        <!-- Room Type Management Activity -->
+        <activity
+            android:name=".activity.RoomTypeManagementActivity"
+            android:exported="false"
+            android:label="Manage Room Types" />
+
+        <!-- Add/Edit Room Type Activity -->
+        <activity
+            android:name=".activity.AddEditRoomTypeActivity"
+            android:exported="false"
+            android:label="Add/Edit Room Type" />
 
     </application>
 

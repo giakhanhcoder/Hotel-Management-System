@@ -1,11 +1,13 @@
 package com.example.projectprmt5.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,36 +22,48 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.projectprmt5.R;
 import com.example.projectprmt5.database.entities.Room;
 import com.example.projectprmt5.viewmodel.RoomViewModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class RoomListActivity extends AppCompatActivity {
+public class AdminRoomManagementActivity extends AppCompatActivity {
 
     private RoomViewModel roomViewModel;
-    private RoomAdapter adapter;
+    private AdminRoomAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_room_list);
+        setContentView(R.layout.activity_admin_room_management);
 
-        Toolbar toolbar = findViewById(R.id.toolbar_room_list);
+        Toolbar toolbar = findViewById(R.id.toolbar_admin_rooms);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("Available Rooms");
+            getSupportActionBar().setTitle("Manage Rooms");
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        RecyclerView recyclerView = findViewById(R.id.recycler_view_rooms);
-        adapter = new RoomAdapter();
+        Button btnManageRoomTypes = findViewById(R.id.btn_manage_room_types);
+        btnManageRoomTypes.setOnClickListener(v -> {
+            startActivity(new Intent(AdminRoomManagementActivity.this, RoomTypeManagementActivity.class));
+        });
+
+        RecyclerView recyclerView = findViewById(R.id.recycler_view_admin_rooms);
+        adapter = new AdminRoomAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
         roomViewModel = new ViewModelProvider(this).get(RoomViewModel.class);
         roomViewModel.getAllRooms().observe(this, rooms -> {
             adapter.setRooms(rooms);
+        });
+
+        FloatingActionButton fab = findViewById(R.id.fab_add_room);
+        fab.setOnClickListener(view -> {
+            Intent intent = new Intent(AdminRoomManagementActivity.this, AddEditRoomActivity.class);
+            startActivity(intent);
         });
     }
 
@@ -62,23 +76,29 @@ public class RoomListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    // --- RecyclerView Adapter ---
-    private static class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder> {
+    // --- RecyclerView Adapter for Admin ---
+    private class AdminRoomAdapter extends RecyclerView.Adapter<AdminRoomAdapter.AdminRoomViewHolder> {
 
         private List<Room> rooms = new ArrayList<>();
 
         @NonNull
         @Override
-        public RoomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public AdminRoomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.room_item, parent, false);
-            return new RoomViewHolder(itemView);
+            return new AdminRoomViewHolder(itemView);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull RoomViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull AdminRoomViewHolder holder, int position) {
             Room currentRoom = rooms.get(position);
             holder.bind(currentRoom);
+
+            holder.itemView.setOnClickListener(v -> {
+                Intent intent = new Intent(AdminRoomManagementActivity.this, AddEditRoomActivity.class);
+                intent.putExtra(AddEditRoomActivity.EXTRA_ID, currentRoom.getId());
+                startActivity(intent);
+            });
         }
 
         @Override
@@ -91,10 +111,10 @@ public class RoomListActivity extends AppCompatActivity {
             notifyDataSetChanged();
         }
 
-        static class RoomViewHolder extends RecyclerView.ViewHolder {
+        class AdminRoomViewHolder extends RecyclerView.ViewHolder {
             private final TextView roomNumber, roomType, roomPrice, roomStatus;
 
-            public RoomViewHolder(@NonNull View itemView) {
+            public AdminRoomViewHolder(@NonNull View itemView) {
                 super(itemView);
                 roomNumber = itemView.findViewById(R.id.item_room_number);
                 roomType = itemView.findViewById(R.id.item_room_type);
@@ -108,7 +128,6 @@ public class RoomListActivity extends AppCompatActivity {
                 roomPrice.setText(String.format(Locale.getDefault(), "$%.2f / night", room.getPrice()));
                 roomStatus.setText(room.getStatus());
 
-                // Set status color
                 int color = getStatusColor(room.getStatus());
                 roomStatus.getBackground().setTint(ContextCompat.getColor(itemView.getContext(), color));
             }
@@ -116,11 +135,11 @@ public class RoomListActivity extends AppCompatActivity {
             private int getStatusColor(String status) {
                 switch (status) {
                     case Room.RoomStatus.AVAILABLE:
-                        return R.color.status_confirmed; // Green
+                        return R.color.status_confirmed;
                     case Room.RoomStatus.RESERVED:
-                        return R.color.status_pending; // Orange
+                        return R.color.status_pending;
                     case Room.RoomStatus.OCCUPIED:
-                        return R.color.status_cancelled; // Red
+                        return R.color.status_cancelled;
                     default:
                         return android.R.color.darker_gray;
                 }

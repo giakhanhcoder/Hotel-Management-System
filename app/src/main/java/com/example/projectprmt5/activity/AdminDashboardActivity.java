@@ -32,7 +32,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         btnLogout = findViewById(R.id.btn_logout);
 
         btnManageRooms.setOnClickListener(v -> {
-            Intent intent = new Intent(AdminDashboardActivity.this, RoomListActivity.class);
+            Intent intent = new Intent(AdminDashboardActivity.this, AdminRoomManagementActivity.class);
             startActivity(intent);
         });
 

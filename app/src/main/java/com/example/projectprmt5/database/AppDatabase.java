@@ -16,12 +16,14 @@ import com.example.projectprmt5.database.dao.InventoryDao;
 import com.example.projectprmt5.database.dao.InventoryUsageDao;
 import com.example.projectprmt5.database.dao.PaymentDao;
 import com.example.projectprmt5.database.dao.RoomDao;
+import com.example.projectprmt5.database.dao.RoomTypeDao;
 import com.example.projectprmt5.database.dao.UserDao;
 import com.example.projectprmt5.database.entities.Booking;
 import com.example.projectprmt5.database.entities.Inventory;
 import com.example.projectprmt5.database.entities.InventoryUsage;
 import com.example.projectprmt5.database.entities.Payment;
 import com.example.projectprmt5.database.entities.Room;
+import com.example.projectprmt5.database.entities.RoomType;
 import com.example.projectprmt5.database.entities.User;
 
 import java.util.concurrent.ExecutorService;
@@ -34,9 +36,10 @@ import java.util.concurrent.Executors;
         Booking.class,
         Payment.class,
         Inventory.class,
-        InventoryUsage.class
+        InventoryUsage.class,
+        RoomType.class
     },
-    version = 3, 
+    version = 4, // Incremented version
     exportSchema = false
 )
 @TypeConverters({DateConverter.class, ListConverter.class})
@@ -56,6 +59,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract PaymentDao paymentDao();
     public abstract InventoryDao inventoryDao();
     public abstract InventoryUsageDao inventoryUsageDao();
+    public abstract RoomTypeDao roomTypeDao(); // Added RoomTypeDao abstract method
     
     public static AppDatabase getInstance(Context context) {
         if (INSTANCE == null) {
@@ -94,6 +98,13 @@ public abstract class AppDatabase extends RoomDatabase {
                         Log.d(TAG, "Populating rooms...");
                         populateRooms(roomDao);
                     }
+
+                    // Populate room types if table is empty
+                    RoomTypeDao roomTypeDao = INSTANCE.roomTypeDao();
+                    if (roomTypeDao.getAnyRoomType() == null) {
+                        Log.d(TAG, "Populating room types...");
+                        populateRoomTypes(roomTypeDao);
+                    }
                 }
             });
         }
@@ -113,6 +124,14 @@ public abstract class AppDatabase extends RoomDatabase {
         roomDao.insert(new Room("202", "SINGLE", 55.0));
         roomDao.insert(new Room("301", "PENTHOUSE", 300.0));
         Log.d(TAG, "Rooms populated.");
+    }
+
+    private static void populateRoomTypes(RoomTypeDao roomTypeDao) {
+        roomTypeDao.insert(new RoomType("SINGLE"));
+        roomTypeDao.insert(new RoomType("DOUBLE"));
+        roomTypeDao.insert(new RoomType("SUITE"));
+        roomTypeDao.insert(new RoomType("PENTHOUSE"));
+        Log.d(TAG, "Room types populated.");
     }
     
     private static String hashPassword(String password) {
