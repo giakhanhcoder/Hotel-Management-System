@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -71,6 +72,28 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp" />
 
+            <!-- Services Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Added Services"
+                android:textAppearance="?attr/textAppearanceHeadline6" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_selected_services"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                tools:listitem="@android:layout/simple_list_item_2"/>
+
+            <TextView
+                android:id="@+id/text_view_services_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textStyle="bold" />
+
             <!-- Action Buttons -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -80,9 +103,16 @@
                 android:orientation="vertical">
 
                 <Button
+                    android:id="@+id/btn_add_services"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Add/Edit Services" />
+
+                <Button
                     android:id="@+id/btn_check_in"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:text="Check-In" />
 
                 <Button
@@ -98,14 +128,6 @@
                     android:layout_height="wrap_content"
                     android:text="Cancel Booking"
                     android:textColor="?attr/colorError" />
-
-                <Button
-                    android:id="@+id/btn_leave_feedback"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Leave Feedback"
-                    android:visibility="gone" />
 
                 <View
                     android:layout_width="match_parent"
