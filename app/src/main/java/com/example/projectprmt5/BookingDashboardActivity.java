@@ -52,7 +52,6 @@ public class BookingDashboardActivity extends AppCompatActivity {
         });
 
         bookingViewModel = new ViewModelProvider(this).get(BookingViewModel.class);
-        // Use submitList with ListAdapter
         bookingViewModel.getAllBookings().observe(this, adapter::submitList);
     }
 

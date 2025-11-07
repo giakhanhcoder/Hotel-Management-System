@@ -111,35 +111,35 @@ public class BookingDetailActivity extends AppCompatActivity {
         // --- Dynamically show/hide buttons based on booking status ---
         String status = booking.getStatus();
 
-        // Default to all buttons hidden, then show them based on status
-        btnCheckIn.setVisibility(View.GONE);
-        btnCheckoutAndBilling.setVisibility(View.GONE);
-        btnCancel.setVisibility(View.GONE);
+        // Default visibility
+        btnCheckIn.setVisibility(View.VISIBLE);
+        btnCheckoutAndBilling.setVisibility(View.VISIBLE);
+        btnCancel.setVisibility(View.VISIBLE);
+        btnEdit.setVisibility(View.VISIBLE);
 
         switch (status) {
             case Booking.BookingStatus.PENDING:
-                btnCheckIn.setVisibility(View.VISIBLE); // Show Check-In for PENDING status
-                btnCheckoutAndBilling.setVisibility(View.VISIBLE);
-                btnCancel.setVisibility(View.VISIBLE);
-                break;
             case Booking.BookingStatus.CONFIRMED:
-                btnCheckIn.setVisibility(View.VISIBLE);
-                btnCheckoutAndBilling.setVisibility(View.VISIBLE);
-                btnCancel.setVisibility(View.VISIBLE);
+                // All buttons visible
                 break;
             case Booking.BookingStatus.CHECKED_IN:
-                btnCheckoutAndBilling.setVisibility(View.VISIBLE);
+                btnCheckIn.setVisibility(View.GONE);
+                btnCancel.setVisibility(View.GONE);
+                btnEdit.setVisibility(View.GONE);
                 break;
             case Booking.BookingStatus.CHECKED_OUT:
             case Booking.BookingStatus.CANCELLED:
-                // All major action buttons remain GONE
+                btnCheckIn.setVisibility(View.GONE);
+                btnCheckoutAndBilling.setVisibility(View.GONE);
+                btnCancel.setVisibility(View.GONE);
+                btnEdit.setVisibility(View.GONE);
                 break;
         }
     }
 
     private void setupButtonClickListeners() {
         btnCheckIn.setOnClickListener(v -> {
-            bookingViewModel.updateBookingStatus(bookingId, Booking.BookingStatus.CHECKED_IN);
+            bookingViewModel.checkIn(bookingId);
             Toast.makeText(this, "Checked-In Successfully!", Toast.LENGTH_SHORT).show();
         });
 

@@ -14,10 +14,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Future;
 
-/**
- * Repository for the Booking entity.
- * Handles data operations for bookings and coordinates with other DAOs like RoomDao.
- */
 public class BookingRepository {
 
     private final BookingDao bookingDao;
@@ -29,92 +25,46 @@ public class BookingRepository {
         roomDao = database.roomDao();
     }
 
-    /**
-     * Inserts a new booking and updates the corresponding room's status to RESERVED.
-     */
     public Future<Long> insert(Booking booking) {
-        return AppDatabase.databaseWriteExecutor.submit(() -> {
-            roomDao.updateRoomStatus(booking.getRoomId(), Room.RoomStatus.RESERVED);
-            return bookingDao.insert(booking);
-        });
+        return AppDatabase.databaseWriteExecutor.submit(() -> bookingDao.insert(booking));
     }
 
-    /**
-     * Updates an existing booking.
-     */
     public Future<Integer> update(Booking booking) {
-        return AppDatabase.databaseWriteExecutor.submit(() -> {
-            booking.setLastUpdatedAt(new Date());
-            return bookingDao.update(booking);
-        });
+        return AppDatabase.databaseWriteExecutor.submit(() -> bookingDao.update(booking));
     }
 
-    /**
-     * Updates the status of a specific booking and adjusts the room status accordingly.
-     */
-    public Future<Integer> updateBookingStatus(int bookingId, String newStatus) {
-        return AppDatabase.databaseWriteExecutor.submit(() -> {
-            Booking booking = bookingDao.getBookingByIdSync(bookingId);
-            if (booking != null) {
-                // If booking is cancelled or checked out, make the room available again.
-                if (newStatus.equals(Booking.BookingStatus.CANCELLED) || newStatus.equals(Booking.BookingStatus.CHECKED_OUT)) {
-                    roomDao.updateRoomStatus(booking.getRoomId(), Room.RoomStatus.AVAILABLE);
-                }
-            }
-            return bookingDao.updateBookingStatus(bookingId, newStatus);
-        });
-    }
-
-    /**
-     * Handles the check-in process for a booking.
-     */
-    public Future<Integer> checkIn(int bookingId, int receptionistId) {
-        return AppDatabase.databaseWriteExecutor.submit(() -> {
-            Booking booking = bookingDao.getBookingByIdSync(bookingId);
-            if (booking != null) {
-                // Mark the room as OCCUPIED
-                roomDao.updateRoomStatus(booking.getRoomId(), Room.RoomStatus.OCCUPIED);
-            }
-            return bookingDao.checkIn(bookingId, receptionistId, new Date().getTime());
-        });
-    }
-
-    /**
-     * Handles the check-out process for a booking.
-     */
-    public Future<Integer> checkOut(int bookingId, int receptionistId) {
-        return AppDatabase.databaseWriteExecutor.submit(() -> {
-            Booking booking = bookingDao.getBookingByIdSync(bookingId);
-            if (booking != null) {
-                // Make the room AVAILABLE again
-                roomDao.updateRoomStatus(booking.getRoomId(), Room.RoomStatus.AVAILABLE);
-            }
-            return bookingDao.checkOut(bookingId, receptionistId, new Date().getTime());
-        });
-    }
-
-    /**
-     * Deletes a booking and makes the room available.
-     */
     public Future<Integer> delete(Booking booking) {
-        return AppDatabase.databaseWriteExecutor.submit(() -> {
-            roomDao.updateRoomStatus(booking.getRoomId(), Room.RoomStatus.AVAILABLE);
-            return bookingDao.delete(booking);
-        });
+        return AppDatabase.databaseWriteExecutor.submit(() -> bookingDao.delete(booking));
     }
 
-    // --- Query Methods ---
+    public LiveData<List<Booking>> getAllBookings() {
+        return bookingDao.getAllBookings();
+    }
 
     public LiveData<Booking> getBookingById(int bookingId) {
         return bookingDao.getBookingById(bookingId);
     }
 
-    public LiveData<List<Booking>> getBookingsByGuest(int guestId) {
-        return bookingDao.getBookingsByGuest(guestId);
-    }
-    
-    public LiveData<List<Booking>> getAllBookings() {
-        return bookingDao.getAllBookings();
+    public Future<Boolean> isRoomAvailable(int roomId, Date checkIn, Date checkOut) {
+        return AppDatabase.databaseWriteExecutor.submit(() -> {
+            List<Booking> bookings = bookingDao.checkRoomAvailability(roomId, checkIn.getTime(), checkOut.getTime());
+            return bookings == null || bookings.isEmpty();
+        });
     }
 
+    public Future<Room> getRoomByNumber(String roomNumber) {
+        return AppDatabase.databaseWriteExecutor.submit(() -> roomDao.getRoomByNumberSync(roomNumber));
+    }
+
+    public Future<Integer> checkIn(int bookingId, int receptionistId) {
+        return AppDatabase.databaseWriteExecutor.submit(() -> bookingDao.checkIn(bookingId, receptionistId, new Date().getTime()));
+    }
+
+    public Future<Integer> checkOut(int bookingId, int receptionistId) {
+        return AppDatabase.databaseWriteExecutor.submit(() -> bookingDao.checkOut(bookingId, receptionistId, new Date().getTime()));
+    }
+
+    public Future<Integer> updateBookingStatus(int bookingId, String status) {
+        return AppDatabase.databaseWriteExecutor.submit(() -> bookingDao.updateBookingStatus(bookingId, status));
+    }
 }

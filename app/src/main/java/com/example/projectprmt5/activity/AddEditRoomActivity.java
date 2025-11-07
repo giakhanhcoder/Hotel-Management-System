@@ -17,6 +17,9 @@ import com.example.projectprmt5.database.entities.Room;
 import com.example.projectprmt5.viewmodel.RoomViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class AddEditRoomActivity extends AppCompatActivity {
 
     public static final String EXTRA_ID = "com.example.projectprmt5.EXTRA_ID";
@@ -29,6 +32,9 @@ public class AddEditRoomActivity extends AppCompatActivity {
     private RoomViewModel roomViewModel;
     private int currentRoomId = -1;
     private Room currentRoom;
+
+    // Define allowed room types
+    private static final List<String> ALLOWED_ROOM_TYPES = Arrays.asList("SINGLE", "DOUBLE", "SUITE", "PENTHOUSE");
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,8 +86,8 @@ public class AddEditRoomActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(roomTypeStr)) {
             etRoomType.setError("Loại phòng là bắt buộc");
             return;
-        } else if (!roomTypeStr.equals("SINGLE") && !roomTypeStr.equals("DOUBLE")) {
-            etRoomType.setError("Chỉ được nhập SINGLE hoặc DOUBLE");
+        } else if (!ALLOWED_ROOM_TYPES.contains(roomTypeStr)) {
+            etRoomType.setError("Loại phòng phải là một trong: SINGLE, DOUBLE, SUITE, PENTHOUSE");
             return;
         }
 

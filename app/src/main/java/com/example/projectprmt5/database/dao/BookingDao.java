@@ -13,31 +13,24 @@ import com.example.projectprmt5.database.entities.Booking;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Data Access Object for Booking entity
- */
 @Dao
 public interface BookingDao {
     
-    // Insert operations
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insert(Booking booking);
     
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     List<Long> insertAll(List<Booking> bookings);
     
-    // Update operations
     @Update
     int update(Booking booking);
     
-    // Delete operations
     @Delete
     int delete(Booking booking);
     
     @Query("DELETE FROM bookings WHERE bookingId = :bookingId")
     int deleteById(int bookingId);
     
-    // Query operations
     @Query("SELECT * FROM bookings WHERE bookingId = :bookingId")
     LiveData<Booking> getBookingById(int bookingId);
     
@@ -85,6 +78,11 @@ public interface BookingDao {
     @Query("SELECT * FROM bookings WHERE checkInDate <= :date AND checkOutDate >= :date " +
            "AND status NOT IN ('CANCELLED', 'CHECKED_OUT')")
     List<Booking> getBookingsForDate(long date);
+
+    @Query("SELECT * FROM bookings WHERE roomId = :roomId " +
+           "AND status NOT IN ('CANCELLED', 'CHECKED_OUT') " +
+           "AND (checkInDate < :checkOutDate AND :checkInDate < checkOutDate)")
+    List<Booking> checkRoomAvailability(int roomId, long checkInDate, long checkOutDate);
     
     @Query("SELECT * FROM bookings WHERE checkInDate >= :startDate AND checkInDate <= :endDate " +
            "ORDER BY checkInDate ASC")

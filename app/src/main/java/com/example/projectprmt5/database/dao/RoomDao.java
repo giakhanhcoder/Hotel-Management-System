@@ -38,4 +38,7 @@ public interface RoomDao {
 
     @Query("SELECT * FROM rooms WHERE roomNumber = :roomNumber LIMIT 1")
     Room getRoomByNumberSync(String roomNumber);
+
+    @Query("SELECT * FROM rooms LIMIT 1")
+    Room getAnyRoom();
 }

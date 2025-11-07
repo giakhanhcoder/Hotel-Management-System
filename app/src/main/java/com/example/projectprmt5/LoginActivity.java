@@ -244,7 +244,7 @@ public class LoginActivity extends AppCompatActivity {
      * Xử lý khi login thành công
      */
     private void onLoginSuccess(User user) {
-        Toast.makeText(this, getString(R.string.login_success), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Login successful for User ID: " + user.getUserId(), Toast.LENGTH_LONG).show();
 
         // Save to SharedPreferences
         SharedPreferences.Editor editor = sharedPreferences.edit();

@@ -5,7 +5,6 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
-// import androidx.room.Room; // THIS LINE IS THE CAUSE OF THE ERROR AND IS NOW REMOVED.
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
@@ -37,7 +36,7 @@ import java.util.concurrent.Executors;
         Inventory.class,
         InventoryUsage.class
     },
-    version = 3, // FIX: Incremented version number from 2 to 3
+    version = 3, 
     exportSchema = false
 )
 @TypeConverters({DateConverter.class, ListConverter.class})
@@ -62,7 +61,6 @@ public abstract class AppDatabase extends RoomDatabase {
         if (INSTANCE == null) {
             synchronized (AppDatabase.class) {
                 if (INSTANCE == null) {
-                    // Use the fully qualified name here to avoid conflicts
                     INSTANCE = androidx.room.Room.databaseBuilder(
                             context.getApplicationContext(),
                             AppDatabase.class,
@@ -83,27 +81,38 @@ public abstract class AppDatabase extends RoomDatabase {
             super.onOpen(db);
             databaseWriteExecutor.execute(() -> {
                 if (INSTANCE != null) {
-                    UserDao dao = INSTANCE.userDao();
-                    if (dao.getAnyUser() == null) {
-                        populateInitialData(INSTANCE);
+                    // Populate users if table is empty
+                    UserDao userDao = INSTANCE.userDao();
+                    if (userDao.getAnyUser() == null) {
+                        Log.d(TAG, "Populating users...");
+                        populateUsers(userDao);
+                    }
+
+                    // Populate rooms if table is empty
+                    RoomDao roomDao = INSTANCE.roomDao();
+                    if (roomDao.getAnyRoom() == null) {
+                        Log.d(TAG, "Populating rooms...");
+                        populateRooms(roomDao);
                     }
                 }
             });
         }
     };
     
-    private static void populateInitialData(AppDatabase database) {
-        Log.d(TAG, "Populating initial data...");
-        UserDao userDao = database.userDao();
-        RoomDao roomDao = database.roomDao();
-        
-        // Create default users
+    private static void populateUsers(UserDao userDao) {
         userDao.insert(new User("admin@hotel.com", hashPassword("Admin123!"), "Admin", User.Role.MANAGER));
         userDao.insert(new User("receptionist@hotel.com", hashPassword("Receptionist123!"), "Receptionist", User.Role.RECEPTIONIST));
         userDao.insert(new User("guest@example.com", hashPassword("Guest123!"), "John Doe", User.Role.GUEST));
-        
-        // Create sample rooms
-        Log.d(TAG, "Initial data populated.");
+        Log.d(TAG, "Users populated.");
+    }
+
+    private static void populateRooms(RoomDao roomDao) {
+        roomDao.insert(new Room("101", "SINGLE", 50.0));
+        roomDao.insert(new Room("102", "DOUBLE", 80.0));
+        roomDao.insert(new Room("201", "SUITE", 150.0));
+        roomDao.insert(new Room("202", "SINGLE", 55.0));
+        roomDao.insert(new Room("301", "PENTHOUSE", 300.0));
+        Log.d(TAG, "Rooms populated.");
     }
     
     private static String hashPassword(String password) {

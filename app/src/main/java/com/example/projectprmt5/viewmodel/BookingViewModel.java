@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.example.projectprmt5.database.entities.Booking;
+import com.example.projectprmt5.database.entities.Room;
 import com.example.projectprmt5.repository.BookingRepository;
 
 import java.util.Date;
@@ -49,11 +50,13 @@ public class BookingViewModel extends AndroidViewModel {
     }
 
     public Future<Boolean> isRoomAvailable(int roomId, Date checkIn, Date checkOut) {
-        return bookingRepository.checkRoomAvailability(roomId, checkIn, checkOut);
+        return bookingRepository.isRoomAvailable(roomId, checkIn, checkOut);
     }
 
-    // For check-in and check-out, we might need the receptionist's ID.
-    // For this example, we'll use a placeholder ID (e.g., 0 for system).
+    public Future<Room> getRoomByNumber(String roomNumber) {
+        return bookingRepository.getRoomByNumber(roomNumber);
+    }
+
     public Future<Integer> checkIn(int bookingId) {
         return bookingRepository.checkIn(bookingId, 0);
     }
