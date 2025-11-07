@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import com.example.projectprmt5.database.entities.Booking;
 import com.example.projectprmt5.repository.BookingRepository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Future;
 
@@ -45,6 +46,10 @@ public class BookingViewModel extends AndroidViewModel {
 
     public Future<Integer> updateBookingStatus(int bookingId, String status) {
         return bookingRepository.updateBookingStatus(bookingId, status);
+    }
+
+    public Future<Boolean> isRoomAvailable(int roomId, Date checkIn, Date checkOut) {
+        return bookingRepository.checkRoomAvailability(roomId, checkIn, checkOut);
     }
 
     // For check-in and check-out, we might need the receptionist's ID.
