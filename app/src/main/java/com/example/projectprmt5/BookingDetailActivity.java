@@ -62,7 +62,6 @@ public class BookingDetailActivity extends AppCompatActivity {
 
         initViews();
 
-        // Launcher for getting result from ServiceSelectionActivity
         serviceSelectionLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -87,7 +86,7 @@ public class BookingDetailActivity extends AppCompatActivity {
             if (booking != null) {
                 currentBooking = booking;
                 updateBookingUI(currentBooking);
-                updateServicesUI(); // Also update totals when booking loads
+                updateServicesUI();
             }
         });
 
@@ -120,6 +119,10 @@ public class BookingDetailActivity extends AppCompatActivity {
 
     private void setupButtonClickListeners() {
         btnAddServices.setOnClickListener(v -> {
+            if (Booking.BookingStatus.CHECKED_OUT.equals(currentBooking.getStatus())) {
+                Toast.makeText(this, "Cannot add services to a checked-out booking.", Toast.LENGTH_SHORT).show();
+                return;
+            }
             Intent intent = new Intent(this, ServiceSelectionActivity.class);
             intent.putParcelableArrayListExtra(ServiceSelectionActivity.EXTRA_CURRENT_SERVICES, selectedServices);
             serviceSelectionLauncher.launch(intent);
@@ -127,6 +130,10 @@ public class BookingDetailActivity extends AppCompatActivity {
 
         btnCheckoutAndBilling.setOnClickListener(v -> {
             if (currentBooking != null) {
+                if (Booking.BookingStatus.CHECKED_OUT.equals(currentBooking.getStatus())) {
+                    Toast.makeText(this, "This booking has already been checked out.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 double roomTotal = currentBooking.getTotalAmount();
                 double servicesTotal = calculateServicesTotal();
                 double finalTotal = roomTotal + servicesTotal;
@@ -140,8 +147,11 @@ public class BookingDetailActivity extends AppCompatActivity {
             }
         });
         
-        // Other listeners remain the same
         btnCheckIn.setOnClickListener(v -> {
+            if (currentBooking != null && Booking.BookingStatus.CHECKED_OUT.equals(currentBooking.getStatus())) {
+                Toast.makeText(this, "Cannot check in a booking that is already checked out.", Toast.LENGTH_SHORT).show();
+                return;
+            }
             bookingViewModel.checkIn(bookingId);
             Toast.makeText(this, "Checked-In Successfully!", Toast.LENGTH_SHORT).show();
         });
@@ -174,7 +184,6 @@ public class BookingDetailActivity extends AppCompatActivity {
     }
     
     private void updateBookingUI(Booking booking) {
-        // Update only booking related info
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         getSupportActionBar().setSubtitle("Code: " + booking.getBookingCode());
         textViewBookingStatus.setText("Status: " + booking.getStatus());
@@ -183,6 +192,21 @@ public class BookingDetailActivity extends AppCompatActivity {
         textViewCheckInDate.setText("Check-in: " + dateFormat.format(booking.getCheckInDate()));
         textViewCheckOutDate.setText("Check-out: " + dateFormat.format(booking.getCheckOutDate()));
         textViewNumGuests.setText("Guests: " + booking.getNumberOfGuests());
+
+        // Disable buttons if booking is checked out
+        if (Booking.BookingStatus.CHECKED_OUT.equals(booking.getStatus())) {
+            btnCheckIn.setEnabled(false);
+            btnCheckoutAndBilling.setEnabled(false);
+            btnAddServices.setEnabled(false);
+            btnCancel.setEnabled(false);
+            btnEdit.setEnabled(false);
+        } else {
+            btnCheckIn.setEnabled(true);
+            btnCheckoutAndBilling.setEnabled(true);
+            btnAddServices.setEnabled(true);
+            btnCancel.setEnabled(true);
+            btnEdit.setEnabled(true);
+        }
     }
 
     private void updateServicesUI() {

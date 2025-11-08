@@ -33,6 +33,9 @@ public interface RoomDao {
     @Query("SELECT * FROM rooms WHERE id = :roomId")
     LiveData<Room> getRoomById(int roomId);
 
+    @Query("SELECT * FROM rooms WHERE id = :roomId")
+    Room getRoomByIdSync(int roomId);
+
     @Query("UPDATE rooms SET status = :status WHERE id = :roomId")
     void updateRoomStatus(int roomId, String status);
 

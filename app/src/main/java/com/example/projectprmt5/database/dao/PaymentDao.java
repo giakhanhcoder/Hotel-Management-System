@@ -86,6 +86,9 @@ public interface PaymentDao {
     @Query("SELECT * FROM payments WHERE paymentDate BETWEEN :startDate AND :endDate")
     List<Payment> getPaymentsInDateRangeSync(long startDate, long endDate);
 
+    @Query("SELECT * FROM payments WHERE bookingId = :bookingId ORDER BY paymentId DESC LIMIT 1")
+    Payment getLatestPaymentForBooking(int bookingId);
+
     // --- Aggregate queries ---
     @Query("SELECT SUM(amount) FROM payments WHERE status = 'SUCCESS' AND paymentDate BETWEEN :startDate AND :endDate")
     Double getTotalSuccessfulPayments(long startDate, long endDate);
@@ -96,4 +99,3 @@ public interface PaymentDao {
     @Query("SELECT COUNT(*) FROM payments WHERE status = :status")
     int getPaymentCountByStatus(String status);
 }
-

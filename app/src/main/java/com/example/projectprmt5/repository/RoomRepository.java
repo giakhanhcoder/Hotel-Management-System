@@ -8,6 +8,7 @@ import com.example.projectprmt5.database.dao.RoomDao;
 import com.example.projectprmt5.database.entities.Room;
 
 import java.util.List;
+import java.util.concurrent.Future;
 
 public class RoomRepository {
 
@@ -26,6 +27,10 @@ public class RoomRepository {
 
     public LiveData<Room> getRoomById(int roomId) {
         return roomDao.getRoomById(roomId);
+    }
+
+    public Future<Room> getRoomByIdSync(int roomId) {
+        return AppDatabase.databaseWriteExecutor.submit(() -> roomDao.getRoomByIdSync(roomId));
     }
 
     public void insert(Room room) {
