@@ -16,6 +16,8 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.projectprmt5.R;
+
 /**
  * Màn hình chào mừng với ViewPager giới thiệu
  * Welcome Screen with Onboarding

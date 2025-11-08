@@ -1,11 +1,13 @@
 package com.example.projectprmt5.activity;
 
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.projectprmt5.R;
 import com.example.projectprmt5.database.entities.Room;
 import com.example.projectprmt5.viewmodel.RoomViewModel;
@@ -62,7 +65,6 @@ public class RoomListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    // --- RecyclerView Adapter ---
     private static class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder> {
 
         private List<Room> rooms = new ArrayList<>();
@@ -92,10 +94,12 @@ public class RoomListActivity extends AppCompatActivity {
         }
 
         static class RoomViewHolder extends RecyclerView.ViewHolder {
+            private final ImageView roomImage;
             private final TextView roomNumber, roomType, roomPrice, roomStatus;
 
             public RoomViewHolder(@NonNull View itemView) {
                 super(itemView);
+                roomImage = itemView.findViewById(R.id.item_room_image);
                 roomNumber = itemView.findViewById(R.id.item_room_number);
                 roomType = itemView.findViewById(R.id.item_room_type);
                 roomPrice = itemView.findViewById(R.id.item_room_price);
@@ -108,7 +112,12 @@ public class RoomListActivity extends AppCompatActivity {
                 roomPrice.setText(String.format(Locale.getDefault(), "$%.2f / night", room.getPrice()));
                 roomStatus.setText(room.getStatus());
 
-                // Set status color
+                if (room.getImageUrl() != null && !room.getImageUrl().isEmpty()) {
+                    Glide.with(itemView.getContext()).load(Uri.parse(room.getImageUrl())).into(roomImage);
+                } else {
+                    roomImage.setImageResource(R.drawable.ic_image_placeholder);
+                }
+
                 int color = getStatusColor(room.getStatus());
                 roomStatus.getBackground().setTint(ContextCompat.getColor(itemView.getContext(), color));
             }
@@ -116,11 +125,11 @@ public class RoomListActivity extends AppCompatActivity {
             private int getStatusColor(String status) {
                 switch (status) {
                     case Room.RoomStatus.AVAILABLE:
-                        return R.color.status_confirmed; // Green
+                        return R.color.status_confirmed;
                     case Room.RoomStatus.RESERVED:
-                        return R.color.status_pending; // Orange
+                        return R.color.status_pending;
                     case Room.RoomStatus.OCCUPIED:
-                        return R.color.status_cancelled; // Red
+                        return R.color.status_cancelled;
                     default:
                         return android.R.color.darker_gray;
                 }

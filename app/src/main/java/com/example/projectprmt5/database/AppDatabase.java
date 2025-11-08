@@ -39,7 +39,7 @@ import java.util.concurrent.Executors;
         InventoryUsage.class,
         RoomType.class
     },
-    version = 4, // Incremented version
+    version = 5, // Incremented version
     exportSchema = false
 )
 @TypeConverters({DateConverter.class, ListConverter.class})
@@ -59,7 +59,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract PaymentDao paymentDao();
     public abstract InventoryDao inventoryDao();
     public abstract InventoryUsageDao inventoryUsageDao();
-    public abstract RoomTypeDao roomTypeDao(); // Added RoomTypeDao abstract method
+    public abstract RoomTypeDao roomTypeDao();
     
     public static AppDatabase getInstance(Context context) {
         if (INSTANCE == null) {
@@ -111,7 +111,7 @@ public abstract class AppDatabase extends RoomDatabase {
     };
     
     private static void populateUsers(UserDao userDao) {
-        userDao.insert(new User("admin@hotel.com", hashPassword("Admin123!"), "Admin", User.Role.MANAGER));
+        userDao.insert(new User("admin@hotel.com", hashPassword("git"), "Admin", User.Role.MANAGER));
         userDao.insert(new User("receptionist@hotel.com", hashPassword("Receptionist123!"), "Receptionist", User.Role.RECEPTIONIST));
         userDao.insert(new User("guest@example.com", hashPassword("Guest123!"), "John Doe", User.Role.GUEST));
         Log.d(TAG, "Users populated.");

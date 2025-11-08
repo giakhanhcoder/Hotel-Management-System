@@ -19,6 +19,8 @@ public class Room {
 
     private String status; // e.g., AVAILABLE, RESERVED, OCCUPIED
 
+    private String imageUrl;
+
     // --- Constructors ---
     public Room(String roomNumber, String type, double price) {
         this.roomNumber = roomNumber;
@@ -68,6 +70,14 @@ public class Room {
         this.status = status;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     // --- Equals and HashCode for DiffUtil ---
     @Override
     public boolean equals(Object o) {
@@ -78,12 +88,13 @@ public class Room {
                 Double.compare(room.price, price) == 0 &&
                 Objects.equals(roomNumber, room.roomNumber) &&
                 Objects.equals(type, room.type) &&
-                Objects.equals(status, room.status);
+                Objects.equals(status, room.status) &&
+                Objects.equals(imageUrl, room.imageUrl);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, roomNumber, type, price, status);
+        return Objects.hash(id, roomNumber, type, price, status, imageUrl);
     }
 
     // --- Constants for Status ---
