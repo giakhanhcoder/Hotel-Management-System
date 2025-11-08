@@ -18,12 +18,15 @@ import com.example.projectprmt5.database.dao.PaymentDao;
 import com.example.projectprmt5.database.dao.RoomDao;
 import com.example.projectprmt5.database.dao.RoomTypeDao;
 import com.example.projectprmt5.database.dao.UserDao;
+import com.example.projectprmt5.database.dao.ServiceDao;
 import com.example.projectprmt5.database.entities.Booking;
+import com.example.projectprmt5.database.entities.BookingServiceCrossRef;
 import com.example.projectprmt5.database.entities.Inventory;
 import com.example.projectprmt5.database.entities.InventoryUsage;
 import com.example.projectprmt5.database.entities.Payment;
 import com.example.projectprmt5.database.entities.Room;
 import com.example.projectprmt5.database.entities.RoomType;
+import com.example.projectprmt5.database.entities.Service;
 import com.example.projectprmt5.database.entities.User;
 
 import java.util.concurrent.ExecutorService;
@@ -37,9 +40,11 @@ import java.util.concurrent.Executors;
         Payment.class,
         Inventory.class,
         InventoryUsage.class,
-        RoomType.class
+        RoomType.class,
+        Service.class,
+        BookingServiceCrossRef.class
     },
-    version = 5, // Incremented version
+    version = 6, // Incremented version for schema change
     exportSchema = false
 )
 @TypeConverters({DateConverter.class, ListConverter.class})
@@ -60,7 +65,8 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract InventoryDao inventoryDao();
     public abstract InventoryUsageDao inventoryUsageDao();
     public abstract RoomTypeDao roomTypeDao();
-    
+    public abstract ServiceDao serviceDao();
+
     public static AppDatabase getInstance(Context context) {
         if (INSTANCE == null) {
             synchronized (AppDatabase.class) {
@@ -85,26 +91,11 @@ public abstract class AppDatabase extends RoomDatabase {
             super.onOpen(db);
             databaseWriteExecutor.execute(() -> {
                 if (INSTANCE != null) {
-                    // Populate users if table is empty
-                    UserDao userDao = INSTANCE.userDao();
-                    if (userDao.getAnyUser() == null) {
-                        Log.d(TAG, "Populating users...");
-                        populateUsers(userDao);
-                    }
-
-                    // Populate rooms if table is empty
-                    RoomDao roomDao = INSTANCE.roomDao();
-                    if (roomDao.getAnyRoom() == null) {
-                        Log.d(TAG, "Populating rooms...");
-                        populateRooms(roomDao);
-                    }
-
-                    // Populate room types if table is empty
-                    RoomTypeDao roomTypeDao = INSTANCE.roomTypeDao();
-                    if (roomTypeDao.getAnyRoomType() == null) {
-                        Log.d(TAG, "Populating room types...");
-                        populateRoomTypes(roomTypeDao);
-                    }
+                    // Populate data if tables are empty
+                    populateUsers(INSTANCE.userDao());
+                    populateRooms(INSTANCE.roomDao());
+                    populateRoomTypes(INSTANCE.roomTypeDao());
+                    populateServices(INSTANCE.serviceDao());
                 }
             });
         }
@@ -128,13 +119,23 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     private static void populateRoomTypes(RoomTypeDao roomTypeDao) {
-        roomTypeDao.insert(new RoomType("SINGLE"));
-        roomTypeDao.insert(new RoomType("DOUBLE"));
-        roomTypeDao.insert(new RoomType("SUITE"));
-        roomTypeDao.insert(new RoomType("PENTHOUSE"));
-        Log.d(TAG, "Room types populated.");
+            Log.d(TAG, "Populating room types...");
+            roomTypeDao.insert(new RoomType("SINGLE"));
+            roomTypeDao.insert(new RoomType("DOUBLE"));
+            roomTypeDao.insert(new RoomType("SUITE"));
     }
-    
+
+    private static void populateServices(ServiceDao serviceDao) {
+        if (serviceDao.getAnyService() == null) {
+            Log.d(TAG, "Populating services...");
+            serviceDao.insert(new Service("Breakfast", "Delicious breakfast buffet.", 15.0));
+            serviceDao.insert(new Service("Lunch", "A la carte lunch menu.", 25.0));
+            serviceDao.insert(new Service("Dinner", "Exquisite dinner experience.", 40.0));
+            serviceDao.insert(new Service("Gym Access", "Full access to our modern gym.", 10.0));
+            serviceDao.insert(new Service("Pool Access", "Relax by our stunning swimming pool.", 10.0));
+        }
+    }
+
     private static String hashPassword(String password) {
         return "HASH_" + password;
     }

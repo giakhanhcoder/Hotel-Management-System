@@ -11,6 +11,7 @@ import com.example.projectprmt5.database.entities.Room;
 import com.example.projectprmt5.repository.RoomRepository;
 
 import java.util.List;
+import java.util.concurrent.Future;
 
 public class RoomViewModel extends AndroidViewModel {
 
@@ -29,6 +30,10 @@ public class RoomViewModel extends AndroidViewModel {
 
     public LiveData<Room> getRoomById(int roomId) {
         return repository.getRoomById(roomId);
+    }
+
+    public Future<Room> getRoomByIdSync(int roomId) {
+        return repository.getRoomByIdSync(roomId);
     }
 
     public void insert(Room room) {

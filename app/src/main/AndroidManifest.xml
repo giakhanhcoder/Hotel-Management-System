@@ -93,7 +93,15 @@
         <activity
             android:name=".BookingDetailActivity"
             android:exported="false"
-            android:label="Booking Details" /> <!-- Check In Activity -->
+            android:label="Booking Details" /> 
+        
+        <!-- Service Selection Activity -->
+        <activity
+            android:name=".ServiceSelectionActivity"
+            android:exported="false"
+            android:label="Select Services" />
+            
+        <!-- Check In Activity -->
         <activity
             android:name=".CheckInActivity"
             android:exported="false"
@@ -121,6 +129,16 @@
             android:exported="false"
             android:label="Thanh toán VietQR" />
 
+        <!-- Invoice Activity -->
+        <activity 
+            android:name=".InvoiceActivity"
+            android:label="Hóa đơn"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+
         <!-- Admin Dashboard Activity -->
         <activity
             android:name=".activity.AdminDashboardActivity"
@@ -132,6 +150,18 @@
             android:name=".activity.AdminRoomManagementActivity"
             android:exported="false"
             android:label="Manage Rooms" />
+
+        <!-- Admin Service Management Activity -->
+        <activity
+            android:name=".activity.AdminServiceManagementActivity"
+            android:exported="false"
+            android:label="Manage Services" />
+            
+        <!-- Add/Edit Service Activity -->
+        <activity
+            android:name=".activity.AddEditServiceActivity"
+            android:exported="false"
+            android:label="Add/Edit Service" />
 
         <!-- Room List Activity (for guests) -->
         <activity
