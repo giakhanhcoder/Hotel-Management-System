@@ -21,7 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projectprmt5.database.entities.Booking;
 import com.example.projectprmt5.viewmodel.BookingViewModel;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -44,12 +43,6 @@ public class BookingDashboardActivity extends AppCompatActivity {
         final BookingAdapter adapter = new BookingAdapter();
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        FloatingActionButton fab = findViewById(R.id.fab_add_booking);
-        fab.setOnClickListener(view -> {
-            Intent intent = new Intent(BookingDashboardActivity.this, AddBookingActivity.class);
-            startActivity(intent);
-        });
 
         bookingViewModel = new ViewModelProvider(this).get(BookingViewModel.class);
         bookingViewModel.getAllBookings().observe(this, adapter::submitList);

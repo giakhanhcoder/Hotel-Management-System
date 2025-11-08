@@ -1,5 +1,6 @@
 package com.example.projectprmt5.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.projectprmt5.AddBookingActivity;
 import com.example.projectprmt5.R;
 import com.example.projectprmt5.database.entities.Room;
 import com.example.projectprmt5.viewmodel.RoomViewModel;
@@ -65,7 +68,7 @@ public class RoomListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private static class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder> {
+    private class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder> {
 
         private List<Room> rooms = new ArrayList<>();
 
@@ -81,6 +84,17 @@ public class RoomListActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull RoomViewHolder holder, int position) {
             Room currentRoom = rooms.get(position);
             holder.bind(currentRoom);
+
+            holder.itemView.setOnClickListener(v -> {
+                if (currentRoom.getStatus().equals(Room.RoomStatus.AVAILABLE)) {
+                    Intent intent = new Intent(RoomListActivity.this, AddBookingActivity.class);
+                    intent.putExtra("SELECTED_ROOM_ID", currentRoom.getId());
+                    intent.putExtra("SELECTED_ROOM_NUMBER", currentRoom.getRoomNumber());
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(v.getContext(), "This room is not available for booking.", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
         @Override
@@ -93,7 +107,7 @@ public class RoomListActivity extends AppCompatActivity {
             notifyDataSetChanged();
         }
 
-        static class RoomViewHolder extends RecyclerView.ViewHolder {
+        class RoomViewHolder extends RecyclerView.ViewHolder {
             private final ImageView roomImage;
             private final TextView roomNumber, roomType, roomPrice, roomStatus;
 

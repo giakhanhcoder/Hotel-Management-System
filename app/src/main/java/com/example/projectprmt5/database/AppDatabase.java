@@ -111,9 +111,10 @@ public abstract class AppDatabase extends RoomDatabase {
     };
     
     private static void populateUsers(UserDao userDao) {
-        userDao.insert(new User("admin@hotel.com", hashPassword("git"), "Admin", User.Role.MANAGER));
+            userDao.insert(new User("admin@hotel.com", hashPassword("Admin123!"), "Admin", User.Role.MANAGER));
         userDao.insert(new User("receptionist@hotel.com", hashPassword("Receptionist123!"), "Receptionist", User.Role.RECEPTIONIST));
-        userDao.insert(new User("guest@example.com", hashPassword("Guest123!"), "John Doe", User.Role.GUEST));
+        userDao.insert(new User(" ", hashPassword("Guest123!"), "John Doe", User.Role.GUEST));
+        userDao.insert(new User("giakhanh@gmail.com", hashPassword("giakhanh123"), "Gia Khanh", User.Role.GUEST));
         Log.d(TAG, "Users populated.");
     }
 

@@ -199,8 +199,12 @@ public class AddEditRoomActivity extends AppCompatActivity {
         double price;
         try {
             price = Double.parseDouble(roomPriceStr);
+            if (price < 10 || price > 500) {
+                etRoomPrice.setError("Price must be between $10 and $500");
+                return;
+            }
         } catch (NumberFormatException e) {
-            etRoomPrice.setError("Price must be a number");
+            etRoomPrice.setError("Price must be a valid number");
             return;
         }
 
