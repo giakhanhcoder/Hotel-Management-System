@@ -100,3 +100,12 @@ public interface InventoryDao {
 
 
 
+
+
+
+
+
+
+
+
+

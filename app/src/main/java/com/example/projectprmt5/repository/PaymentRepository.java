@@ -108,11 +108,11 @@ public class PaymentRepository {
     }
 
     public Future<Payment> getLatestPaymentForBooking(int bookingId) {
-        return AppDatabase.databaseWriteExecutor.submit(() -> 
+        return AppDatabase.databaseWriteExecutor.submit(() ->
             paymentDao.getLatestPaymentForBooking(bookingId)
         );
     }
-    
+
     public LiveData<List<Payment>> getPaymentsByStatus(String status) {
         return paymentDao.getPaymentsByStatus(status);
     }
@@ -165,3 +165,15 @@ public class PaymentRepository {
         return paymentDao.getPaymentsByMethod(method);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+

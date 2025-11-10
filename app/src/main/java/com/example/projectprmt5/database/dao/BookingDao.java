@@ -15,22 +15,22 @@ import java.util.List;
 
 @Dao
 public interface BookingDao {
-    
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insert(Booking booking);
     
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     List<Long> insertAll(List<Booking> bookings);
-    
+
     @Update
     int update(Booking booking);
-    
+
     @Delete
     int delete(Booking booking);
     
     @Query("DELETE FROM bookings WHERE bookingId = :bookingId")
     int deleteById(int bookingId);
-    
+
     @Query("SELECT * FROM bookings WHERE bookingId = :bookingId")
     LiveData<Booking> getBookingById(int bookingId);
     
@@ -102,3 +102,7 @@ public interface BookingDao {
            "AND bookingDate >= :startDate AND bookingDate <= :endDate")
     Double getTotalRevenueInDateRange(long startDate, long endDate);
 }
+
+
+
+

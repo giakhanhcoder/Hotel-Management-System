@@ -42,7 +42,7 @@ public class BookingDetailActivity extends AppCompatActivity {
 
     private TextView textViewBookingCode, textViewBookingStatus, textViewRoomId, textViewGuestId,
             textViewCheckInDate, textViewCheckOutDate, textViewNumGuests, textViewTotalAmount, textViewServicesTotal;
-    private Button btnCheckIn, btnCancel, btnEdit, btnDelete, btnCheckOut, btnAddServices;
+    private Button btnCheckIn, btnCancel, btnCheckOut, btnAddServices;
     private RecyclerView recyclerViewSelectedServices;
     private SelectedServicesAdapter servicesAdapter;
 
@@ -114,8 +114,8 @@ public class BookingDetailActivity extends AppCompatActivity {
         btnCheckIn = findViewById(R.id.btn_check_in);
         btnCheckOut = findViewById(R.id.btn_check_out);
         btnCancel = findViewById(R.id.btn_cancel_booking);
-        btnEdit = findViewById(R.id.btn_edit_booking);
-        btnDelete = findViewById(R.id.btn_delete_booking);
+//        btnEdit = findViewById(R.id.btn_edit_booking);
+//        btnDelete = findViewById(R.id.btn_delete_booking);
     }
 
     private void setupButtonClickListeners() {
@@ -164,27 +164,6 @@ public class BookingDetailActivity extends AppCompatActivity {
             bookingViewModel.updateBookingStatus(bookingId, Booking.BookingStatus.CANCELLED);
             Toast.makeText(this, "Booking Cancelled!", Toast.LENGTH_SHORT).show();
         });
-
-        btnDelete.setOnClickListener(v -> {
-            new AlertDialog.Builder(this)
-                .setTitle("Confirm Delete")
-                .setMessage("Are you sure you want to delete this booking?")
-                .setPositiveButton("Delete", (dialog, which) -> {
-                    if (currentBooking != null) {
-                        bookingViewModel.delete(currentBooking);
-                        Toast.makeText(this, "Booking Deleted", Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-                })
-                .setNegativeButton("Cancel", null)
-                .show();
-        });
-
-        btnEdit.setOnClickListener(v -> {
-            Intent intent = new Intent(this, AddBookingActivity.class);
-            intent.putExtra(AddBookingActivity.EXTRA_BOOKING_ID, bookingId);
-            startActivity(intent);
-        });
     }
     
     private void updateBookingUI(Booking booking) {
@@ -202,8 +181,6 @@ public class BookingDetailActivity extends AppCompatActivity {
         btnCheckOut.setVisibility(View.GONE);
         btnAddServices.setEnabled(true);
         btnCancel.setEnabled(true);
-        btnEdit.setEnabled(true);
-        btnDelete.setEnabled(true);
 
         // Set button visibility and enabled state based on booking status
         switch (booking.getStatus()) {
@@ -219,7 +196,6 @@ public class BookingDetailActivity extends AppCompatActivity {
                 // For checked-out or cancelled bookings, disable modification buttons
                 btnAddServices.setEnabled(false);
                 btnCancel.setEnabled(false);
-                btnEdit.setEnabled(false);
                 break;
         }
     }

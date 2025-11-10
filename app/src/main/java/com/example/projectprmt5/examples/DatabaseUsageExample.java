@@ -75,7 +75,7 @@ public class DatabaseUsageExample extends AppCompatActivity {
             if (room != null) {
                 // We only want to update once, so remove the observer
                 roomToUpdateLiveData.removeObservers(this);
-                
+
                 // Change the price and update
                 room.setPrice(999999);
                 roomRepository.update(room);
@@ -116,7 +116,7 @@ public class DatabaseUsageExample extends AppCompatActivity {
         // ... code removed ...
     }
     */
-    
+
     /*
     private void exampleInventoryManagement() {
         // ... code removed ...
@@ -129,3 +129,12 @@ public class DatabaseUsageExample extends AppCompatActivity {
     }
     */
 }
+
+
+
+
+
+
+
+
+

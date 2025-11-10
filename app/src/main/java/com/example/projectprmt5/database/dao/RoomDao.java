@@ -45,3 +45,15 @@ public interface RoomDao {
     @Query("SELECT * FROM rooms LIMIT 1")
     Room getAnyRoom();
 }
+
+
+
+
+
+
+
+
+
+
+
+

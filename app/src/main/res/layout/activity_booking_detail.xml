@@ -85,7 +85,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                tools:listitem="@android:layout/simple_list_item_2"/>
+                tools:listitem="@android:layout/simple_list_item_2" />
 
             <TextView
                 android:id="@+id/text_view_services_total"
@@ -129,36 +129,6 @@
                     android:layout_height="wrap_content"
                     android:text="Cancel Booking"
                     android:textColor="?attr/colorError" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:background="?android:attr/listDivider" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/btn_edit_booking"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="1"
-                        android:text="Edit" />
-
-                    <Button
-                        android:id="@+id/btn_delete_booking"
-                        style="?attr/materialButtonOutlinedStyle"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_weight="1"
-                        android:text="Delete" />
-                </LinearLayout>
 
             </LinearLayout>
 

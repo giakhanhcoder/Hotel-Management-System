@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" />
 
     <application
         android:allowBackup="true"
@@ -73,11 +77,19 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
-            android:exported="false" /> <!-- Guest Dashboard Activity -->
+            android:exported="false" />         <!-- Guest Dashboard Activity -->
         <activity
             android:name=".GuestDashboardActivity"
             android:exported="false"
-            android:label="Guest Dashboard" /> <!-- Database Debug Activity -->
+            android:label="Guest Dashboard" /> <!-- Receptionist Dashboard Activity -->
+        <activity
+            android:name=".ReceptionistDashboardActivity"
+            android:exported="false"
+            android:label="Receptionist Dashboard" /> <!-- Manager Dashboard Activity -->
+        <activity
+            android:name=".ManagerDashboardActivity"
+            android:exported="false"
+            android:label="Manager Dashboard" /> <!-- Database Debug Activity -->
         <activity
             android:name=".DatabaseDebugActivity"
             android:exported="false"
@@ -93,14 +105,14 @@
         <activity
             android:name=".BookingDetailActivity"
             android:exported="false"
-            android:label="Booking Details" /> 
-        
+            android:label="Booking Details" />
+
         <!-- Service Selection Activity -->
         <activity
             android:name=".ServiceSelectionActivity"
             android:exported="false"
             android:label="Select Services" />
-            
+
         <!-- Check In Activity -->
         <activity
             android:name=".CheckInActivity"
@@ -130,7 +142,7 @@
             android:label="Thanh toán VietQR" />
 
         <!-- Invoice Activity -->
-        <activity 
+        <activity
             android:name=".InvoiceActivity"
             android:label="Hóa đơn"
             android:parentActivityName=".MainActivity">
@@ -156,7 +168,7 @@
             android:name=".activity.AdminServiceManagementActivity"
             android:exported="false"
             android:label="Manage Services" />
-            
+
         <!-- Add/Edit Service Activity -->
         <activity
             android:name=".activity.AddEditServiceActivity"
@@ -187,6 +199,89 @@
             android:exported="false"
             android:label="Add/Edit Room Type" />
 
+        <!-- Manual Check-In Activity (for walk-in guests) -->
+        <activity
+            android:name=".ManualCheckInActivity"
+            android:exported="false"
+            android:label="Check-in Walk-in Guest" />
+
+        <!-- Manual Check-Out Activity -->
+        <activity
+            android:name=".ManualCheckOutActivity"
+            android:exported="false"
+            android:label="Check-out Guest" />
+
+        <!-- Reports & Feedback -->
+        <activity
+            android:name=".RevenueReportActivity"
+            android:exported="false"
+            android:label="Revenue Report" />
+        <activity
+            android:name=".OccupancyReportActivity"
+            android:exported="false"
+            android:label="Occupancy Report" />
+        <activity
+            android:name=".FeedbackListActivity"
+            android:exported="false"
+            android:label="Feedback List" />
+        <activity
+            android:name=".FeedbackFormActivity"
+            android:exported="false"
+            android:label="Feedback" />
+        <!-- Manager - Reports & User Management -->
+        <activity
+            android:name=".ReportsOverviewActivity"
+            android:exported="false"
+            android:label="Reports Overview" />
+        <activity
+            android:name=".FinanceActivity"
+            android:exported="false"
+            android:label="Finance" />
+        <activity
+            android:name=".ReportsSearchActivity"
+            android:exported="false"
+            android:label="Search Reports" />
+        <activity
+            android:name=".ReportsListActivity"
+            android:exported="false"
+            android:label="Reports List" />
+        <activity
+            android:name=".ReceptionistsListActivity"
+            android:exported="false"
+            android:label="Receptionists" />
+        <activity
+            android:name=".AddReceptionistActivity"
+            android:exported="false"
+            android:label="Add Receptionist" />
+        <activity
+            android:name=".EditReceptionistActivity"
+            android:exported="false"
+            android:label="Edit Receptionist" />
+        <activity
+            android:name=".GuestsListActivity"
+            android:exported="false"
+            android:label="Guests" />
+        <activity
+            android:name=".AddGuestActivity"
+            android:exported="false"
+            android:label="Add Guest" />
+        <activity
+            android:name=".EditGuestActivity"
+            android:exported="false"
+            android:label="Edit Guest" />
+        <!-- New User Management Activities -->
+        <activity
+            android:name=".UserManagementActivity"
+            android:exported="false"
+            android:label="User Management" />
+        <activity
+            android:name=".UsersListActivity"
+            android:exported="false"
+            android:label="Users List" />
+        <activity
+            android:name=".AddEditUserActivity"
+            android:exported="false"
+            android:label="Add/Edit User" />
     </application>
 
 </manifest>

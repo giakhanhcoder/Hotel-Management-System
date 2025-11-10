@@ -1,28 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
 
+    <!-- App Bar Layout -->
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:background="@color/primary"
+        app:elevation="@dimen/elevation_normal">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             android:background="@color/primary"
-            android:elevation="4dp" />
+            app:titleTextColor="@color/text_white"
+            app:navigationIcon="@drawable/ic_launcher_foreground"
+            app:navigationIconTint="@color/text_white" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <ScrollView
+    <!-- Main Content -->
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -31,64 +38,445 @@
             android:orientation="vertical"
             android:padding="@dimen/padding_normal">
 
-            <!-- Welcome Card -->
+            <!-- Welcome Section -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_normal"
                 app:cardCornerRadius="@dimen/corner_radius_normal"
-                app:cardElevation="@dimen/elevation_normal"
-                app:contentPadding="@dimen/padding_medium">
+                app:cardElevation="@dimen/elevation_normal">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:layout_width="@dimen/icon_size_large"
-                        android:layout_height="@dimen/icon_size_large"
-                        android:src="@drawable/logo"
-                        android:contentDescription="Logo"
-                        android:tint="@color/primary" />
+                    android:padding="@dimen/padding_normal">
 
                     <TextView
                         android:id="@+id/tvWelcome"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_normal"
-                        android:text="Chào mừng!"
-                        android:textSize="@dimen/text_size_large"
+                        android:textAppearance="@style/TextAppearance.Title"
                         android:textStyle="bold"
-                        android:textColor="@color/text_primary" />
+                        android:textColor="@color/text_primary"
+                        android:text="Chào mừng, Lễ tân!" />
 
+                    <TextView
+                        android:id="@+id/tvCurrentTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_tiny"
+                        android:textAppearance="@style/TextAppearance.Caption"
+                        android:textColor="@color/text_secondary" />
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Features Card -->
+            <!-- Today's Summary - 4 Cards -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:textAppearance="@style/TextAppearance.Headline"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                android:text="Tổng quan hôm nay" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="@dimen/margin_normal">
+
+                <!-- Card 1: Check-ins Today -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardCheckInsToday"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    app:cardCornerRadius="@dimen/corner_radius_normal"
+                    app:cardElevation="@dimen/elevation_normal"
+                    app:cardBackgroundColor="@color/primary">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/padding_normal"
+                        android:gravity="center"
+                        android:minHeight="@dimen/card_height_small">
+
+                        <TextView
+                            android:id="@+id/tvCheckInsToday"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.Headline"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_white"
+                            tools:text="5" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_tiny"
+                            android:textAppearance="@style/TextAppearance.Caption"
+                            android:textColor="@color/text_white"
+                            android:text="Check-in"
+                            android:gravity="center"
+                            android:maxLines="2" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Card 2: Check-outs Today -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardCheckOutsToday"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/margin_small"
+                    app:cardCornerRadius="@dimen/corner_radius_normal"
+                    app:cardElevation="@dimen/elevation_normal"
+                    app:cardBackgroundColor="@color/accent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/padding_normal"
+                        android:gravity="center"
+                        android:minHeight="@dimen/card_height_small">
+
+                        <TextView
+                            android:id="@+id/tvCheckOutsToday"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.Headline"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_white"
+                            tools:text="3" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_tiny"
+                            android:textAppearance="@style/TextAppearance.Caption"
+                            android:textColor="@color/text_white"
+                            android:text="Check-out"
+                            android:gravity="center"
+                            android:maxLines="2" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="@dimen/margin_normal">
+
+                <!-- Card 3: Occupied Rooms -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardOccupiedRooms"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    app:cardCornerRadius="@dimen/corner_radius_normal"
+                    app:cardElevation="@dimen/elevation_normal"
+                    app:cardBackgroundColor="@color/room_occupied">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/padding_normal"
+                        android:gravity="center"
+                        android:minHeight="@dimen/card_height_small">
+
+                        <TextView
+                            android:id="@+id/tvOccupiedRooms"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.Headline"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_white"
+                            tools:text="12" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_tiny"
+                            android:textAppearance="@style/TextAppearance.Caption"
+                            android:textColor="@color/text_white"
+                            android:text="Phòng thuê"
+                            android:gravity="center"
+                            android:maxLines="2" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Card 4: Available Rooms -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardAvailableRooms"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/margin_small"
+                    app:cardCornerRadius="@dimen/corner_radius_normal"
+                    app:cardElevation="@dimen/elevation_normal"
+                    app:cardBackgroundColor="@color/room_available">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/padding_normal"
+                        android:gravity="center"
+                        android:minHeight="@dimen/card_height_small">
+
+                        <TextView
+                            android:id="@+id/tvAvailableRooms"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.Headline"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_white"
+                            tools:text="8" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_tiny"
+                            android:textAppearance="@style/TextAppearance.Caption"
+                            android:textColor="@color/text_white"
+                            android:text="Phòng trống"
+                            android:gravity="center"
+                            android:maxLines="2" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <!-- Pending Tasks -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="@dimen/margin_small">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAppearance="@style/TextAppearance.Headline"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary"
+                    android:text="Công việc cần làm" />
+
+                <TextView
+                    android:id="@+id/tvPendingTasksCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Title"
+                    android:textColor="@color/accent"
+                    android:textStyle="bold"
+                    tools:text="5" />
+            </LinearLayout>
+
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_normal"
                 app:cardCornerRadius="@dimen/corner_radius_normal"
-                app:cardElevation="@dimen/elevation_normal"
-                app:contentPadding="@dimen/padding_medium">
+                app:cardElevation="@dimen/elevation_normal">
 
-                <TextView
-                    android:id="@+id/tvStats"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerPendingTasks"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Chức năng Guest Dashboard..."
-                    android:textSize="@dimen/text_size_normal"
-                    android:textColor="@color/text_secondary"
-                    android:lineSpacingExtra="8dp" />
-
+                    android:padding="@dimen/padding_small"
+                    android:nestedScrollingEnabled="false"
+                    tools:listitem="@layout/item_booking_card" />
             </com.google.android.material.card.MaterialCardView>
+
+            <!-- Quick Actions -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:textAppearance="@style/TextAppearance.Headline"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                android:text="Thao tác nhanh" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="@dimen/margin_normal">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardActionCheckIn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    app:cardCornerRadius="@dimen/corner_radius_normal"
+                    app:cardElevation="@dimen/elevation_normal"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/padding_normal"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_size_normal"
+                            android:layout_height="@dimen/icon_size_normal"
+                            android:src="@drawable/ic_launcher_foreground"
+                            android:tint="@color/primary" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_tiny"
+                            android:textAppearance="@style/TextAppearance.Caption"
+                            android:textColor="@color/text_primary"
+                            android:text="@string/check_in"
+                            android:gravity="center" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardActionCheckOut"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="@dimen/margin_small"
+                    app:cardCornerRadius="@dimen/corner_radius_normal"
+                    app:cardElevation="@dimen/elevation_normal"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/padding_normal"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_size_normal"
+                            android:layout_height="@dimen/icon_size_normal"
+                            android:src="@drawable/ic_launcher_foreground"
+                            android:tint="@color/accent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_tiny"
+                            android:textAppearance="@style/TextAppearance.Caption"
+                            android:textColor="@color/text_primary"
+                            android:text="@string/check_out"
+                            android:gravity="center" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardActionAllBookings"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/margin_small"
+                    app:cardCornerRadius="@dimen/corner_radius_normal"
+                    app:cardElevation="@dimen/elevation_normal"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/padding_normal"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_size_normal"
+                            android:layout_height="@dimen/icon_size_normal"
+                            android:src="@drawable/ic_launcher_foreground"
+                            android:tint="@color/room_reserved" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_tiny"
+                            android:textAppearance="@style/TextAppearance.Caption"
+                            android:textColor="@color/text_primary"
+                            android:text="@string/my_bookings"
+                            android:gravity="center"
+                            android:maxLines="2" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardActionInventory"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    app:cardCornerRadius="@dimen/corner_radius_normal"
+                    app:cardElevation="@dimen/elevation_normal"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/padding_normal"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_size_normal"
+                            android:layout_height="@dimen/icon_size_normal"
+                            android:src="@drawable/ic_launcher_foreground"
+                            android:tint="@color/room_maintenance" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_tiny"
+                            android:textAppearance="@style/TextAppearance.Caption"
+                            android:textColor="@color/text_primary"
+                            android:text="@string/inventory"
+                            android:gravity="center" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="@dimen/margin_small" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+            </LinearLayout>
 
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

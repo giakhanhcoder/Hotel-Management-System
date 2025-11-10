@@ -99,3 +99,13 @@ public interface PaymentDao {
     @Query("SELECT COUNT(*) FROM payments WHERE status = :status")
     int getPaymentCountByStatus(String status);
 }
+
+
+
+
+
+
+
+
+
+

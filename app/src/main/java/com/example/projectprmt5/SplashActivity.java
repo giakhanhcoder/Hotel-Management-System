@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projectprmt5.database.AppDatabase;
 import com.example.projectprmt5.database.entities.Room;
+import com.example.projectprmt5.database.entities.User;
 import com.example.projectprmt5.repository.RoomRepository;
 
 import java.util.List;
@@ -23,9 +24,9 @@ public class SplashActivity extends AppCompatActivity {
     private static final String TAG = "SplashActivity";
     private static final int SPLASH_DELAY = 2000; // 2 giây
     private static final String PREFS_NAME = "HotelManagerPrefs";
-    private static final String KEY_IS_LOGGED_IN = "is_logged_in";
-    private static final String KEY_USER_ID = "user_id";
-    private static final String KEY_USER_ROLE = "user_role";
+    private static final String KEY_IS_LOGGED_IN = "isLoggedIn";
+    private static final String KEY_USER_ID = "userId";
+    private static final String KEY_USER_ROLE = "userRole";
 
     private TextView tvTotalRooms;
     private TextView tvAvailableRooms;
@@ -100,9 +101,22 @@ public class SplashActivity extends AppCompatActivity {
             String role = prefs.getString(KEY_USER_ROLE, "");
             Log.d(TAG, "User is logged in with role: " + role);
 
-            // TODO: Navigate to appropriate Dashboard based on role
-            // For now, navigate to LoginActivity
-            Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+            // Navigate to appropriate Dashboard based on role
+            Intent intent = null;
+            switch (role) {
+                case User.Role.GUEST:
+                    intent = new Intent(SplashActivity.this, GuestDashboardActivity.class);
+                    break;
+                case User.Role.RECEPTIONIST:
+                    intent = new Intent(SplashActivity.this, ReceptionistDashboardActivity.class);
+                    break;
+            case User.Role.MANAGER:
+                intent = new Intent(SplashActivity.this, ManagerDashboardActivity.class);
+                break;
+                default:
+                    intent = new Intent(SplashActivity.this, LoginActivity.class);
+                    break;
+            }
             startActivity(intent);
         } else {
             // User chưa đăng nhập -> chuyển đến WelcomeActivity
