@@ -56,26 +56,385 @@
                         android:textStyle="bold"
                         android:textColor="@color/text_primary" />
 
+                    <TextView
+                        android:id="@+id/tvCurrentTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:text=""
+                        android:textSize="@dimen/text_size_normal"
+                        android:textColor="@color/text_secondary" />
+
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Features Card -->
-            <com.google.android.material.card.MaterialCardView
+            <!-- KPI Cards -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:text="Thống kê chính"
+                android:textSize="@dimen/text_size_headline"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="@dimen/margin_normal">
+
+                <!-- Total Revenue Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    app:cardCornerRadius="@dimen/corner_radius_normal"
+                    app:cardElevation="@dimen/elevation_normal"
+                    app:cardBackgroundColor="@color/primary"
+                    app:contentPadding="@dimen/padding_normal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Doanh thu"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_small" />
+
+                        <TextView
+                            android:id="@+id/tvTotalRevenue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_tiny"
+                            android:text="0 VNĐ"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_medium"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Occupancy Rate Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="@dimen/corner_radius_normal"
+                    app:cardElevation="@dimen/elevation_normal"
+                    app:cardBackgroundColor="@color/primary"
+                    app:contentPadding="@dimen/padding_normal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tỷ lệ lấp đầy"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_small" />
+
+                        <TextView
+                            android:id="@+id/tvOccupancyRate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_tiny"
+                            android:text="0%"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_medium"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="@dimen/margin_normal">
+
+                <!-- Total Bookings Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    app:cardCornerRadius="@dimen/corner_radius_normal"
+                    app:cardElevation="@dimen/elevation_normal"
+                    app:cardBackgroundColor="@color/primary"
+                    app:contentPadding="@dimen/padding_normal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tổng booking"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_small" />
+
+                        <TextView
+                            android:id="@+id/tvTotalBookings"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_tiny"
+                            android:text="0"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_medium"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Active Rooms Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="@dimen/corner_radius_normal"
+                    app:cardElevation="@dimen/elevation_normal"
+                    app:cardBackgroundColor="@color/primary"
+                    app:contentPadding="@dimen/padding_normal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Phòng hoạt động"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_small" />
+
+                        <TextView
+                            android:id="@+id/tvActiveRooms"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_tiny"
+                            android:text="0"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_medium"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+            <!-- Quick Actions Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:text="Thao tác nhanh"
+                android:textSize="@dimen/text_size_headline"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary" />
+
+            <!-- User Management Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardUserManagement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_normal"
                 app:cardCornerRadius="@dimen/corner_radius_normal"
                 app:cardElevation="@dimen/elevation_normal"
-                app:contentPadding="@dimen/padding_medium">
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:contentPadding="@dimen/padding_normal">
 
-                <TextView
-                    android:id="@+id/tvStats"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Chức năng Guest Dashboard..."
-                    android:textSize="@dimen/text_size_normal"
-                    android:textColor="@color/text_secondary"
-                    android:lineSpacingExtra="8dp" />
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_size_medium"
+                        android:layout_height="@dimen/icon_size_medium"
+                        android:src="@drawable/ic_person"
+                        android:tint="@color/primary"
+                        android:contentDescription="User Management Icon" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/margin_normal"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Quản lý người dùng"
+                            android:textSize="@dimen/text_size_medium"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_primary" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_tiny"
+                            android:text="Quản lý nhân viên và khách hàng"
+                            android:textSize="@dimen/text_size_small"
+                            android:textColor="@color/text_secondary" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_size_small"
+                        android:layout_height="@dimen/icon_size_small"
+                        android:src="@drawable/ic_chevron_right"
+                        android:tint="@color/text_secondary"
+                        android:contentDescription="Navigate" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Reports Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardReports"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_normal"
+                app:cardCornerRadius="@dimen/corner_radius_normal"
+                app:cardElevation="@dimen/elevation_normal"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:contentPadding="@dimen/padding_normal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_size_medium"
+                        android:layout_height="@dimen/icon_size_medium"
+                        android:src="@drawable/ic_bar_chart"
+                        android:tint="@color/primary"
+                        android:contentDescription="Reports Icon" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/margin_normal"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Báo cáo &amp; Phân tích"
+                            android:textSize="@dimen/text_size_medium"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_primary" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_tiny"
+                            android:text="Xem báo cáo doanh thu, occupancy, tài chính"
+                            android:textSize="@dimen/text_size_small"
+                            android:textColor="@color/text_secondary" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_size_small"
+                        android:layout_height="@dimen/icon_size_small"
+                        android:src="@drawable/ic_chevron_right"
+                        android:tint="@color/text_secondary"
+                        android:contentDescription="Navigate" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Feedback Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardFeedback"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_normal"
+                app:cardCornerRadius="@dimen/corner_radius_normal"
+                app:cardElevation="@dimen/elevation_normal"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:contentPadding="@dimen/padding_normal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_size_medium"
+                        android:layout_height="@dimen/icon_size_medium"
+                        android:src="@drawable/ic_feedback"
+                        android:tint="@color/primary"
+                        android:contentDescription="Feedback Icon" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/margin_normal"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Phản hồi khách hàng"
+                            android:textSize="@dimen/text_size_medium"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_primary" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_tiny"
+                            android:text="Xem và quản lý feedback từ khách"
+                            android:textSize="@dimen/text_size_small"
+                            android:textColor="@color/text_secondary" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_size_small"
+                        android:layout_height="@dimen/icon_size_small"
+                        android:src="@drawable/ic_chevron_right"
+                        android:tint="@color/text_secondary"
+                        android:contentDescription="Navigate" />
+
+                </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -94,4 +453,3 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
-

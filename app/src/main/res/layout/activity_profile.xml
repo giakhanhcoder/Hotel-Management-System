@@ -1,17 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
     android:background="@color/background">
 
-    <LinearLayout
+    <!-- App Bar Layout -->
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/padding_medium">
+        android:background="@color/primary"
+        app:elevation="@dimen/elevation_normal">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/primary"
+            app:title="@string/profile"
+            app:titleTextColor="@color/text_white"
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            app:navigationIconTint="@color/text_white" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Main Content - ScrollView -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_medium">
 
         <!-- Header with avatar placeholder -->
         <LinearLayout
@@ -21,14 +47,36 @@
             android:gravity="center"
             android:padding="@dimen/padding_large">
 
-            <ImageView
-                android:layout_width="@dimen/icon_size_xxxlarge"
-                android:layout_height="@dimen/icon_size_xxxlarge"
-                android:src="@drawable/logo"
-                android:contentDescription="Avatar"
-                android:background="@drawable/bg_card"
-                android:padding="@dimen/padding_medium"
-                android:tint="@color/primary" />
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_normal">
+
+                <ImageView
+                    android:id="@+id/imgAvatar"
+                    android:layout_width="@dimen/icon_size_xxxlarge"
+                    android:layout_height="@dimen/icon_size_xxxlarge"
+                    android:src="@drawable/ic_launcher_foreground"
+                    android:contentDescription="@string/profile"
+                    android:background="@drawable/bg_card"
+                    android:padding="@dimen/padding_medium"
+                    android:scaleType="centerCrop"
+                    android:clickable="true"
+                    android:focusable="true" />
+
+                <ImageView
+                    android:id="@+id/imgEditAvatar"
+                    android:layout_width="@dimen/icon_size_small"
+                    android:layout_height="@dimen/icon_size_small"
+                    android:layout_gravity="bottom|end"
+                    android:layout_margin="@dimen/margin_small"
+                    android:src="@android:drawable/ic_menu_camera"
+                    android:background="@drawable/bg_badge_success"
+                    android:padding="@dimen/padding_tiny"
+                    android:contentDescription="@string/change_avatar"
+                    android:clickable="true"
+                    android:focusable="true" />
+            </FrameLayout>
 
             <TextView
                 android:id="@+id/tvRole"
@@ -233,4 +281,6 @@
 
     </LinearLayout>
 
-</ScrollView>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

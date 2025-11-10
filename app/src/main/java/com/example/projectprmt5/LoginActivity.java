@@ -267,15 +267,13 @@ public class LoginActivity extends AppCompatActivity {
 
         switch (role) {
             case User.Role.MANAGER:
-                // TODO: Create ManagerDashboardActivity
                 Toast.makeText(this, "Welcome Manager!", Toast.LENGTH_SHORT).show();
-                intent = new Intent(this, MainActivity.class);
+                intent = new Intent(this, ManagerDashboardActivity.class);
                 break;
 
             case User.Role.RECEPTIONIST:
-                // TODO: Create ReceptionistDashboardActivity
                 Toast.makeText(this, "Welcome Receptionist!", Toast.LENGTH_SHORT).show();
-                intent = new Intent(this, MainActivity.class);
+                intent = new Intent(this, ReceptionistDashboardActivity.class);
                 break;
 
             case User.Role.GUEST:
