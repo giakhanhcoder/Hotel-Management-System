@@ -28,6 +28,7 @@ import com.example.projectprmt5.viewmodel.BookingViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -41,7 +42,7 @@ public class BookingDetailActivity extends AppCompatActivity {
 
     private TextView textViewBookingCode, textViewBookingStatus, textViewRoomId, textViewGuestId,
             textViewCheckInDate, textViewCheckOutDate, textViewNumGuests, textViewTotalAmount, textViewServicesTotal;
-    private Button btnCheckIn, btnCancel, btnEdit, btnDelete, btnCheckoutAndBilling, btnAddServices;
+    private Button btnCheckIn, btnCancel, btnEdit, btnDelete, btnCheckOut, btnAddServices;
     private RecyclerView recyclerViewSelectedServices;
     private SelectedServicesAdapter servicesAdapter;
 
@@ -111,7 +112,7 @@ public class BookingDetailActivity extends AppCompatActivity {
 
         btnAddServices = findViewById(R.id.btn_add_services);
         btnCheckIn = findViewById(R.id.btn_check_in);
-        btnCheckoutAndBilling = findViewById(R.id.btn_checkout_and_billing);
+        btnCheckOut = findViewById(R.id.btn_check_out);
         btnCancel = findViewById(R.id.btn_cancel_booking);
         btnEdit = findViewById(R.id.btn_edit_booking);
         btnDelete = findViewById(R.id.btn_delete_booking);
@@ -128,32 +129,35 @@ public class BookingDetailActivity extends AppCompatActivity {
             serviceSelectionLauncher.launch(intent);
         });
 
-        btnCheckoutAndBilling.setOnClickListener(v -> {
-            if (currentBooking != null) {
-                if (Booking.BookingStatus.CHECKED_OUT.equals(currentBooking.getStatus())) {
-                    Toast.makeText(this, "This booking has already been checked out.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                double roomTotal = currentBooking.getTotalAmount();
-                double servicesTotal = calculateServicesTotal();
-                double finalTotal = roomTotal + servicesTotal;
+        btnCheckOut.setOnClickListener(v -> {
+             if (currentBooking != null && Booking.BookingStatus.CHECKED_IN.equals(currentBooking.getStatus())) {
+                bookingViewModel.updateBookingStatus(bookingId, Booking.BookingStatus.CHECKED_OUT);
+                currentBooking.setActualCheckOutTime(new Date());
+                 // Optionally, you can also set the user who performed the checkout if you have that info
+                 // currentBooking.setCheckedOutByUserId( ... );
+                 bookingViewModel.update(currentBooking);
 
-                Intent intent = new Intent(BookingDetailActivity.this, PaymentActivity.class);
-                intent.putExtra(PaymentActivity.EXTRA_BOOKING_ID, currentBooking.getBookingId());
-                intent.putExtra(PaymentActivity.EXTRA_AMOUNT, finalTotal);
-                startActivity(intent);
-            } else {
-                Toast.makeText(this, "Booking details not loaded.", Toast.LENGTH_SHORT).show();
-            }
+                 double roomTotal = currentBooking.getTotalAmount();
+                 double servicesTotal = calculateServicesTotal();
+                 double finalTotal = roomTotal + servicesTotal;
+
+                 Intent intent = new Intent(BookingDetailActivity.this, PaymentActivity.class);
+                 intent.putExtra(PaymentActivity.EXTRA_BOOKING_ID, currentBooking.getBookingId());
+                 intent.putExtra(PaymentActivity.EXTRA_AMOUNT, finalTotal);
+                 startActivity(intent);
+
+             } else {
+                 Toast.makeText(this, "Can only check-out a booking that is currently checked-in.", Toast.LENGTH_SHORT).show();
+             }
         });
         
         btnCheckIn.setOnClickListener(v -> {
-            if (currentBooking != null && Booking.BookingStatus.CHECKED_OUT.equals(currentBooking.getStatus())) {
-                Toast.makeText(this, "Cannot check in a booking that is already checked out.", Toast.LENGTH_SHORT).show();
-                return;
+            if (currentBooking != null && (Booking.BookingStatus.PENDING.equals(currentBooking.getStatus()) || Booking.BookingStatus.CONFIRMED.equals(currentBooking.getStatus()))) {
+                bookingViewModel.checkIn(bookingId);
+                Toast.makeText(this, "Checked-In Successfully!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "This booking cannot be checked-in at its current state.", Toast.LENGTH_SHORT).show();
             }
-            bookingViewModel.checkIn(bookingId);
-            Toast.makeText(this, "Checked-In Successfully!", Toast.LENGTH_SHORT).show();
         });
 
         btnCancel.setOnClickListener(v -> {
@@ -193,19 +197,30 @@ public class BookingDetailActivity extends AppCompatActivity {
         textViewCheckOutDate.setText("Check-out: " + dateFormat.format(booking.getCheckOutDate()));
         textViewNumGuests.setText("Guests: " + booking.getNumberOfGuests());
 
-        // Disable buttons if booking is checked out
-        if (Booking.BookingStatus.CHECKED_OUT.equals(booking.getStatus())) {
-            btnCheckIn.setEnabled(false);
-            btnCheckoutAndBilling.setEnabled(false);
-            btnAddServices.setEnabled(false);
-            btnCancel.setEnabled(false);
-            btnEdit.setEnabled(false);
-        } else {
-            btnCheckIn.setEnabled(true);
-            btnCheckoutAndBilling.setEnabled(true);
-            btnAddServices.setEnabled(true);
-            btnCancel.setEnabled(true);
-            btnEdit.setEnabled(true);
+        // Reset button states
+        btnCheckIn.setVisibility(View.GONE);
+        btnCheckOut.setVisibility(View.GONE);
+        btnAddServices.setEnabled(true);
+        btnCancel.setEnabled(true);
+        btnEdit.setEnabled(true);
+        btnDelete.setEnabled(true);
+
+        // Set button visibility and enabled state based on booking status
+        switch (booking.getStatus()) {
+            case Booking.BookingStatus.PENDING:
+            case Booking.BookingStatus.CONFIRMED:
+                btnCheckIn.setVisibility(View.VISIBLE);
+                break;
+            case Booking.BookingStatus.CHECKED_IN:
+                btnCheckOut.setVisibility(View.VISIBLE);
+                break;
+            case Booking.BookingStatus.CHECKED_OUT:
+            case Booking.BookingStatus.CANCELLED:
+                // For checked-out or cancelled bookings, disable modification buttons
+                btnAddServices.setEnabled(false);
+                btnCancel.setEnabled(false);
+                btnEdit.setEnabled(false);
+                break;
         }
     }
 

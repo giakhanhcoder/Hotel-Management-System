@@ -116,10 +116,11 @@
                     android:text="Check-In" />
 
                 <Button
-                    android:id="@+id/btn_checkout_and_billing"
+                    android:id="@+id/btn_check_out"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Check-out and Billing" />
+                    android:text="Check-Out"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/btn_cancel_booking"
