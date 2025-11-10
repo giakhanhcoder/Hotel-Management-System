@@ -45,6 +45,10 @@ public class BookingRepository {
         return bookingDao.getBookingById(bookingId);
     }
 
+    public Future<Booking> getBookingByIdSync(int bookingId) { // Added this method
+        return AppDatabase.databaseWriteExecutor.submit(() -> bookingDao.getBookingByIdSync(bookingId));
+    }
+
     public Future<Boolean> isRoomAvailable(int roomId, Date checkIn, Date checkOut) {
         return AppDatabase.databaseWriteExecutor.submit(() -> {
             List<Booking> bookings = bookingDao.checkRoomAvailability(roomId, checkIn.getTime(), checkOut.getTime());

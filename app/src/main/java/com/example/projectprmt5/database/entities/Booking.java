@@ -95,6 +95,10 @@ public class Booking {
     public void setBookingCode(String bookingCode) {
         this.bookingCode = bookingCode;
     }
+
+    public int getUserId() { // Added this method
+        return guestId;
+    }
     
     public int getGuestId() {
         return guestId;

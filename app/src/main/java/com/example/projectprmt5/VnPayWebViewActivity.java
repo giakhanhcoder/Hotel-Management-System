@@ -12,8 +12,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.projectprmt5.database.entities.Booking;
+import com.example.projectprmt5.database.entities.Payment;
 import com.example.projectprmt5.viewmodel.BookingViewModel;
 import com.example.projectprmt5.viewmodel.PaymentViewModel;
+
+import java.util.concurrent.ExecutionException;
 
 public class VnPayWebViewActivity extends AppCompatActivity {
 
@@ -50,10 +53,25 @@ public class VnPayWebViewActivity extends AppCompatActivity {
 
                     if (bookingId != -1) {
                         if ("00".equals(responseCode)) {
-                            // Payment successful
-                            paymentViewModel.updatePaymentStatusByBookingId(bookingId, "SUCCESS");
-                            bookingViewModel.updateBookingStatus(bookingId, Booking.BookingStatus.CHECKED_OUT);
-                            Toast.makeText(VnPayWebViewActivity.this, "Thanh toán thành công!", Toast.LENGTH_LONG).show();
+                            try {
+                                // Payment successful
+                                paymentViewModel.updatePaymentStatusByBookingId(bookingId, "SUCCESS");
+                                bookingViewModel.updateBookingStatus(bookingId, Booking.BookingStatus.CHECKED_OUT);
+
+                                // Get the latest payment for the booking
+                                Payment payment = paymentViewModel.getLatestPaymentForBooking(bookingId).get();
+
+                                Toast.makeText(VnPayWebViewActivity.this, "Thanh toán thành công!", Toast.LENGTH_LONG).show();
+
+                                // Start InvoiceActivity
+                                Intent invoiceIntent = new Intent(VnPayWebViewActivity.this, InvoiceActivity.class);
+                                invoiceIntent.putExtra("PAYMENT_ID", payment.getPaymentId());
+                                startActivity(invoiceIntent);
+
+                            } catch (ExecutionException | InterruptedException e) {
+                                e.printStackTrace();
+                                Toast.makeText(VnPayWebViewActivity.this, "Lỗi khi lấy thông tin thanh toán", Toast.LENGTH_SHORT).show();
+                            }
                         } else {
                             // Payment failed or cancelled
                              paymentViewModel.updatePaymentStatusByBookingId(bookingId, "FAILED");
@@ -62,9 +80,6 @@ public class VnPayWebViewActivity extends AppCompatActivity {
                     }
 
                     // Close the WebView and return to the app
-                    Intent mainIntent = new Intent(VnPayWebViewActivity.this, MainActivity.class);
-                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(mainIntent);
                     finish();
                 }
             }

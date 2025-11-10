@@ -33,6 +33,10 @@ public class BookingViewModel extends AndroidViewModel {
         return bookingRepository.getBookingById(id);
     }
 
+    public Future<Booking> getBookingByIdSync(int id) { // Added this method
+        return bookingRepository.getBookingByIdSync(id);
+    }
+
     public Future<Long> insert(Booking booking) {
         return bookingRepository.insert(booking);
     }

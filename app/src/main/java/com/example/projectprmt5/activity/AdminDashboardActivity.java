@@ -14,6 +14,7 @@ import com.example.projectprmt5.R;
 public class AdminDashboardActivity extends AppCompatActivity {
 
     private Button btnManageRooms;
+    private Button btnManageServices;
     private Button btnLogout;
 
     private SharedPreferences sharedPreferences;
@@ -29,10 +30,16 @@ public class AdminDashboardActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
 
         btnManageRooms = findViewById(R.id.btn_manage_rooms);
+        btnManageServices = findViewById(R.id.btn_manage_services);
         btnLogout = findViewById(R.id.btn_logout);
 
         btnManageRooms.setOnClickListener(v -> {
             Intent intent = new Intent(AdminDashboardActivity.this, AdminRoomManagementActivity.class);
+            startActivity(intent);
+        });
+
+        btnManageServices.setOnClickListener(v -> {
+            Intent intent = new Intent(AdminDashboardActivity.this, AdminServiceManagementActivity.class);
             startActivity(intent);
         });
 
