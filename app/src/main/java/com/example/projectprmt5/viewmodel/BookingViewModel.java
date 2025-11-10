@@ -7,8 +7,10 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.example.projectprmt5.database.entities.Booking;
+import com.example.projectprmt5.database.entities.Room;
 import com.example.projectprmt5.repository.BookingRepository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Future;
 
@@ -31,6 +33,10 @@ public class BookingViewModel extends AndroidViewModel {
         return bookingRepository.getBookingById(id);
     }
 
+    public Future<Booking> getBookingByIdSync(int id) { // Added this method
+        return bookingRepository.getBookingByIdSync(id);
+    }
+
     public Future<Long> insert(Booking booking) {
         return bookingRepository.insert(booking);
     }
@@ -47,8 +53,14 @@ public class BookingViewModel extends AndroidViewModel {
         return bookingRepository.updateBookingStatus(bookingId, status);
     }
 
-    // For check-in and check-out, we might need the receptionist's ID.
-    // For this example, we'll use a placeholder ID (e.g., 0 for system).
+    public Future<Boolean> isRoomAvailable(int roomId, Date checkIn, Date checkOut) {
+        return bookingRepository.isRoomAvailable(roomId, checkIn, checkOut);
+    }
+
+    public Future<Room> getRoomByNumber(String roomNumber) {
+        return bookingRepository.getRoomByNumber(roomNumber);
+    }
+
     public Future<Integer> checkIn(int bookingId) {
         return bookingRepository.checkIn(bookingId, 0);
     }

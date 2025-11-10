@@ -12,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.widget.Button;
+import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -38,6 +41,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Future;
+
+import com.example.projectprmt5.activity.RoomListActivity;
 
 public class GuestDashboardActivity extends AppCompatActivity {
 
@@ -91,6 +96,7 @@ public class GuestDashboardActivity extends AppCompatActivity {
     // Formatters
     private SimpleDateFormat dateFormatter;
     private NumberFormat currencyFormatter;
+    private Button btnManageBookings, btnLogout, btnAvailableRooms;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -169,6 +175,9 @@ public class GuestDashboardActivity extends AppCompatActivity {
     private void loadCurrentUser() {
         SharedPreferences prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         currentUserId = prefs.getInt(KEY_USER_ID, -1);
+        btnManageBookings = findViewById(R.id.btn_manage_bookings);
+        btnLogout = findViewById(R.id.btn_logout);
+        btnAvailableRooms = findViewById(R.id.btn_available_rooms);
 
         if (currentUserId == -1) {
             Toast.makeText(this, "Không tìm thấy thông tin người dùng", Toast.LENGTH_SHORT).show();
@@ -184,7 +193,7 @@ public class GuestDashboardActivity extends AppCompatActivity {
                     runOnUiThread(() -> {
                         tvGuestName.setText(user.getFullName() != null ? user.getFullName() : "Khách");
                         tvGuestEmail.setText(user.getEmail() != null ? user.getEmail() : "");
-                        
+
                         // Update toolbar title
                         if (getSupportActionBar() != null) {
                             getSupportActionBar().setTitle("Chào " + (user.getFullName() != null ? user.getFullName() : "bạn"));
@@ -243,6 +252,8 @@ public class GuestDashboardActivity extends AppCompatActivity {
         cardActionBookingHistory.setOnClickListener(v -> {
             Intent intent = new Intent(GuestDashboardActivity.this, BookingDashboardActivity.class);
             startActivity(intent);
+        btnManageBookings.setOnClickListener(v -> {
+            startActivity(new Intent(GuestDashboardActivity.this, BookingDashboardActivity.class));
         });
 
         cardActionProfile.setOnClickListener(v -> {
@@ -278,9 +289,9 @@ public class GuestDashboardActivity extends AppCompatActivity {
 
         for (Booking booking : allBookings) {
             if (booking.getCheckInDate() != null) {
-                if (booking.getCheckInDate().after(now) || 
-                    (booking.getCheckInDate().before(now) && 
-                     booking.getCheckOutDate() != null && 
+                if (booking.getCheckInDate().after(now) ||
+                    (booking.getCheckInDate().before(now) &&
+                     booking.getCheckOutDate() != null &&
                      booking.getCheckOutDate().after(now))) {
                     upcomingCount++;
                 } else if (booking.getCheckOutDate() != null && booking.getCheckOutDate().before(now)) {
@@ -288,7 +299,7 @@ public class GuestDashboardActivity extends AppCompatActivity {
                 }
             }
 
-            if (booking.getTotalAmount() > 0 && 
+            if (booking.getTotalAmount() > 0 &&
                 (booking.getStatus().equals(Booking.BookingStatus.CONFIRMED) ||
                  booking.getStatus().equals(Booking.BookingStatus.CHECKED_IN) ||
                  booking.getStatus().equals(Booking.BookingStatus.CHECKED_OUT))) {
@@ -306,7 +317,7 @@ public class GuestDashboardActivity extends AppCompatActivity {
         // Update UI
         tvUpcomingCount.setText(String.valueOf(upcomingCount));
         tvPastCount.setText(String.valueOf(pastCount));
-        
+
         if (totalSpent >= 1000000) {
             tvTotalSpent.setText(String.format(Locale.getDefault(), "%.1fM", totalSpent / 1000000.0));
         } else if (totalSpent >= 1000) {
@@ -340,10 +351,10 @@ public class GuestDashboardActivity extends AppCompatActivity {
         List<Booking> upcoming = new ArrayList<>();
 
         for (Booking booking : allBookings) {
-            if (booking.getCheckInDate() != null && 
-                (booking.getCheckInDate().after(now) || 
-                 (booking.getCheckInDate().before(now) && 
-                  booking.getCheckOutDate() != null && 
+            if (booking.getCheckInDate() != null &&
+                (booking.getCheckInDate().after(now) ||
+                 (booking.getCheckInDate().before(now) &&
+                  booking.getCheckOutDate() != null &&
                   booking.getCheckOutDate().after(now)))) {
                 if (!booking.getStatus().equals(Booking.BookingStatus.CANCELLED) &&
                     !booking.getStatus().equals(Booking.BookingStatus.CHECKED_OUT)) {
@@ -374,7 +385,7 @@ public class GuestDashboardActivity extends AppCompatActivity {
         long minDaysUntil = Long.MAX_VALUE;
 
         for (Booking booking : allBookings) {
-            if (booking.getCheckInDate() != null && 
+            if (booking.getCheckInDate() != null &&
                 booking.getCheckInDate().after(now) &&
                 !booking.getStatus().equals(Booking.BookingStatus.CANCELLED)) {
                 long daysUntil = (booking.getCheckInDate().getTime() - now.getTime()) / (24 * 60 * 60 * 1000);
@@ -389,7 +400,7 @@ public class GuestDashboardActivity extends AppCompatActivity {
             // Create final variables for lambda
             final Booking finalNextBooking = nextBooking;
             final long finalMinDaysUntil = minDaysUntil;
-            
+
             // Load room info
             AppDatabase.databaseWriteExecutor.execute(() -> {
                 try {
@@ -418,7 +429,7 @@ public class GuestDashboardActivity extends AppCompatActivity {
     private void loadRecentPayments() {
         // Create final copy of allBookings for lambda
         final List<Booking> bookingsList = allBookings != null ? new ArrayList<>(allBookings) : new ArrayList<>();
-        
+
         // Load payments for current user's bookings
         AppDatabase.databaseWriteExecutor.execute(() -> {
             try {
@@ -466,17 +477,32 @@ public class GuestDashboardActivity extends AppCompatActivity {
     private String formatNumber(int number) {
         return currencyFormatter.format(number);
     }
+        btnAvailableRooms.setOnClickListener(v -> {
+            startActivity(new Intent(GuestDashboardActivity.this, RoomListActivity.class));
+        });
 
     private void logout() {
         SharedPreferences sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
+        btnLogout.setOnClickListener(v -> {
+            // Clear SharedPreferences
+            SharedPreferences sharedPreferences = getSharedPreferences("HotelManagerPrefs", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.clear();
+            editor.apply();
 
         Intent intent = new Intent(GuestDashboardActivity.this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
+            // Navigate to LoginActivity
+            Intent intent = new Intent(GuestDashboardActivity.this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show();
+        });
     }
 
     @Override

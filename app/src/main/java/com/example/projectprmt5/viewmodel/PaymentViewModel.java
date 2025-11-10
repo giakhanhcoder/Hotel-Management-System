@@ -34,6 +34,10 @@ public class PaymentViewModel extends AndroidViewModel {
         return repository.getPaymentById(paymentId);
     }
 
+    public Future<Payment> getPaymentByIdSync(int paymentId) { // Added this method
+        return repository.getPaymentByIdSync(paymentId);
+    }
+
     public LiveData<List<Payment>> getPaymentsByBooking(int bookingId) {
         return repository.getPaymentsByBooking(bookingId);
     }
@@ -64,6 +68,10 @@ public class PaymentViewModel extends AndroidViewModel {
         return repository.delete(payment);
     }
 
+    public Future<Integer> updatePaymentStatus(int paymentId, String status) { // Added this method
+        return repository.updatePaymentStatus(paymentId, status);
+    }
+
     public Future<Integer> updatePaymentStatusByBookingId(int bookingId, String status) {
         return repository.updatePaymentStatusByBookingId(bookingId, status);
     }
@@ -76,6 +84,10 @@ public class PaymentViewModel extends AndroidViewModel {
         return repository.processRefund(paymentId, refundAmount, refundTransactionId, refundReason);
     }
     
+    public Future<Payment> getLatestPaymentForBooking(int bookingId) {
+        return repository.getLatestPaymentForBooking(bookingId);
+    }
+
     // --- You can add other methods from the repository that you need ---
     
 }

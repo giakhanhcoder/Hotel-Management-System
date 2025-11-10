@@ -21,7 +21,7 @@ import java.util.Date;
                        childColumns = "inventoryId",
                        onDelete = ForeignKey.CASCADE),
             @ForeignKey(entity = Room.class,
-                       parentColumns = "roomId",
+                       parentColumns = "id", // FIX: Changed from roomId to id
                        childColumns = "roomId",
                        onDelete = ForeignKey.SET_NULL),
             @ForeignKey(entity = User.class,
@@ -137,4 +137,3 @@ public class InventoryUsage {
         public static final String WASTAGE = "WASTAGE";
     }
 }
-

@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.projectprmt5.activity.AdminDashboardActivity;
 import com.example.projectprmt5.database.AppDatabase;
 import com.example.projectprmt5.database.entities.User;
 import com.example.projectprmt5.repository.UserRepository;
@@ -243,7 +244,7 @@ public class LoginActivity extends AppCompatActivity {
      * Xử lý khi login thành công
      */
     private void onLoginSuccess(User user) {
-        Toast.makeText(this, getString(R.string.login_success), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Login successful for User ID: " + user.getUserId(), Toast.LENGTH_LONG).show();
 
         // Save to SharedPreferences
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -268,6 +269,7 @@ public class LoginActivity extends AppCompatActivity {
         switch (role) {
             case User.Role.MANAGER:
                 Toast.makeText(this, "Welcome Manager!", Toast.LENGTH_SHORT).show();
+                intent = new Intent(this, AdminDashboardActivity.class);
                 intent = new Intent(this, ManagerDashboardActivity.class);
                 break;
 
