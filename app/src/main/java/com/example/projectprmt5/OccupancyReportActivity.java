@@ -16,6 +16,7 @@ import com.example.projectprmt5.repository.BookingRepository;
 import com.example.projectprmt5.repository.RoomRepository;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -113,44 +114,58 @@ public class OccupancyReportActivity extends AppCompatActivity {
 
         AppDatabase.databaseWriteExecutor.execute(() -> {
             try {
-                // Total active rooms
-                List<Room> rooms = roomRepository.getAllActiveRoomsSync().get();
-                int totalRooms = rooms != null ? rooms.size() : 0;
+                // Get all rooms and filter active ones
+                roomRepository.getAllRooms().observe(this, allRooms -> {
+                    if (allRooms == null) return;
 
-                // Bookings in date range (by check-in date within range)
-                List<Booking> bookings = bookingRepository.getBookingsInDateRangeSync(startDate, endDate).get();
+                    int totalRooms = allRooms.size();
 
-                long totalDays = daysBetweenInclusive(startDate, endDate);
-                double occupiedRoomDays = 0;
+                    // Get all bookings and filter by date range
+                    bookingRepository.getAllBookings().observe(this, allBookings -> {
+                        if (allBookings == null) return;
 
-                if (bookings != null && totalRooms > 0 && totalDays > 0) {
-                    for (Booking b : bookings) {
-                        Date in = b.getCheckInDate();
-                        Date out = b.getCheckOutDate();
-                        if (in == null || out == null) continue;
-
-                        // Clamp to selected range
-                        Date clampedStart = in.before(startDate) ? startDate : in;
-                        Date clampedEnd = out.after(endDate) ? endDate : out;
-
-                        long nights = daysBetweenExclusive(clampedStart, clampedEnd);
-                        if (nights > 0) {
-                            occupiedRoomDays += nights;
+                        // Filter bookings in date range
+                        List<Booking> bookings = new ArrayList<>();
+                        for (Booking b : allBookings) {
+                            Date checkIn = b.getCheckInDate();
+                            if (checkIn != null && !checkIn.before(startDate) && !checkIn.after(endDate)) {
+                                bookings.add(b);
+                            }
                         }
-                    }
-                }
 
-                double denominator = totalRooms * (double) totalDays;
-                final double occupancyRate = denominator > 0 ? (occupiedRoomDays * 100.0 / denominator) : 0.0;
+                        long totalDays = daysBetweenInclusive(startDate, endDate);
+                        double occupiedRoomDays = 0;
 
-                // Build the summary string here (so lambda captures only the final 'summary' variable)
-                String summary = "Tổng phòng hoạt động: " + totalRooms +
-                        "\nSố ngày: " + totalDays +
-                        "\nPhòng-đêm sử dụng: " + String.format(Locale.getDefault(), "%,.0f", occupiedRoomDays) +
-                        "\nTỉ lệ Occupancy (ước lượng): " + String.format(Locale.getDefault(), "%.1f%%", occupancyRate) +
-                        "\nKhoảng thời gian: " + dateFormatter.format(startDate) + " - " + dateFormatter.format(endDate);
+                        if (totalRooms > 0 && totalDays > 0) {
+                            for (Booking b : bookings) {
+                                Date in = b.getCheckInDate();
+                                Date out = b.getCheckOutDate();
+                                if (in == null || out == null) continue;
 
-                runOnUiThread(() -> tvOccupancySummary.setText(summary));
+                                // Clamp to selected range
+                                Date clampedStart = in.before(startDate) ? startDate : in;
+                                Date clampedEnd = out.after(endDate) ? endDate : out;
+
+                                long nights = daysBetweenExclusive(clampedStart, clampedEnd);
+                                if (nights > 0) {
+                                    occupiedRoomDays += nights;
+                                }
+                            }
+                        }
+
+                        double denominator = totalRooms * (double) totalDays;
+                        final double occupancyRate = denominator > 0 ? (occupiedRoomDays * 100.0 / denominator) : 0.0;
+
+                        // Build the summary string
+                        String summary = "Tổng phòng hoạt động: " + totalRooms +
+                                "\nSố ngày: " + totalDays +
+                                "\nPhòng-đêm sử dụng: " + String.format(Locale.getDefault(), "%,.0f", occupiedRoomDays) +
+                                "\nTỉ lệ Occupancy (ước lượng): " + String.format(Locale.getDefault(), "%.1f%%", occupancyRate) +
+                                "\nKhoảng thời gian: " + dateFormatter.format(startDate) + " - " + dateFormatter.format(endDate);
+
+                        tvOccupancySummary.setText(summary);
+                    });
+                });
             } catch (Exception e) {
                 runOnUiThread(() -> tvOccupancySummary.setText("Không thể tải dữ liệu."));
             }

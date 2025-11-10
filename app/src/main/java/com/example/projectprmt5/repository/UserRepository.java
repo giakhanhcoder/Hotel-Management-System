@@ -139,15 +139,12 @@ public class UserRepository {
     private String hashPassword(String password) {
         return "HASH_" + password;
     }
+
+    public Future<User> getUserByUsernameSync(String username) {
+        return AppDatabase.databaseWriteExecutor.submit(() -> userDao.getUserByUsernameSync(username));
+    }
+
+    public Future<Long> insertSync(User user) {
+        return AppDatabase.databaseWriteExecutor.submit(() -> userDao.insert(user));
+    }
 }
-
-
-
-
-
-
-
-
-
-
-

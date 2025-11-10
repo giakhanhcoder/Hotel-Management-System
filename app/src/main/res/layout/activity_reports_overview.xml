@@ -27,40 +27,16 @@
                 android:id="@+id/btnRevenue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Revenue Report" />
+                android:text="Báo Cáo Doanh Thu" />
 
             <Button
                 android:id="@+id/btnOccupancy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="Occupancy Report" />
-
-            <Button
-                android:id="@+id/btnFinance"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="Finance" />
-
-            <Button
-                android:id="@+id/btnSearchReports"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="Search Reports" />
-
-            <Button
-                android:id="@+id/btnListReports"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="List Reports" />
+                android:text="Báo Cáo Công Suất" />
 
         </LinearLayout>
     </ScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-
-

@@ -105,23 +105,37 @@ public class RevenueReportActivity extends AppCompatActivity {
     private void loadRevenue() {
         if (startDate == null || endDate == null) return;
 
-        // Run in background executor
-        com.example.projectprmt5.database.AppDatabase.databaseWriteExecutor.execute(() -> {
-            try {
-                Double totalRevenue = bookingRepository.getTotalRevenueInDateRange(startDate, endDate).get();
-                List<com.example.projectprmt5.database.entities.Booking> bookings =
-                        bookingRepository.getBookingsInDateRangeSync(startDate, endDate).get();
-                int bookingCount = bookings != null ? bookings.size() : 0;
-
-                runOnUiThread(() -> {
-                    String text = "Tổng doanh thu: " + String.format(Locale.getDefault(), "%,.0f VNĐ", totalRevenue) +
-                            "\nSố booking: " + bookingCount +
-                            "\nKhoảng thời gian: " + dateFormatter.format(startDate) + " - " + dateFormatter.format(endDate);
-                    tvRevenueSummary.setText(text);
-                });
-            } catch (Exception e) {
-                runOnUiThread(() -> tvRevenueSummary.setText("Không thể tải dữ liệu."));
+        // Load all bookings and filter by date range
+        bookingRepository.getAllBookings().observe(this, allBookings -> {
+            if (allBookings == null) {
+                tvRevenueSummary.setText("Không có dữ liệu");
+                return;
             }
+
+            // Filter bookings in date range and calculate revenue
+            double totalRevenue = 0.0;
+            int bookingCount = 0;
+
+            for (com.example.projectprmt5.database.entities.Booking booking : allBookings) {
+                Date bookingDate = booking.getBookingDate();
+                if (bookingDate != null && !bookingDate.before(startDate) && !bookingDate.after(endDate)) {
+                    // Only count confirmed/checked-in/checked-out bookings
+                    if (com.example.projectprmt5.database.entities.Booking.BookingStatus.CONFIRMED.equals(booking.getStatus()) ||
+                        com.example.projectprmt5.database.entities.Booking.BookingStatus.CHECKED_IN.equals(booking.getStatus()) ||
+                        com.example.projectprmt5.database.entities.Booking.BookingStatus.CHECKED_OUT.equals(booking.getStatus())) {
+                        totalRevenue += booking.getTotalAmount();
+                        bookingCount++;
+                    }
+                }
+            }
+
+            final double finalRevenue = totalRevenue;
+            final int finalCount = bookingCount;
+
+            String text = "Tổng doanh thu: " + String.format(Locale.getDefault(), "%,.0f VNĐ", finalRevenue) +
+                    "\nSố booking: " + finalCount +
+                    "\nKhoảng thời gian: " + dateFormatter.format(startDate) + " - " + dateFormatter.format(endDate);
+            tvRevenueSummary.setText(text);
         });
     }
 
@@ -131,5 +145,3 @@ public class RevenueReportActivity extends AppCompatActivity {
         return true;
     }
 }
-
-

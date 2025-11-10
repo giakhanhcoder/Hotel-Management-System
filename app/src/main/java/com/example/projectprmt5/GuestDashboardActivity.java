@@ -12,9 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import android.widget.Button;
-import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -96,7 +93,6 @@ public class GuestDashboardActivity extends AppCompatActivity {
     // Formatters
     private SimpleDateFormat dateFormatter;
     private NumberFormat currencyFormatter;
-    private Button btnManageBookings, btnLogout, btnAvailableRooms;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -175,9 +171,6 @@ public class GuestDashboardActivity extends AppCompatActivity {
     private void loadCurrentUser() {
         SharedPreferences prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         currentUserId = prefs.getInt(KEY_USER_ID, -1);
-        btnManageBookings = findViewById(R.id.btn_manage_bookings);
-        btnLogout = findViewById(R.id.btn_logout);
-        btnAvailableRooms = findViewById(R.id.btn_available_rooms);
 
         if (currentUserId == -1) {
             Toast.makeText(this, "Không tìm thấy thông tin người dùng", Toast.LENGTH_SHORT).show();
@@ -238,22 +231,21 @@ public class GuestDashboardActivity extends AppCompatActivity {
 
         // Quick Actions
         cardActionFindRoom.setOnClickListener(v -> {
-            // TODO: Navigate to RoomSearchActivity when created
-            Toast.makeText(this, "Chức năng đang phát triển", Toast.LENGTH_SHORT).show();
-            // Intent intent = new Intent(GuestDashboardActivity.this, RoomSearchActivity.class);
-            // startActivity(intent);
+            // Navigate to RoomListActivity to find available rooms
+            Intent intent = new Intent(GuestDashboardActivity.this, RoomListActivity.class);
+            startActivity(intent);
         });
 
         cardActionCreateBooking.setOnClickListener(v -> {
+            // Navigate to AddBookingActivity to create new booking
             Intent intent = new Intent(GuestDashboardActivity.this, AddBookingActivity.class);
             startActivity(intent);
         });
 
         cardActionBookingHistory.setOnClickListener(v -> {
+            // Navigate to BookingDashboardActivity to manage bookings
             Intent intent = new Intent(GuestDashboardActivity.this, BookingDashboardActivity.class);
             startActivity(intent);
-        btnManageBookings.setOnClickListener(v -> {
-            startActivity(new Intent(GuestDashboardActivity.this, BookingDashboardActivity.class));
         });
 
         cardActionProfile.setOnClickListener(v -> {
@@ -263,15 +255,77 @@ public class GuestDashboardActivity extends AppCompatActivity {
         });
     }
 
+    private void showDatePickerForBooking() {
+        // Create date picker dialog for check-in date
+        Calendar calendar = Calendar.getInstance();
+
+        android.app.DatePickerDialog checkInDialog = new android.app.DatePickerDialog(
+                this,
+                (view, year, month, dayOfMonth) -> {
+                    // Store check-in date
+                    Calendar checkInDate = Calendar.getInstance();
+                    checkInDate.set(year, month, dayOfMonth, 14, 0, 0); // Default check-in at 14:00
+
+                    // Now show date picker for check-out date
+                    Calendar minCheckOut = Calendar.getInstance();
+                    minCheckOut.set(year, month, dayOfMonth);
+                    minCheckOut.add(Calendar.DAY_OF_MONTH, 1); // Minimum 1 night
+
+                    android.app.DatePickerDialog checkOutDialog = new android.app.DatePickerDialog(
+                            this,
+                            (view2, year2, month2, dayOfMonth2) -> {
+                                // Store check-out date
+                                Calendar checkOutDate = Calendar.getInstance();
+                                checkOutDate.set(year2, month2, dayOfMonth2, 12, 0, 0); // Default check-out at 12:00
+
+                                // Navigate to AddBookingActivity with dates
+                                Intent intent = new Intent(GuestDashboardActivity.this, AddBookingActivity.class);
+                                intent.putExtra("checkInDate", checkInDate.getTimeInMillis());
+                                intent.putExtra("checkOutDate", checkOutDate.getTimeInMillis());
+                                intent.putExtra("guestId", currentUserId);
+                                startActivity(intent);
+                            },
+                            minCheckOut.get(Calendar.YEAR),
+                            minCheckOut.get(Calendar.MONTH),
+                            minCheckOut.get(Calendar.DAY_OF_MONTH)
+                    );
+
+                    // Set minimum check-out date
+                    checkOutDialog.getDatePicker().setMinDate(minCheckOut.getTimeInMillis());
+                    checkOutDialog.setTitle("Chọn ngày trả phòng");
+                    checkOutDialog.show();
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+        );
+
+        // Set minimum check-in date to today
+        checkInDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+        checkInDialog.setTitle("Chọn ngày nhận phòng");
+        checkInDialog.show();
+    }
+
     private void loadDashboardData() {
         if (currentUserId == -1) return;
 
-        // Load bookings
-        bookingRepository.getBookingsByGuest(currentUserId).observe(this, bookings -> {
-            allBookings = bookings != null ? bookings : new ArrayList<>();
-            updateBookingStats();
-            updateUpcomingBookings();
-            updateNextCheckIn();
+        // Load all bookings and filter by guest
+        bookingRepository.getAllBookings().observe(this, bookings -> {
+            if (bookings != null) {
+                // Filter bookings for current guest
+                List<Booking> guestBookings = new ArrayList<>();
+                for (Booking booking : bookings) {
+                    if (booking.getGuestId() == currentUserId) {
+                        guestBookings.add(booking);
+                    }
+                }
+                allBookings = guestBookings;
+                updateBookingStats();
+                updateUpcomingBookings();
+                updateNextCheckIn();
+            } else {
+                allBookings = new ArrayList<>();
+            }
         });
 
         // Load recent payments (via bookings)
@@ -290,9 +344,9 @@ public class GuestDashboardActivity extends AppCompatActivity {
         for (Booking booking : allBookings) {
             if (booking.getCheckInDate() != null) {
                 if (booking.getCheckInDate().after(now) ||
-                    (booking.getCheckInDate().before(now) &&
-                     booking.getCheckOutDate() != null &&
-                     booking.getCheckOutDate().after(now))) {
+                        (booking.getCheckInDate().before(now) &&
+                                booking.getCheckOutDate() != null &&
+                                booking.getCheckOutDate().after(now))) {
                     upcomingCount++;
                 } else if (booking.getCheckOutDate() != null && booking.getCheckOutDate().before(now)) {
                     pastCount++;
@@ -300,9 +354,9 @@ public class GuestDashboardActivity extends AppCompatActivity {
             }
 
             if (booking.getTotalAmount() > 0 &&
-                (booking.getStatus().equals(Booking.BookingStatus.CONFIRMED) ||
-                 booking.getStatus().equals(Booking.BookingStatus.CHECKED_IN) ||
-                 booking.getStatus().equals(Booking.BookingStatus.CHECKED_OUT))) {
+                    (booking.getStatus().equals(Booking.BookingStatus.CONFIRMED) ||
+                            booking.getStatus().equals(Booking.BookingStatus.CHECKED_IN) ||
+                            booking.getStatus().equals(Booking.BookingStatus.CHECKED_OUT))) {
                 totalSpent += booking.getTotalAmount();
             }
 
@@ -323,7 +377,7 @@ public class GuestDashboardActivity extends AppCompatActivity {
         } else if (totalSpent >= 1000) {
             tvTotalSpent.setText(String.format(Locale.getDefault(), "%.1fK", totalSpent / 1000.0));
         } else {
-            tvTotalSpent.setText(String.valueOf((int)totalSpent));
+            tvTotalSpent.setText(String.valueOf((int) totalSpent));
         }
 
         // Update statistics
@@ -352,12 +406,12 @@ public class GuestDashboardActivity extends AppCompatActivity {
 
         for (Booking booking : allBookings) {
             if (booking.getCheckInDate() != null &&
-                (booking.getCheckInDate().after(now) ||
-                 (booking.getCheckInDate().before(now) &&
-                  booking.getCheckOutDate() != null &&
-                  booking.getCheckOutDate().after(now)))) {
+                    (booking.getCheckInDate().after(now) ||
+                            (booking.getCheckInDate().before(now) &&
+                                    booking.getCheckOutDate() != null &&
+                                    booking.getCheckOutDate().after(now)))) {
                 if (!booking.getStatus().equals(Booking.BookingStatus.CANCELLED) &&
-                    !booking.getStatus().equals(Booking.BookingStatus.CHECKED_OUT)) {
+                        !booking.getStatus().equals(Booking.BookingStatus.CHECKED_OUT)) {
                     upcoming.add(booking);
                 }
             }
@@ -386,8 +440,8 @@ public class GuestDashboardActivity extends AppCompatActivity {
 
         for (Booking booking : allBookings) {
             if (booking.getCheckInDate() != null &&
-                booking.getCheckInDate().after(now) &&
-                !booking.getStatus().equals(Booking.BookingStatus.CANCELLED)) {
+                    booking.getCheckInDate().after(now) &&
+                    !booking.getStatus().equals(Booking.BookingStatus.CANCELLED)) {
                 long daysUntil = (booking.getCheckInDate().getTime() - now.getTime()) / (24 * 60 * 60 * 1000);
                 if (daysUntil < minDaysUntil) {
                     minDaysUntil = daysUntil;
@@ -409,14 +463,14 @@ public class GuestDashboardActivity extends AppCompatActivity {
                         String roomInfo = room != null ? "Phòng " + room.getRoomNumber() : "";
                         String dateStr = dateFormatter.format(finalNextBooking.getCheckInDate());
                         tvNextCheckInDate.setText(dateStr + " - " + roomInfo);
-                        tvDaysUntil.setText((int)finalMinDaysUntil + " ngày");
+                        tvDaysUntil.setText((int) finalMinDaysUntil + " ngày");
                     });
                 } catch (Exception e) {
                     Log.e(TAG, "Error loading room", e);
                     runOnUiThread(() -> {
                         String dateStr = dateFormatter.format(finalNextBooking.getCheckInDate());
                         tvNextCheckInDate.setText(dateStr);
-                        tvDaysUntil.setText((int)finalMinDaysUntil + " ngày");
+                        tvDaysUntil.setText((int) finalMinDaysUntil + " ngày");
                     });
                 }
             });
@@ -477,32 +531,17 @@ public class GuestDashboardActivity extends AppCompatActivity {
     private String formatNumber(int number) {
         return currencyFormatter.format(number);
     }
-        btnAvailableRooms.setOnClickListener(v -> {
-            startActivity(new Intent(GuestDashboardActivity.this, RoomListActivity.class));
-        });
 
     private void logout() {
         SharedPreferences sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
-        btnLogout.setOnClickListener(v -> {
-            // Clear SharedPreferences
-            SharedPreferences sharedPreferences = getSharedPreferences("HotelManagerPrefs", MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.clear();
-            editor.apply();
 
         Intent intent = new Intent(GuestDashboardActivity.this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
-            // Navigate to LoginActivity
-            Intent intent = new Intent(GuestDashboardActivity.this, LoginActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show();
-        });
     }
 
     @Override

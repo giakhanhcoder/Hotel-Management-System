@@ -180,9 +180,15 @@ public class ManagerDashboardActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Feedback Card
-        findViewById(R.id.cardFeedback).setOnClickListener(v -> {
-            Intent intent = new Intent(ManagerDashboardActivity.this, FeedbackListActivity.class);
+        // Room Management Button
+        findViewById(R.id.btnRoomManagement).setOnClickListener(v -> {
+            Intent intent = new Intent(ManagerDashboardActivity.this, com.example.projectprmt5.activity.AdminRoomManagementActivity.class);
+            startActivity(intent);
+        });
+
+        // Service Management Button
+        findViewById(R.id.btnServiceManagement).setOnClickListener(v -> {
+            Intent intent = new Intent(ManagerDashboardActivity.this, com.example.projectprmt5.activity.AdminServiceManagementActivity.class);
             startActivity(intent);
         });
     }
@@ -198,7 +204,7 @@ public class ManagerDashboardActivity extends AppCompatActivity {
         });
 
         // Load all rooms for occupancy calculation
-        roomRepository.getAllActiveRooms().observe(this, rooms -> {
+        roomRepository.getAllRooms().observe(this, rooms -> {
             if (rooms != null) {
                 updateRoomStats(rooms);
             }

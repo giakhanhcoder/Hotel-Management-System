@@ -53,12 +53,9 @@ public class RoomRepository {
     public Room getRoomByNumberSync(String roomNumber) {
         return roomDao.getRoomByNumberSync(roomNumber);
     }
+
+    public Future<Room> getRoomByNumber(String roomNumber) {
+        return AppDatabase.databaseWriteExecutor.submit(() -> roomDao.getRoomByNumberSync(roomNumber));
+    }
 }
-
-
-
-
-
-
-
 

@@ -71,12 +71,9 @@ public class BookingRepository {
     public Future<Integer> updateBookingStatus(int bookingId, String status) {
         return AppDatabase.databaseWriteExecutor.submit(() -> bookingDao.updateBookingStatus(bookingId, status));
     }
+
+    public Future<List<Booking>> getAllBookingsSync() {
+        return AppDatabase.databaseWriteExecutor.submit(() -> bookingDao.getAllBookingsSync());
+    }
 }
-
-
-
-
-
-
-
 

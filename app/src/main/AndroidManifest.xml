@@ -199,6 +199,18 @@
             android:exported="false"
             android:label="Add/Edit Room Type" />
 
+        <!-- Manual Check-In Activity (for walk-in guests) -->
+        <activity
+            android:name=".ManualCheckInActivity"
+            android:exported="false"
+            android:label="Check-in Walk-in Guest" />
+
+        <!-- Manual Check-Out Activity -->
+        <activity
+            android:name=".ManualCheckOutActivity"
+            android:exported="false"
+            android:label="Check-out Guest" />
+
         <!-- Reports & Feedback -->
         <activity
             android:name=".RevenueReportActivity"

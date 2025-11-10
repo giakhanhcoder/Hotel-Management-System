@@ -196,13 +196,15 @@ public class ReceptionistDashboardActivity extends AppCompatActivity {
     private void setupListeners() {
         // Quick Actions
         cardActionCheckIn.setOnClickListener(v -> {
-            // TODO: Navigate to CheckInActivity when created
-            Toast.makeText(this, "Chức năng Check-in đang phát triển", Toast.LENGTH_SHORT).show();
+            // Navigate to ManualCheckInActivity for walk-in guests
+            Intent intent = new Intent(ReceptionistDashboardActivity.this, ManualCheckInActivity.class);
+            startActivity(intent);
         });
 
         cardActionCheckOut.setOnClickListener(v -> {
-            // TODO: Navigate to CheckOutActivity when created
-            Toast.makeText(this, "Chức năng Check-out đang phát triển", Toast.LENGTH_SHORT).show();
+            // Navigate to ManualCheckOutActivity
+            Intent intent = new Intent(ReceptionistDashboardActivity.this, ManualCheckOutActivity.class);
+            startActivity(intent);
         });
 
         cardActionAllBookings.setOnClickListener(v -> {
@@ -227,7 +229,7 @@ public class ReceptionistDashboardActivity extends AppCompatActivity {
         });
 
         // Load all rooms
-        roomRepository.getAllActiveRooms().observe(this, rooms -> {
+        roomRepository.getAllRooms().observe(this, rooms -> {
             allRooms = rooms != null ? rooms : new ArrayList<>();
             updateRoomStats();
         });

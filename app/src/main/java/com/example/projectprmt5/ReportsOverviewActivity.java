@@ -23,15 +23,9 @@ public class ReportsOverviewActivity extends AppCompatActivity {
 
         Button btnRevenue = findViewById(R.id.btnRevenue);
         Button btnOccupancy = findViewById(R.id.btnOccupancy);
-        Button btnFinance = findViewById(R.id.btnFinance);
-        Button btnSearch = findViewById(R.id.btnSearchReports);
-        Button btnList = findViewById(R.id.btnListReports);
 
         btnRevenue.setOnClickListener(v -> startActivity(new Intent(this, RevenueReportActivity.class)));
         btnOccupancy.setOnClickListener(v -> startActivity(new Intent(this, OccupancyReportActivity.class)));
-        btnFinance.setOnClickListener(v -> startActivity(new Intent(this, FinanceActivity.class)));
-        btnSearch.setOnClickListener(v -> startActivity(new Intent(this, ReportsSearchActivity.class)));
-        btnList.setOnClickListener(v -> startActivity(new Intent(this, ReportsListActivity.class)));
     }
 
     @Override
@@ -40,6 +34,3 @@ public class ReportsOverviewActivity extends AppCompatActivity {
         return true;
     }
 }
-
-
-

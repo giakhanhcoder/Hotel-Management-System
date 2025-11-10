@@ -44,7 +44,7 @@
                         android:layout_height="@dimen/icon_size_large"
                         android:src="@drawable/logo"
                         android:contentDescription="Logo"
-                        android:tint="@color/primary" />
+                        app:tint="@color/primary" />
 
                     <TextView
                         android:id="@+id/tvWelcome"
@@ -275,7 +275,7 @@
                         android:layout_width="@dimen/icon_size_medium"
                         android:layout_height="@dimen/icon_size_medium"
                         android:src="@drawable/ic_person"
-                        android:tint="@color/primary"
+                        app:tint="@color/primary"
                         android:contentDescription="User Management Icon" />
 
                     <LinearLayout
@@ -307,7 +307,7 @@
                         android:layout_width="@dimen/icon_size_small"
                         android:layout_height="@dimen/icon_size_small"
                         android:src="@drawable/ic_chevron_right"
-                        android:tint="@color/text_secondary"
+                        app:tint="@color/text_secondary"
                         android:contentDescription="Navigate" />
 
                 </LinearLayout>
@@ -337,7 +337,7 @@
                         android:layout_width="@dimen/icon_size_medium"
                         android:layout_height="@dimen/icon_size_medium"
                         android:src="@drawable/ic_bar_chart"
-                        android:tint="@color/primary"
+                        app:tint="@color/primary"
                         android:contentDescription="Reports Icon" />
 
                     <LinearLayout
@@ -369,70 +369,163 @@
                         android:layout_width="@dimen/icon_size_small"
                         android:layout_height="@dimen/icon_size_small"
                         android:src="@drawable/ic_chevron_right"
-                        android:tint="@color/text_secondary"
+                        app:tint="@color/text_secondary"
                         android:contentDescription="Navigate" />
 
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Feedback Card -->
+            <!-- Management Card -->
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardFeedback"
+                android:id="@+id/cardManagement"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_normal"
                 app:cardCornerRadius="@dimen/corner_radius_normal"
                 app:cardElevation="@dimen/elevation_normal"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
                 app:contentPadding="@dimen/padding_normal">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                    <ImageView
-                        android:layout_width="@dimen/icon_size_medium"
-                        android:layout_height="@dimen/icon_size_medium"
-                        android:src="@drawable/ic_feedback"
-                        android:tint="@color/primary"
-                        android:contentDescription="Feedback Icon" />
+                    android:orientation="vertical">
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="@dimen/margin_normal"
-                        android:orientation="vertical">
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_size_medium"
+                            android:layout_height="@dimen/icon_size_medium"
+                            android:src="@drawable/ic_settings"
+                            app:tint="@color/primary"
+                            android:contentDescription="Management Icon" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="Phản hồi khách hàng"
+                            android:layout_weight="1"
+                            android:layout_marginStart="@dimen/margin_normal"
+                            android:text="Quản lý"
                             android:textSize="@dimen/text_size_medium"
                             android:textStyle="bold"
                             android:textColor="@color/text_primary" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                    </LinearLayout>
+
+                    <!-- Divider -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/margin_normal"
+                        android:layout_marginBottom="@dimen/margin_small"
+                        android:background="@color/divider" />
+
+                    <!-- Room Management -->
+                    <LinearLayout
+                        android:id="@+id/btnRoomManagement"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingVertical="@dimen/padding_small"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?attr/selectableItemBackground">
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_size_small"
+                            android:layout_height="@dimen/icon_size_small"
+                            android:src="@drawable/ic_room"
+                            app:tint="@color/primary"
+                            android:contentDescription="Room Icon" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin_tiny"
-                            android:text="Xem và quản lý feedback từ khách"
-                            android:textSize="@dimen/text_size_small"
-                            android:textColor="@color/text_secondary" />
+                            android:layout_weight="1"
+                            android:layout_marginStart="@dimen/margin_normal"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Quản lý Room"
+                                android:textSize="@dimen/text_size_normal"
+                                android:textColor="@color/text_primary" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Quản lý thông tin phòng"
+                                android:textSize="@dimen/text_size_tiny"
+                                android:textColor="@color/text_secondary" />
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_size_small"
+                            android:layout_height="@dimen/icon_size_small"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="@color/text_secondary"
+                            android:contentDescription="Navigate" />
 
                     </LinearLayout>
 
-                    <ImageView
-                        android:layout_width="@dimen/icon_size_small"
-                        android:layout_height="@dimen/icon_size_small"
-                        android:src="@drawable/ic_chevron_right"
-                        android:tint="@color/text_secondary"
-                        android:contentDescription="Navigate" />
+                    <!-- Service Management -->
+                    <LinearLayout
+                        android:id="@+id/btnServiceManagement"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingVertical="@dimen/padding_small"
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?attr/selectableItemBackground">
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_size_small"
+                            android:layout_height="@dimen/icon_size_small"
+                            android:src="@drawable/ic_room_service"
+                            app:tint="@color/primary"
+                            android:contentDescription="Service Icon" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="@dimen/margin_normal"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Quản lý Service"
+                                android:textSize="@dimen/text_size_normal"
+                                android:textColor="@color/text_primary" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Quản lý dịch vụ khách sạn"
+                                android:textSize="@dimen/text_size_tiny"
+                                android:textColor="@color/text_secondary" />
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_size_small"
+                            android:layout_height="@dimen/icon_size_small"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="@color/text_secondary"
+                            android:contentDescription="Navigate" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
